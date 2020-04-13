@@ -5,13 +5,14 @@ This repository provides a template for a Dockerfile for building a BioSimulatio
 This repository is intended for simulation software developers. We recommend that end users utilize containerized simulators through the web-based graphical interface at https://biosimulations.dev.
 
 ## Contents
-* [Instructions for using this template](#instructions-for-using-this-template)
+* [Building a Docker image for a simulator using this template](#building-a-docker-image-for-a-simulator-using-this-template)
+* [Running containerized simulators](#running-containerized-simulators)
 * [Example Docker images for simulators](#example-docker-images-for-simulators)
 * [License](#license)
 * [Development team](#development-team)
 * [Questions and comments](#questions-and-comments)
 
-## Instructions for using this template
+## Building a Docker image for a simulator using this template
 1. Install the [Docker engine](https://www.docker.com/).
 
 2. Fork this repository.
@@ -33,6 +34,24 @@ This repository is intended for simulation software developers. We recommend tha
    1. Rename the `my_simulator` directory.
    2. Edit the name, URL of the simulator in `my_simulator/__main__.py`.
    3. Implement the `exec_combine_archive` method in `my_simulator/core.py`. [`Biosimulations_utils`](https://reproducible-biomedical-modeling.github.io/Biosimulations_utils) provides several utilities methods and data structures for parsing COMBINE archives and SED-ML documents; representing archives and simulation experiments; and orchestrating the execution of all of the tasks in a simulation experiment. These utility methods make it easy for developers to handle COMBINE-encoded archives and SED-ML-encoded simulation experiments.
+
+   This code will produce a command-line interface similar to that below:
+   ```
+   usage: <my-simulator> [-h] [-d] [-q] -i ARCHIVE [-o OUT_DIR] [-v]
+
+   BioSimulations-compliant command-line interface to the <MySimulator> simulation program <http://url.to.my.simulator>.
+
+   optional arguments:
+     -h, --help            show this help message and exit
+     -d, --debug           full application debug mode
+     -q, --quiet           suppress all console output
+     -i ARCHIVE, --archive ARCHIVE
+                           Path to OMEX file which contains one or more SED-ML-
+                           encoded simulation experiments
+     -o OUT_DIR, --out-dir OUT_DIR
+                           Directory to save outputs
+     -v, --version         show program's version number and exit
+   ```
 
 4. Package the command-line interface for easy distribution and installation.
 
@@ -118,8 +137,23 @@ This repository is intended for simulation software developers. We recommend tha
     twine dist/*
     ```
 
+## Running containerized simulators
+
+Simulator Docker images can be run as indicated below:
+```
+docker run \
+  --tty \
+  --rm \
+  --mount type=bind,source="$(pwd)"/tests/fixtures,target=/root/in,readonly \
+  --mount type=bind,source="$(pwd)"/tests/results,target=/root/out \
+  <organization>/<repository> \
+    -i /path/to/archive.omex \
+    -o /path/to/output
+```
+
 ## Example Docker images for simulators
 
+The following are several examples of Docker images of simulators:
 - [BioNetGen](https://bionetgen.org): [Dockerfile](https://github.com/reproducible-biomedical-modeling/Biosimulations_BioNetGen), [Docker image](https://hub.docker.com/r/crbm/biosimulations_bionetgen)
 - [COPASI](http://copasi.org): [Dockerfile](https://github.com/reproducible-biomedical-modeling/Biosimulations_COPASI), [Docker image](https://hub.docker.com/r/crbm/biosimulations_copasi)
 - [iBioSim](https://async.ece.utah.edu/tools/ibiosim/): 
