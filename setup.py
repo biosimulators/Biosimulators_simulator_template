@@ -9,7 +9,7 @@ except ImportError:
     import pkg_utils
 import os
 
-name = 'my_simulator'
+name = '<my_simulator>'
 dirname = os.path.dirname(__file__)
 
 # get package metadata
@@ -26,7 +26,7 @@ setuptools.setup(
     download_url="https://github.com/<organization>/<repository>",
     author='<Authors of MySimulator>',
     author_email="<authors@url.for.my.simulator>",
-    license="<MIT>",
+    license="<License, e.g., MIT>",
     keywords='<space separated list of key words>',
     packages=setuptools.find_packages(exclude=['tests', 'tests.*']),
     install_requires=md.install_requires,
@@ -41,7 +41,7 @@ setuptools.setup(
     ],
     entry_points={
         'console_scripts': [
-            'my_simulator = my_simulator.__main__:main',
+            '<my-simulator> = <my_simulator>.__main__:main',
         ],
     },
 )
