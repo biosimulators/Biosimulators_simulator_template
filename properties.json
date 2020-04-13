@@ -1,0 +1,130 @@
+{
+  "id": "id_of_simulator",
+  "name": "Name of simulator",
+  "version": "1.0.0",
+  "description": "Description of simulator.",
+  "url": "https://url.for.simulator/",
+  "dockerHubImageId": "organization/repository:tag",
+  "format": {
+    "name": "Docker Image",
+    "version": "1.2",
+    "spec_url": "https://github.com/moby/moby/blob/master/image/spec/v1.2.md"
+  },
+  "authors": [
+    {
+      "firstName": "John",
+      "middleName": "C",
+      "lastName": "Doe"
+    },
+    {
+      "firstName": "Jane",
+      "middleName": "D",
+      "lastName": "Doe"
+    }
+  ],
+  "references": [
+    {
+      "title": "title",
+      "authors": "John C Doe, Jane D Doe & Jack E Doe",
+      "journal": "journal",
+      "volume": 10,
+      "pages": "1-10",
+      "year": 2020,
+      "doi": "XX.XXX/XXXXX"
+    }
+  ],
+  "license": "MIT",
+  "algorithms": [
+    {
+      "id": "cvode",
+      "name": "C-language Variable-coefficient Ordinary Differential Equation solver",
+      "kisaoTerm": {
+        "ontology": "KISAO",
+        "id": "0000019",
+        "name": "CVODE",
+        "description": "The CVODE is a package written in C that solves ODE initial value problems, in real N-space, written as y'=f(t,y), y(t0)=y0. It is capable for stiff and non-stiff systems and uses two different linear multi-step methods, namely the Adam-Moulton [http://identifiers.org/biomodels.kisao/KISAO_0000280] method and the backward differentiation formula [http://identifiers.org/biomodels.kisao/KISAO_0000288]."
+      },
+      "ontologyTerms": [
+        {
+          "ontology": "KISAO",
+          "id": "0000433",
+          "name": "CVODE-like method",
+          "description": "Solves ODE initial value problems, in real N-space, written as y'=f(t,y), y(t0)=y0. It is capable for stiff and non-stiff systems and uses two different linear multi-step methods, namely the Adam-Moulton [http://identifiers.org/biomodels.kisao/KISAO_0000280] method and the backward differentiation formula [http://identifiers.org/biomodels.kisao/KISAO_0000288]."
+        }
+      ],
+      "modelingFrameworks": [
+        {
+          "ontology": "SBO",
+          "id": "0000293",
+          "name": "non-spatial continuous framework",
+          "description": "Modelling approach where the quantities of participants are considered continuous, and represented by real values. The associated simulation methods make use of differential equations. The models do not take into account the distribution of the entities and describe only the temporal fluxes.",
+          "iri": "http://biomodels.net/SBO/SBO_0000293"
+        }
+      ],
+      "modelFormats": [
+        {
+          "id": "SBML",
+          "name": "Systems Biology Markup Language",
+          "version": "L3V2",
+          "edamId": "format_2585",
+          "url": "http://sbml.org",
+          "specUrl": "http://identifiers.org/combine.specifications/sbml",
+          "mimeType": "application/sbml+xml",
+          "extension": "xml",
+          "sedUrn": "urn:sedml:language:sbml"
+        }
+      ],
+      "simulationFormats": [
+        {
+          "id": "SED-ML",
+          "name": "Simulation Experiment Description Markup Language",
+          "version": "L1V3",
+          "edamId": "format_3685",
+          "url": "https://sed-ml.org",
+          "specUrl": "http://identifiers.org/combine.specifications/sed-ml",
+          "mimeType": "application/xml",
+          "extension": "sedml"
+        }
+      ],
+      "archiveFormats": [
+        {
+          "id": "COMBINE",
+          "name": "COMBINE",
+          "version": "V1",
+          "edamId": "format_3686",
+          "url": "https://combinearchive.org/",
+          "specUrl": "http://identifiers.org/combine.specifications/omex",
+          "mimeType": "application/zip",
+          "extension": "omex"
+        }
+      ],
+      "references": [
+        {
+          "title": "title",
+          "authors": "John C Doe, Jane D Doe & Jack E Doe",
+          "journal": "journal",
+          "volume": 10,
+          "pages": "1-10",
+          "year": 2020,
+          "doi": "XX.XXX/XXXXX"
+        }
+      ],
+      "parameters": [
+        {
+          "kisaoTerm": {
+            "ontology": "KISAO",
+            "id": "0000209",
+            "name": "relative tolerance",
+            "description": "This parameter is a numeric value specifying the desired relative tolerance the user wants to achieve. A smaller value means that the trajectory is calculated more accurately."
+          },
+          "id": "rel_tol",
+          "name": "Relative tolerance",
+          "type": "float",
+          "default": 0.000001
+        }
+      ]
+    }
+  ],
+  "created": "2020-01-01T12:00:00Z",
+  "updated": "2020-01-01T12:00:00Z"
+}
