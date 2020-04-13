@@ -122,8 +122,8 @@ This repository is intended for simulation software developers. We recommend tha
 
 - [BioNetGen](https://bionetgen.org): [Dockerfile](https://github.com/reproducible-biomedical-modeling/Biosimulations_BioNetGen), [Docker image](https://hub.docker.com/r/crbm/biosimulations_bionetgen)
 - [COPASI](http://copasi.org): [Dockerfile](https://github.com/reproducible-biomedical-modeling/Biosimulations_COPASI), [Docker image](https://hub.docker.com/r/crbm/biosimulations_copasi)
-- [iBioSim](https://async.ece.utah.edu/tools/ibiosim/): [Dockerfile](https://github.com/reproducible-biomedical-modeling/Biosimulations_tellurium), [Docker image](https://hub.docker.com/r/crbm/biosimulations_tellurium)
-- [tellurium](http://tellurium.analogmachine.org): 
+- [iBioSim](https://async.ece.utah.edu/tools/ibiosim/): 
+- [tellurium](http://tellurium.analogmachine.org): [Dockerfile](https://github.com/reproducible-biomedical-modeling/Biosimulations_tellurium), [Docker image](https://hub.docker.com/r/crbm/biosimulations_tellurium)
 - [VCell](https://vcell.org/): [Dockerfile](https://github.com/reproducible-biomedical-modeling/Biosimulations_VCell), [Docker image](https://hub.docker.com/r/crbm/biosimulations_vcell)
 
 ## License
