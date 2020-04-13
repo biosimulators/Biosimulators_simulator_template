@@ -1,9 +1,12 @@
-# Template for a Docker image for a BioSimulations-compliant simulator
+# Template repository for a Dockerfile for building a Docker image for a BioSimulations-compliant simulator
 
-This repository provides a template for creating a repository for a Dockerfile for generating a BioSimulations-compliant Docker image for a simulation software program.
+This repository provides a template for a Dockerfile for building a BioSimulations-compliant Docker image for a simulation software program, as well as documentation about the interface that containerized simulators must implement and examples for testing a containerized simulator.
+
+This repository is intended for simulation software developers. We recommend that end users utilize containerized simulators through the web-based graphical interface at https://biosimulations.dev.
 
 ## Contents
 * [Instructions for using this template](#instructions-for-using-this-template)
+* [Example Docker images for simulators](#example-docker-images-for-simulators)
 * [License](#license)
 * [Development team](#development-team)
 * [Questions and comments](#questions-and-comments)
