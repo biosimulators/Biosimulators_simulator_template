@@ -1,60 +1,10 @@
-# my_simulator
-Biosimulations-compliant command-line interface to the [MySimulator](https://<url.for.my.simulator>/) simulation program.
+# Template for Docker images for BioSimulations-compliant simulators
 
-## Contents
-* [Installation](#installation)
-* [Usage](#usage)
-* [License](#license)
-* [Development team](#development-team)
-* [Questions and comments](#questions-and-comments)
+This repository provides a template for creating a repository for a Dockerfile for generating a BioSimulations-compliant Docker image for a simulation software program.
 
-## Installation
+## Instructions
+1. Fork this repository
 
-### Install Python package
-```
-pip install git+https://github.com/<organization>/<repository>
-```
+2. Enter metadata about your simulator into [`properties.json`](properties.json)
 
-### Install Docker image
-```
-docker pull <organization>/<repository>
-```
-
-## Local usage
-```
-usage: <my-simulator> [-h] [-d] [-q] -i ARCHIVE [-o OUT_DIR] [-v]
-
-BioSimulations-compliant command-line interface to the <MySimulator> simulation program <https://url.for.my.simulator>.
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -d, --debug           full application debug mode
-  -q, --quiet           suppress all console output
-  -i ARCHIVE, --archive ARCHIVE
-                        Path to OMEX file which contains one or more SED-ML-
-                        encoded simulation experiments
-  -o OUT_DIR, --out-dir OUT_DIR
-                        Directory to save outputs
-  -v, --version         show program's version number and exit
-```
-
-## Usage through Docker container
-```
-docker run \
-  --tty \
-  --rm \
-  --mount type=bind,source="$(pwd)"/tests/fixtures,target=/root/in,readonly \
-  --mount type=bind,source="$(pwd)"/tests/results,target=/root/out \
-  <organization>/<repository>:latest \
-    -i /root/in/BIOMD0000000297.omex \
-    -o /root/out
-```
-
-## License
-This package is released under the [<License name (e.g., MIT)> license](LICENSE).
-
-## Development team
-This package was developed by [<authors>](<https://url.for.authors>).
-
-## Questions and comments
-Please contact the [<authors>](mailto:<authors@url.for.authors>) with any questions or comments.
+3. Enter the name of the owner of your simulator and the year into the MIT License template in [`LICENSE`](LICENSE), or copy your license into `LICENSE`. We recommend using a permissive license such as the [MIT License](https://opensource.org/licenses/MIT).
