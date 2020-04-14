@@ -53,7 +53,7 @@ This repository is intended for simulation software developers. We recommend tha
      -v, --version         show program's version number and exit
    ```
 
-4. Package the command-line interface for easy distribution and installation.
+4. Optionally, package the command-line interface for easy distribution and installation.
 
    This repository contains sample files for packaging the sample Python-based command-line interface for distribution via [PyPI](https://pypi.python.org/) and installation via [pip](https://pip.pypa.io/en/stable/).
 
