@@ -113,6 +113,8 @@ This repository is intended for simulation software developers. We recommend tha
   - `created`\*: Date that the image was created.
   - `updated`\*:  Date that the image was last updated.
 
+  As necessary, [request additional SED-ML URNs for model formats](https://github.com/SED-ML/sed-ml/issues), [request additional COMBINE specification URLs for model formats](https://github.com/sbmlteam/libCombine/issues), and [request additional KiSAO terms for algorithm parameters](https://sourceforge.net/p/kisao/feature-requests/new/).
+
 9. Implement tests for the command-line interface to your simulator in the `tests` directory. At a minimum, this should include a test that uses the BioSimulations simulator validator ([`Biosimulations_utils.simulator.testing.SbmlSedmlCombineSimulatorValidator`](https://reproducible-biomedical-modeling.github.io/Biosimulations_utils/html/source/Biosimulations_format_utils.simulator.html)).
 
    `tests/test_all.py` contains an example for testing a command-line interface implemented in Python to a simulator that supports SBML-encoded kinetic models. The `test_validator` method illustrates how to use the BioSimulations simulator validator. Example files needed for the tests can be saved to `tests/fixtures/`. `tests/requirements.txt` contains a list of the dependencies of these tests.
