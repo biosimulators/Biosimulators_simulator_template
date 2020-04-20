@@ -1,5 +1,5 @@
 # my_simulator
-Biosimulations-compliant command-line interface to the [MySimulator](https://<url.for.my.simulator>/) simulation program.
+BioSimulations-compliant command-line interface to the [MySimulator](https://<url.for.my.simulator>/) simulation program.
 
 ## Contents
 * [Installation](#installation)
