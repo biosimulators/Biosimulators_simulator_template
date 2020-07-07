@@ -10,6 +10,8 @@ This repository is intended for simulation software developers. We recommend tha
 * [Example Docker images for simulators](#example-docker-images-for-simulators)
 * [License](#license)
 * [Development team](#development-team)
+* [Contributing to the template](#contributing-to-the-template)
+* [Acknowledgements](#acknowledgements)
 * [Questions and comments](#questions-and-comments)
 
 ## Building a Docker image for a simulator using this template
@@ -167,6 +169,12 @@ This template is released under the [MIT license](LICENSE).
 
 ## Development team
 This template was developed by the [Center for Reproducible Biomedical Modeling](http://reproduciblebiomodels.org) and the [Karr Lab](https://www.karrlab.org) at the Icahn School of Medicine at Mount Sinai in New York.
+
+## Contributing to the template
+We enthusiastically welcome contributions to the template! Please see the [guide to contributing](CONTRIBUTING.md) and the [developer's code of conduct](CODE_OF_CONDUCT.md).
+
+## Acknowledgements
+This work was supported by National Institutes of Health awards P41EB023912 and R35GM119771 and the Icahn Institute for Data Science and Genomic Technology.
 
 ## Questions and comments
 Please contact the [Center for Reproducible Biomedical Modeling](mailto:info@reproduciblebiomodels.org) with any questions or comments.
