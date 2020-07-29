@@ -69,6 +69,20 @@ This repository is intended for simulation software developers. We recommend tha
 
    - Additional files that need to be copied into the image can be saved to a directory such as `assets/`.
    - In most cases, commercial licenses needed to run the image should be injected at runtime. Please contact the [BioSimulations team](info@reproduciblebiomodels.org) to discuss your needs.
+   - Use BioContainers-style labels to capture metadata about the image. See the [BioContainers documentation](https://biocontainers-edu.readthedocs.io/en/latest/what_is_biocontainers.html#create-a-dockerfile-recipe) for more information.
+     ```
+     LABEL base_image="ubuntu:18.04"
+     LABEL version="1.0.0"
+     LABEL software="BioNetGen"
+     LABEL software.version="2.5.0"
+     LABEL about.summary="Open-source software package for rule-based modeling of complex biochemical systems"
+     LABEL about.home="https://bionetgen.org/"
+     LABEL about.documentation="https://bionetgen.org/"
+     LABEL about.license_file="https://github.com/RuleWorld/bionetgen/blob/master/LICENSE"
+     LABEL about.license="SPDX:MIT"
+     LABEL about.tags="rule-based modeling,kinetic modeling,dynamical simulation,systems biology,BNGL,SED-ML,COMBINE,OMEX"
+     LABEL maintainer="Jonathan Karr <karr@mssm.edu>"
+     ```
 
 6. Build the Docker image for the command-line interface to your simulator. For example, run the following command:
    ```
