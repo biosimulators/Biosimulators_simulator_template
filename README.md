@@ -81,6 +81,7 @@ This repository is intended for simulation software developers. We recommend tha
      LABEL about.license_file="https://github.com/RuleWorld/bionetgen/blob/master/LICENSE"
      LABEL about.license="SPDX:MIT"
      LABEL about.tags="rule-based modeling,kinetic modeling,dynamical simulation,systems biology,BNGL,SED-ML,COMBINE,OMEX"
+     LABEL extra.identifiers.biotools="bionetgen"
      LABEL maintainer="Jonathan Karr <karr@mssm.edu>"
      ```
 

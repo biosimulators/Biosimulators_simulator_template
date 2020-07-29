@@ -12,6 +12,7 @@ LABEL about.documentation="{software documentation URL}"
 LABEL about.license_file="{software license URL}"
 LABEL about.license="{SPDX license id (e.g., SPDX:MIT)}"
 LABEL about.tags="{comma-separated list of tags}"
+LABEL extra.identifiers.biotools="{bio.tools id}"
 LABEL maintainer="{Name} <{email}>"
 
 # Install requirements
