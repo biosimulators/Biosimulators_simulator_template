@@ -1,2 +1,5 @@
 cement
 Biosimulations_utils
+
+# Include the simulator being wrapped, pinned to a specific version
+my_simulator==1.0.0 
