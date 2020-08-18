@@ -7,7 +7,7 @@
 """
 
 from Biosimulations_utils.simulation.data_model import Simulation  # noqa: F401
-import Biosimulations_utils.simulator.utils.exec_simulations_in_archive
+from Biosimulations_utils.simulator.utils import exec_simulations_in_archive
 import os
 
 
@@ -21,7 +21,7 @@ def exec_combine_archive(archive_file, out_dir):
         archive_file (:obj:`str`): path to COMBINE archive
         out_dir (:obj:`str`): directory to store the outputs of the tasks
     """
-    Biosimulations_utils.simulator.utils.exec_simulations_in_archive(archive_file, exec_simulation, out_dir)
+    exec_simulations_in_archive(archive_file, exec_simulation, out_dir)
 
 
 def exec_simulation(model_filename, model_sed_urn, simulation, working_dir, out_filename, out_format):
