@@ -81,7 +81,7 @@ class CliTestCase(unittest.TestCase):
 
         # run image
         docker_client.containers.run(
-            self.DOCKER_IMAGE
+            image=self.DOCKER_IMAGE,
             volumes={
                 in_dir: {
                     'bind': '/root/in',
@@ -116,5 +116,5 @@ class CliTestCase(unittest.TestCase):
                 PyPDF2.PdfFileReader(file)
 
     def test_validator(self):
-        validator = SbmlSedmlCombineSimulatorValidator()
+        validator = SimulatorValidator()
         validator.run(self.DOCKER_IMAGE)
