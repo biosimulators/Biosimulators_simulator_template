@@ -7,6 +7,7 @@
   "dockerHubImageId": "organization/repository:tag",
   "format": {
     "name": "Docker Image",
+    "edamID": "format_3973",
     "version": "1.2",
     "spec_url": "https://github.com/moby/moby/blob/master/image/spec/v1.2.md"
   },
