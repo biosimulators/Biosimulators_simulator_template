@@ -1,4 +1,4 @@
-""" BioSimulations-compliant command-line interface to the `MySimulator <https://url.for.my.simulator>`_ simulation program.
+""" BioSimulators-compliant command-line interface to the `MySimulator <https://url.for.my.simulator>`_ simulation program.
 
 :Author: Author name <email@organization>
 :Date: YYYY-MM-DD
@@ -16,7 +16,7 @@ class BaseController(cement.Controller):
 
     class Meta:
         label = 'base'
-        description = ("BioSimulations-compliant command-line interface to the "
+        description = ("BioSimulators-compliant command-line interface to the "
                        "<MySimulator> simulation program <https://url.for.my.simulator>.")
         help = "<my-simulator>"
         arguments = [

@@ -25,7 +25,7 @@ md = pkg_utils.get_package_metadata(dirname, name)
 setuptools.setup(
     name=name,
     version=md.version,
-    description=("BioSimulations-compliant command-line interface to "
+    description=("BioSimulators-compliant command-line interface to "
                  "the <MySimulator> simulation program <https://url.for.my.simulator>."),
     long_description=md.long_description,
     url="https://github.com/<organization>/<repository>",

@@ -1,5 +1,5 @@
 # my_simulator
-BioSimulations-compliant command-line interface to the [MySimulator](https://<url.for.my.simulator>/) simulation program.
+BioSimulators-compliant command-line interface to the [MySimulator](https://<url.for.my.simulator>/) simulation program.
 
 ## Contents
 * [Installation](#installation)
@@ -24,7 +24,7 @@ docker pull <organization>/<repository>
 ```
 usage: <my-simulator> [-h] [-d] [-q] -i ARCHIVE [-o OUT_DIR] [-v]
 
-BioSimulations-compliant command-line interface to the <MySimulator> simulation program <https://url.for.my.simulator>.
+BioSimulators-compliant command-line interface to the <MySimulator> simulation program <https://url.for.my.simulator>.
 
 optional arguments:
   -h, --help            show this help message and exit

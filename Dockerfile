@@ -11,7 +11,7 @@ LABEL about.home="{software URL}"
 LABEL about.documentation="{software documentation URL}"
 LABEL about.license_file="{software license URL}"
 LABEL about.license="{SPDX license id (e.g., SPDX:MIT)}"
-LABEL about.tags="{comma-separated list of tags}"
+LABEL about.tags="{comma-separated list of tags including "BioSimulators"}"
 LABEL extra.identifiers.biotools="{bio.tools id}"
 LABEL maintainer="{Name} <{email}>"
 

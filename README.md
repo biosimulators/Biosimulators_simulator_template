@@ -1,8 +1,8 @@
-# Template repository for a Dockerfile for building a Docker image for a BioSimulations-compliant simulator
+# Template repository for a command-line program and Dockerfile for a BioSimulators-compliant simulator
 
-This repository provides a template for a Dockerfile for building a BioSimulations-compliant Docker image for a simulation software program, as well as documentation about the interface that containerized simulators must implement and examples for testing a containerized simulator.
+This repository provides template Python code for building a BioSimulators-compliant command-line interface for a biosimulation tool and a Dockerfile for building a BioSimulators-compliant container for the tool. More documentation about the interfaces that containerized simulators must implement is available at https://biosimulators.org/help. Several examples of BioSimulators-compliant command-line interaces and Dockerfiles are available in the [BioSimulators GitHub organization](https://github.com/biosimulators/). A registry of compliant simulation tools is available at https://biosimulators.org.
 
-This repository is intended for simulation software developers. We recommend that end users utilize containerized simulators through the web-based graphical interface at https://biosimulations.dev.
+This repository is intended for developers of simulation software programs. We recommend that end users utilize containerized simulators through the web-based graphical interfaces at https://submit.biosimulators.org and https://biosimulators.org. https://submit.biosimulators.org provides a simple web application for executing simulations and retrieving their results. https://biosimulators.org provides a more comprehensive platform for sharing and executing entire modeling studies. Instructions for using containers to execute simulations locally on your own machine are available at https://biosimulators.org/help.
 
 ## Contents
 * [Building a Docker image for a simulator using this template](#building-a-docker-image-for-a-simulator-using-this-template)
@@ -19,7 +19,7 @@ This repository is intended for simulation software developers. We recommend tha
 
 2. Fork this repository.
 
-3. Create a BioSimulations-compliant command-line interface to your simulator.
+3. Create a BioSimulators-compliant command-line interface to your simulator.
 
    The interface should accept two keyword arguments:
 
@@ -31,17 +31,17 @@ This repository is intended for simulation software developers. We recommend tha
    - `-h`, `--help`: This argument should instruct the command-line program to print help information about itself.
    - `-v`, `--version`: This argument should instruct the command-line program to report version information about itself.
 
-   This repository contains sample code for using Python and [cement](https://builtoncement.com/) to create a BioSimulations-compliant command-line interface for a simulator. This code is located at `my_simulator/__main__.py`. To follow this example, 
+   This repository contains sample code for using Python and [cement](https://builtoncement.com/) to create a BioSimulators-compliant command-line interface for a simulator. This code is located at `my_simulator/__main__.py`. To follow this example, 
 
    1. Rename the `my_simulator` directory.
    2. Edit the name, URL of the simulator in `my_simulator/__main__.py`.
-   3. Implement the `exec_combine_archive` method in `my_simulator/core.py`. [`Biosimulations_utils`](https://reproducible-biomedical-modeling.github.io/Biosimulations_utils) provides several utilities methods and data structures for parsing COMBINE archives and SED-ML documents; representing archives and simulation experiments; and orchestrating the execution of all of the tasks in a simulation experiment. These utility methods make it easy for developers to handle COMBINE-encoded archives and SED-ML-encoded simulation experiments.
+   3. Implement the `exec_combine_archive` method in `my_simulator/core.py`. [`Biosimulations_utils`](https://github.com/biosimulations/Biosimulations_utils) provides several utilities methods and data structures for parsing COMBINE archives and SED-ML documents; representing archives and simulation experiments; and orchestrating the execution of all of the tasks in a simulation experiment. These utility methods make it easy for developers to handle COMBINE-encoded archives and SED-ML-encoded simulation experiments.
 
    This code will produce a command-line interface similar to that below:
    ```
    usage: <my-simulator> [-h] [-d] [-q] -i ARCHIVE [-o OUT_DIR] [-v]
 
-   BioSimulations-compliant command-line interface to the <MySimulator> simulation program <http://url.to.my.simulator>.
+   BioSimulators-compliant command-line interface to the <MySimulator> simulation program <http://url.to.my.simulator>.
 
    optional arguments:
      -h, --help            show this help message and exit
@@ -68,7 +68,7 @@ This repository is intended for simulation software developers. We recommend tha
 5. Create a Dockerfile for building a Docker image for the command-line interface to your simulator. [`Dockerfile`](Dockerfile) contains a template Dockerfile for a command-line interface implemented with Python.
 
    - Additional files that need to be copied into the image can be saved to a directory such as `assets/`.
-   - In most cases, commercial licenses needed to run the image should be injected at runtime. Please contact the [BioSimulations team](info@reproduciblebiomodels.org) to discuss your needs.
+   - In most cases, commercial licenses needed to run the image should be injected at runtime. Please contact the [BioSimulations Team](info@biosimulations.org) to discuss your needs.
    - Use BioContainers-style labels to capture metadata about the image. See the [BioContainers documentation](https://biocontainers-edu.readthedocs.io/en/latest/what_is_biocontainers.html#create-a-dockerfile-recipe) for more information.
      ```
      LABEL base_image="ubuntu:18.04"
@@ -80,7 +80,7 @@ This repository is intended for simulation software developers. We recommend tha
      LABEL about.documentation="https://bionetgen.org/"
      LABEL about.license_file="https://github.com/RuleWorld/bionetgen/blob/master/LICENSE"
      LABEL about.license="SPDX:MIT"
-     LABEL about.tags="rule-based modeling,kinetic modeling,dynamical simulation,systems biology,BNGL,SED-ML,COMBINE,OMEX"
+     LABEL about.tags="rule-based modeling,kinetic modeling,dynamical simulation,systems biology,biochemical networks,BNGL,SED-ML,COMBINE,OMEX,BioSimulators"
      LABEL extra.identifiers.biotools="bionetgen"
      LABEL maintainer="Jonathan Karr <karr@mssm.edu>"
      ```
@@ -98,9 +98,9 @@ This repository is intended for simulation software developers. We recommend tha
    docker push <owner>/<my_simulator>
    ```
 
-8. Enter metadata about your simulator into [`properties.json`](properties.json). This should include the attributes listed below. Attributes marked with `*` are optional. The schema is available in the `Schemas` >> `Simulator` section at https://api.biosimulations.dev/docs/.
+8. Enter metadata about your simulator into [`properties.json`](properties.json). This should include the attributes listed below. Attributes marked with `*` are optional. The schema is available in the `Schemas` >> `Simulator` section at https://api.biosimulators.org.
   - `id`: A unique id for the simulator (e.g., `tellurium`). The id must begin with a letter or underscore and include only letters, numbers, and underscores.
-  - `dockerHubImageId`: DockerHub id for the Docker image for the simulator (e.g., `crbm/biosimulations_tellurium:2.4.1`). This should include the organization which owns the image, the id of the image, and the version tag of the image.
+  - `dockerHubImageId`: DockerHub id for the Docker image for the simulator (e.g., `biosimulators/tellurium:2.4.1`). This should include the organization which owns the image, the id of the image, and the version tag of the image.
   - `name`\*: Short name of the simulator.  
   - `description`\*: Extended description of the simulator.
   - `url`\*: URL for a webpage that describes the simulator.
@@ -126,15 +126,15 @@ This repository is intended for simulation software developers. We recommend tha
   - `authors`\* List of the authors of the simulator (e.g., `[{"firstName": "John", "middleName": "C", "lastName": "Doe"}]`).
   - `references`\*: List of references for the simulator. See `properties.json` for examples.
   - `format`: Format of the image (e.g., `{"name": "Docker Image", "version": "1.2", "spec_url": "https://github.com/moby/moby/blob/master/image/spec/v1.2.md"}`).
-  - `license`: The id of one of the licenses supported by BioSimulations (e.g., `MIT`). The list of the ids of the supported licenses is available in the `Schemas` >> `Simulator` section at https://api.biosimulations.dev/docs/.
+  - `license`: The id of one of the licenses supported by SPDX (e.g., `MIT`). The list of supported licenses is available at https://spdx.org.
   - `created`\*: Date that the image was created.
   - `updated`\*:  Date that the image was last updated.
 
   As necessary, [request additional SED-ML URNs for model formats](https://github.com/SED-ML/sed-ml/issues), [request additional COMBINE specification URLs for model formats](https://github.com/sbmlteam/libCombine/issues), and [request additional KiSAO terms for algorithm parameters](https://sourceforge.net/p/kisao/feature-requests/new/).
 
-9. Implement tests for the command-line interface to your simulator in the `tests` directory. At a minimum, this should include a test that uses the BioSimulations simulator validator ([`Biosimulations_utils.simulator.testing.SbmlSedmlCombineSimulatorValidator`](https://reproducible-biomedical-modeling.github.io/Biosimulations_utils/html/source/Biosimulations_format_utils.simulator.html)).
+9. Implement tests for the command-line interface to your simulator in the `tests` directory. At a minimum, this should include a test that uses the simulator validator ([`Biosimulations_utils.simulator.testing.SbmlSedmlCombineSimulatorValidator`](https://github.com/biosimulations/Biosimulations_utils/)).
 
-   `tests/test_all.py` contains an example for testing a command-line interface implemented in Python to a simulator that supports SBML-encoded kinetic models. The `test_validator` method illustrates how to use the BioSimulations simulator validator. Example files needed for the tests can be saved to `tests/fixtures/`. `tests/requirements.txt` contains a list of the dependencies of these tests.
+   `tests/test_all.py` contains an example for testing a command-line interface implemented in Python to a simulator that supports SBML-encoded kinetic models. The `test_validator` method illustrates how to use the simulator validator. Example files needed for the tests can be saved to `tests/fixtures/`. `tests/requirements.txt` contains a list of the dependencies of these tests.
 
 10. Replace this file (`README.md`) with `README.template.md` and fill out the template with information about your simulator.
 
@@ -173,11 +173,10 @@ docker run \
 ## Example Docker images for simulators
 
 The following are several examples of Docker images of simulators:
-- [BioNetGen](https://bionetgen.org): [Dockerfile](https://github.com/reproducible-biomedical-modeling/Biosimulations_BioNetGen), [Docker image](https://hub.docker.com/r/crbm/biosimulations_bionetgen)
-- [COPASI](http://copasi.org): [Dockerfile](https://github.com/reproducible-biomedical-modeling/Biosimulations_COPASI), [Docker image](https://hub.docker.com/r/crbm/biosimulations_copasi)
-- [iBioSim](https://async.ece.utah.edu/tools/ibiosim/): 
-- [tellurium](http://tellurium.analogmachine.org): [Dockerfile](https://github.com/reproducible-biomedical-modeling/Biosimulations_tellurium), [Docker image](https://hub.docker.com/r/crbm/biosimulations_tellurium)
-- [VCell](https://vcell.org/): [Dockerfile](https://github.com/reproducible-biomedical-modeling/Biosimulations_VCell), [Docker image](https://hub.docker.com/r/crbm/biosimulations_vcell)
+- [BioNetGen](https://bionetgen.org): [Dockerfile](https://github.com/biosimulators/Biosimulators_BioNetGen), [Docker image](https://hub.docker.com/r/biosimulators/bionetgen)
+- [COPASI](http://copasi.org): [Dockerfile](https://github.com/biosimulators/Biosimulators_COPASI), [Docker image](https://hub.docker.com/r/biosimulators/copasi)
+- [tellurium](http://tellurium.analogmachine.org): [Dockerfile](https://github.com/biosimulators/Biosimulators_tellurium), [Docker image](https://hub.docker.com/r/biosimulators/tellurium)
+- [VCell](https://vcell.org/): [Dockerfile](https://github.com/biosimulators/Biosimulators_VCell), [Docker image](https://hub.docker.com/r/biosimulators/vcell)
 
 ## License
 This template is released under the [MIT license](LICENSE).
@@ -192,4 +191,4 @@ We enthusiastically welcome contributions to the template! Please see the [guide
 This work was supported by National Institutes of Health awards P41EB023912 and R35GM119771 and the Icahn Institute for Data Science and Genomic Technology.
 
 ## Questions and comments
-Please contact the [Center for Reproducible Biomedical Modeling](mailto:info@reproduciblebiomodels.org) with any questions or comments.
+Please contact the [BioSimulators Team](mailto:info@biosimulators.org) with any questions or comments.
