@@ -100,7 +100,7 @@ This repository is intended for developers of simulation software programs. We r
 
 8. Enter metadata about your simulator into [`properties.json`](properties.json). This should include the attributes listed below. Attributes marked with `*` are optional. The schema is available in the `Schemas` >> `Simulator` section at https://api.biosimulators.org.
   - `id`: A unique id for the simulator (e.g., `tellurium`). The id must begin with a letter or underscore and include only letters, numbers, and underscores.
-  - `dockerHubImageId`: DockerHub id for the Docker image for the simulator (e.g., `biosimulators/tellurium:2.4.1`). This should include the organization which owns the image, the id of the image, and the version tag of the image.
+  - `image`: URL for the Docker image for the simulator (e.g., `docker.io/biosimulators/tellurium:2.4.1`). This should include the organization which owns the image, the id of the image, and the version tag of the image.
   - `name`\*: Short name of the simulator.  
   - `description`\*: Extended description of the simulator.
   - `url`\*: URL for a webpage that describes the simulator.
@@ -108,27 +108,30 @@ This repository is intended for developers of simulation software programs. We r
   - `algorithms`: List of simulation algorithms supported by the simulator. Each algorithm should include the following information.
     - `id`: Internal id for the algorithm within the simulator (e.g., `nleq2`).
     - `name`: Short name of the implementation of the algorithm in the simulator.
-    - `kisaoTerm`: KiSAO term for the implementation of the algorithm in the simulator.
-    - `ontologyTerms`: List of synonyms for the algorithm such as additional KiSAO terms.
-    - `modelingFrameworks`: List of modeling frameworks (e.g., flux balance analysis) supported by the implementation of the algorithm in the simulator.
+    - `kisaoId`: KiSAO term for the implementation of the algorithm in the simulator (e.g., `{"namespace": "KISAO", "id": "KISAO_0000057"}`).
+    - `modelingFrameworks`: List of modeling frameworks (e.g., flux balance analysis) supported by the implementation of the algorithm in the simulator (e.g., `{"namespace": "SBO", "id": "SBO_0000624"}`).
     - `parameters`: List of parameters of the implementation of the algorithm in the simulator. Each parameter should include the following information.
       - `id`: Internal id for the parameter within the algorithm (e.g., `abs_tol`).
-      - `name`\*: Short name of the parameter.
-      - `description`\*: Extended description of the parameter.
-      - `kisaoTerm`: KiSAO term for parameter.
+      - `name`\*: Short name of the parameter (e.g., `absolute tolerance`).
+      - `kisaoId`: KiSAO term for parameter (e.g., `{"namespace": "KISAO", "id": "KISAO_0000057"}`).
       - `type`: Type fo the parameters (`boolean`, `integer`, `float`, or `string`).
-      - `value`: Default value of the parameter.
-      - `recommendedRange`: List of the recommended minimum and maximum values of the parameter.
-    - `modelFormats`: List of model formats (e.g., CellML, SBML) supported by the implementation of the algorithm in the simulator.
-    - `simulationFormats`: List of simulation formats (e.g., SED-ML) supported by the implementation of the algorithm in the simulator.
-    - `archiveFormats`: List of archive formats (e.g., COMBINE) supported by the implementation of the algorithm in the simulator.
-    - `references`\*: References for the implementation of the algorithm in the simulator.
+      - `value`: Default value of the parameter (e.g., `1e-6`).
+      - `recommendedRange`: List of the recommended minimum and maximum values of the parameter (e.g., `[1e-3, 1e-9]`).
+    - `modelFormats`: List of model formats (e.g., CellML, SBML) supported by the implementation of the algorithm in the simulator (e.g., `{"namespace": "EDAM", "id": "format_2585"}`).
+    - `simulationFormats`: List of simulation formats (e.g., SED-ML) supported by the implementation of the algorithm in the simulator (e.g., `{"namespace": "EDAM", "id": "format_3685"}`).
+    - `archiveFormats`: List of archive formats (e.g., COMBINE) supported by the implementation of the algorithm in the simulator (e.g., `{"namespace": "EDAM", "id": "format_3686"}`).
+    - `citations`\*: Citations for the algorithm.
   - `authors`\* List of the authors of the simulator (e.g., `[{"firstName": "John", "middleName": "C", "lastName": "Doe"}]`).
-  - `references`\*: List of references for the simulator. See `properties.json` for examples.
-  - `format`: Format of the image (e.g., `{"name": "Docker Image", "version": "1.2", "spec_url": "https://github.com/moby/moby/blob/master/image/spec/v1.2.md"}`).
-  - `license`: The id of one of the licenses supported by SPDX (e.g., `MIT`). The list of supported licenses is available at https://spdx.org.
-  - `created`\*: Date that the image was created.
-  - `updated`\*:  Date that the image was last updated.
+  - `references`\*: References for the simulator.
+    - `identifiers`\*: List of identifiers (e.g., bio.tools id, BioContainers id) for the simulator (e.g., `[{"namespace": "bio.tools", "id": "bionetgen", "url": "https://bio.tools/bionetgen"}]`).
+    - `citations`\*: List of citations for the simulator. See `properties.json` for examples.
+  - `format`: Format of the image (e.g., `{"namespace": "EDAM", "id": "format_3973"}`).
+  - `license`: One of the licenses supported by SPDX (e.g., `{"namespace": "SPDX", "id": "MIT"}`). The list of supported licenses is available at https://spdx.org.  
+  - `created`\*: Date that the image was created (e.g., `2020-10-261T12:00:00Z`).
+  - `updated`\*:  Date that the image was last updated (e.g., `2020-10-261T12:00:00Z`).
+  - `biosimulators`\*: 
+    - `schemaVersion`\*: Version of BioSimulators supported by the container (e.g., `1.0.0`).
+    - `imageVersion`\*: Version of the container (e.g., `1.0.0`).
 
   As necessary, [request additional SED-ML URNs for model formats](https://github.com/SED-ML/sed-ml/issues), [request additional COMBINE specification URLs for model formats](https://github.com/sbmlteam/libCombine/issues), and [request additional KiSAO terms for algorithm parameters](https://sourceforge.net/p/kisao/feature-requests/new/).
 
