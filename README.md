@@ -127,8 +127,8 @@ This repository is intended for developers of simulation software programs. We r
     - `citations`\*: List of citations for the simulator. See `biosimulators.json` for examples.
   - `format`: Format of the image (e.g., `{"namespace": "EDAM", "id": "format_3973"}`).
   - `license`: One of the licenses supported by SPDX (e.g., `{"namespace": "SPDX", "id": "MIT"}`). The list of supported licenses is available at https://spdx.org.  
-  - `created`\*: Date that the image was created (e.g., `2020-10-261T12:00:00Z`).
-  - `updated`\*:  Date that the image was last updated (e.g., `2020-10-261T12:00:00Z`).
+  - `created`\*: Date that the image was created (e.g., `2020-10-26T12:00:00Z`).
+  - `updated`\*:  Date that the image was last updated (e.g., `2020-10-26T12:00:00Z`).
   - `biosimulators`\*: 
     - `schemaVersion`\*: Version of BioSimulators supported by the container (e.g., `1.0.0`).
     - `imageVersion`\*: Version of the container (e.g., `1.0.0`).
