@@ -98,7 +98,7 @@ This repository is intended for developers of simulation software programs. We r
    docker push <owner>/<my_simulator>
    ```
 
-8. Enter metadata about your simulator into [`properties.json`](properties.json). This should include the attributes listed below. Attributes marked with `*` are optional. The schema is available in the `Schemas` >> `Simulator` section at https://api.biosimulators.org.
+8. Enter metadata about your simulator into [`biosimulators.json`](biosimulators.json). This should include the attributes listed below. Attributes marked with `*` are optional. The schema is available in the `Schemas` >> `Simulator` section at https://api.biosimulators.org.
   - `id`: A unique id for the simulator (e.g., `tellurium`). The id must begin with a letter or underscore and include only letters, numbers, and underscores.
   - `image`: URL for the Docker image for the simulator (e.g., `docker.io/biosimulators/tellurium:2.1.6`). This should include the organization which owns the image, the id of the image, and the version tag of the image.
   - `name`\*: Short name of the simulator.  
@@ -124,7 +124,7 @@ This repository is intended for developers of simulation software programs. We r
   - `authors`\* List of the authors of the simulator (e.g., `[{"firstName": "John", "middleName": "C", "lastName": "Doe"}]`).
   - `references`\*: References for the simulator.
     - `identifiers`\*: List of identifiers (e.g., bio.tools id, BioContainers id) for the simulator (e.g., `[{"namespace": "bio.tools", "id": "bionetgen", "url": "https://bio.tools/bionetgen"}]`).
-    - `citations`\*: List of citations for the simulator. See `properties.json` for examples.
+    - `citations`\*: List of citations for the simulator. See `biosimulators.json` for examples.
   - `format`: Format of the image (e.g., `{"namespace": "EDAM", "id": "format_3973"}`).
   - `license`: One of the licenses supported by SPDX (e.g., `{"namespace": "SPDX", "id": "MIT"}`). The list of supported licenses is available at https://spdx.org.  
   - `created`\*: Date that the image was created (e.g., `2020-10-261T12:00:00Z`).
