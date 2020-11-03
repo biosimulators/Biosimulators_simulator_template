@@ -1,4 +1,7 @@
-*.pyc
-__pycache__/
+# compiled Python files
 *.egg-info/
-.vscode/settings.json
+__pycache__/
+*.pyc
+
+# compiled documentation
+docs/_build/html
