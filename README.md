@@ -130,7 +130,7 @@ This repository is intended for developers of simulation software programs. We r
   - `created`\*: Date that the image was created (e.g., `2020-10-26T12:00:00Z`).
   - `updated`\*:  Date that the image was last updated (e.g., `2020-10-26T12:00:00Z`).
   - `biosimulators`\*: 
-    - `schemaVersion`\*: Version of BioSimulators supported by the container (e.g., `1.0.0`).
+    - `specificationsVersion`\*: Version of BioSimulators supported by the container (e.g., `1.0.0`).
     - `imageVersion`\*: Version of the container (e.g., `1.0.0`).
 
   As necessary, [request additional SED-ML URNs for model formats](https://github.com/SED-ML/sed-ml/issues), [request additional COMBINE specification URLs for model formats](https://github.com/sbmlteam/libCombine/issues), and [request additional KiSAO terms for algorithm parameters](https://sourceforge.net/p/kisao/feature-requests/new/).

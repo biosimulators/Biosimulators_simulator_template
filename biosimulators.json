@@ -93,7 +93,7 @@
     }]
   }],
   "biosimulators": {
-    "schemaVersion": "1.0.0",
+    "specificationsVersion": "1.0.0",
     "imageVersion": "1.0.0"
   },
   "created": "2020-01-01T12:00:00Z",
