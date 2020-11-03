@@ -1,9 +1,9 @@
 # Base OS
-FROM ubuntu:18.04
+FROM python:3.7.9-slim-buster
 
 # metadata
-LABEL base_image="ubuntu:18.04"
-LABEL version="1.0.0"
+LABEL base_image="python:3.7.9-slim-buster"
+LABEL version="0.0.1"
 LABEL software="{software name}"
 LABEL software.version="{software verson}"
 LABEL about.summary="{software description}"
@@ -18,16 +18,13 @@ LABEL maintainer="{Name} <{email}>"
 # Install requirements
 RUN apt-get update -y \
     && apt-get install -y --no-install-recommends \
-        python3 \
-        python3-pip \
-    && pip3 install -U pip \
-    && pip3 install -U setuptools \
+        ... \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy code for command-line interface into image and install it
 COPY . /root/{my_simulator}
-RUN pip3 install /root/{my_simulator}
+RUN pip install /root/{my_simulator}
 
 # Entrypoint
 ENTRYPOINT ["{my-simulator}"]
