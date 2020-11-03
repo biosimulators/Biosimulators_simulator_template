@@ -72,7 +72,7 @@ This repository is intended for developers of simulation software programs. We r
    - Use BioContainers-style labels to capture metadata about the image. See the [BioContainers documentation](https://biocontainers-edu.readthedocs.io/en/latest/what_is_biocontainers.html#create-a-dockerfile-recipe) for more information.
      ```
      LABEL base_image="ubuntu:18.04"
-     LABEL version="1.0.0"
+     LABEL version="0.0.1"
      LABEL software="BioNetGen"
      LABEL software.version="2.5.0"
      LABEL about.summary="Open-source software package for rule-based modeling of complex biochemical systems"
