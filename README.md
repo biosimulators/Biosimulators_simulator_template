@@ -168,7 +168,7 @@ docker run \
   --rm \
   --mount type=bind,source="$(pwd)"/tests/fixtures,target=/root/in,readonly \
   --mount type=bind,source="$(pwd)"/tests/results,target=/root/out \
-  <organization>/<repository> \
+  <registry e.g., docker.io or ghcr.io>/<organization>/<repository> \
     -i /path/to/archive.omex \
     -o /path/to/output
 ```
