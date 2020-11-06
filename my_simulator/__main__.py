@@ -33,7 +33,10 @@ class BaseController(cement.Controller):
     @cement.ex(hide=True)
     def _default(self):
         args = self.app.pargs
-        exec_combine_archive(args.archive, args.out_dir)
+        try:
+            exec_combine_archive(args.archive, args.out_dir)
+        except Exception as exception:
+            raise SystemExit(str(exception)) from exception
 
 
 class App(cement.App):
@@ -49,6 +52,7 @@ class App(cement.App):
 def main():
     with App() as app:
         app.run()
-        
+
+
 if __name__ == "__main__":
     main()
