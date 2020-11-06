@@ -1,4 +1,11 @@
-# my_simulator
+![Latest version](https://img.shields.io/github/v/tag/<owner>/<repo>)
+[![PyPI](https://img.shields.io/pypi/v/<my-simulator>)](https://pypi.org/project/<my-simulator>/)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/<owner>/<repo>/workflow-id)](https://github.com/<owner>/<repo>/actions?query=workflow%3Aworkflow-id)
+[![Documentation](https://img.shields.io/github/license/<owner>/<repo>?badges-awesome-green.svg)](<documentation-url>)
+[![Issues](https://img.shields.io/github/issues/<owner>/<repo>)](https://github.com/<owner>/<repo>/issues)
+[![License](https://img.shields.io/github/license/<owner>/<repo>?badges-awesome-green.svg)](https://github.com/<owner>/<repo>/blob/dev/LICENSE)
+
+# MySimulator
 BioSimulators-compliant command-line interface to the [MySimulator](https://<url.for.my.simulator>/) simulation program.
 
 ## Contents
@@ -20,7 +27,9 @@ pip install git+https://github.com/<organization>/<repository>
 docker pull <organization>/<repository>
 ```
 
-## Local usage
+## Usage
+
+### Local usage
 ```
 usage: <my-simulator> [-h] [-d] [-q] -i ARCHIVE [-o OUT_DIR] [-v]
 
@@ -38,7 +47,7 @@ optional arguments:
   -v, --version         show program's version number and exit
 ```
 
-## Usage through Docker container
+### Usage through Docker container
 ```
 docker run \
   --tty \
@@ -49,6 +58,9 @@ docker run \
     -i /root/in/BIOMD0000000297.omex \
     -o /root/out
 ```
+
+## Documentation
+Documentation is available at <documentation-url>.
 
 ## License
 This package is released under the [<License name (e.g., MIT)> license](LICENSE).
