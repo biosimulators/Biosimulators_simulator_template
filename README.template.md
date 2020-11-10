@@ -11,6 +11,7 @@ BioSimulators-compliant command-line interface to the [MySimulator](https://<url
 ## Contents
 * [Installation](#installation)
 * [Usage](#usage)
+* [Documentation](#documentation)
 * [License](#license)
 * [Development team](#development-team)
 * [Questions and comments](#questions-and-comments)
