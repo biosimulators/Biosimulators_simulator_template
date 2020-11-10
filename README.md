@@ -24,7 +24,9 @@ This repository is intended for developers of simulation software programs. We r
    The interface should accept two keyword arguments:
 
    - `-i`, `--archive`: A path to a COMBINE archive which contains descriptions of one or more simulation tasks.
-   - `-o`, `--out-dir`: A path to a directory where the outputs of the simulation tasks should be saved. Reports should be saved in CSV format and plots should be saved in PDF format. The simulator should create a directory to contain the output of each SED-ML document. This should have the same path relative to the top-level output directory as the SED-ML file to the root of the archive. The file name of each output should be the id of the output plus the one of the extensions `.csv` or `.pdf`.
+   - `-o`, `--out-dir`: A path to a directory where the outputs of the simulation tasks should be saved. Reports should be saved in Comma-Separated Values (CSV) format and plots should be saved in Portable Document Format (PDF). The simulator should create a directory to contain the output of each SED-ML document. This should have the same path relative to the top-level output directory as the SED-ML file to the root of the archive. The file name of each output should be the id of the output plus the one of the extensions `.csv` or `.pdf`. 
+
+     The columns of the reports should correspond to the simulation outputs specified in the corresponding SED-ML document (e.g., time, specific species). For time course simulations, the rows should correspond to the predicted time points. The first row of each report table should describe the data represented by each column. Specifically, the first element of each column should be the id of the simulation output (e.g., time or species id) represented by the column.
 
    In addition, we recommend providing handlers for reporting help and version information about the command-line interface to your simulator:
 
