@@ -175,11 +175,10 @@ docker run \
 
 ## Example Docker images for simulators
 
-The following are several examples of Docker images of simulators:
-- [BioNetGen](https://bionetgen.org): [Dockerfile](https://github.com/biosimulators/Biosimulators_BioNetGen), [Docker image](https://hub.docker.com/r/biosimulators/bionetgen)
-- [COPASI](http://copasi.org): [Dockerfile](https://github.com/biosimulators/Biosimulators_COPASI), [Docker image](https://hub.docker.com/r/biosimulators/copasi)
-- [tellurium](http://tellurium.analogmachine.org): [Dockerfile](https://github.com/biosimulators/Biosimulators_tellurium), [Docker image](https://hub.docker.com/r/biosimulators/tellurium)
-- [VCell](https://vcell.org/): [Dockerfile](https://github.com/biosimulators/Biosimulators_VCell), [Docker image](https://hub.docker.com/r/biosimulators/vcell)
+The following are several examples of BioSimulators-compliant command-line interfaces and Docker images for biosimulation tools:
+- [BioNetGen](https://bionetgen.org): [Command-line interface and Dockerfile](https://github.com/biosimulators/Biosimulators_BioNetGen), [Docker image](https://github.com/orgs/biosimulators/packages/container/package/bionetgen)
+- [GillesPy2](https://github.com/StochSS/GillesPy2): [Command-line interface and Dockerfile](https://github.com/biosimulators/Biosimulators_GillesPy2), [Docker image](https://github.com/orgs/biosimulators/packages/container/package/gillespy2)
+- [tellurium](http://tellurium.analogmachine.org): [Command-line interface and Dockerfile](https://github.com/biosimulators/Biosimulators_tellurium), [Docker image](https://github.com/orgs/biosimulators/packages/container/package/tellurium)
 
 ## License
 This template is released under the [MIT license](LICENSE).
