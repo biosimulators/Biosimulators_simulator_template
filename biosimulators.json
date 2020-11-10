@@ -22,6 +22,11 @@
   ],
   "references": {
     "identifiers": [{
+      "namespace": "pypi",
+      "id": "my-simulator",
+      "url": "https://pypi.org/project/my-simulator"
+    },
+    {
       "namespace": "biotools",
       "id": "XXX",
       "url": "https://bio.tools/XXX"
@@ -94,7 +99,8 @@
   }],
   "biosimulators": {
     "specificationsVersion": "1.0.0",
-    "imageVersion": "1.0.0"
+    "imageVersion": "1.0.0",
+    "validated": false
   },
   "created": "2020-01-01T12:00:00Z",
   "updated": "2020-01-01T12:00:00Z"
