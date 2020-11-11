@@ -115,7 +115,7 @@ This repository is intended for developers of simulation software programs. We r
 
 8. Enter metadata about your simulator into [`biosimulators.json`](biosimulators.json). This should include the attributes listed below. Attributes marked with `*` are optional. The schema is available in the `Schemas` >> `Simulator` section at https://api.biosimulators.org.
   - `id`: A unique id for the simulator (e.g., `tellurium`). The id must begin with a letter or underscore and include only letters, numbers, and underscores.
-  - `image`: URL for the Docker image for the simulator (e.g., `ghcr.io/biosimulators/tellurium:2.1.6`). This should include the organization which owns the image, the id of the image, and the version tag of the image.
+  - `image`: URL for the Docker image for the simulator (e.g., `ghcr.io/biosimulators/biosimulators_tellurium/tellurium:2.1.6`). This should include the organization which owns the image, the id of the image, and the version tag of the image.
   - `name`\*: Short name of the simulator.  
   - `description`\*: Extended description of the simulator.
   - `url`\*: URL for a webpage that describes the simulator.
@@ -183,7 +183,7 @@ docker run \
   --rm \
   --mount type=bind,source="$(pwd)"/tests/fixtures,target=/root/in,readonly \
   --mount type=bind,source="$(pwd)"/tests/results,target=/root/out \
-  <registry e.g., docker.io or ghcr.io>/<organization>/<repository> \
+  <registry e.g., docker.io or ghcr.io>/<organization>/<repository>/<repository> \
     -i /path/to/archive.omex \
     -o /path/to/output
 ```

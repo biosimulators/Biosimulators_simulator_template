@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Description of simulator.",
   "url": "https://url.for.simulator/",
-  "image": "ghcr.io/organization/repository:tag",
+  "image": "ghcr.io/organization/repository/repository:tag",
   "format": {
     "namespace": "EDAM",
     "id": "format_3973"
