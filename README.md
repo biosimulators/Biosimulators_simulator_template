@@ -71,20 +71,33 @@ This repository is intended for developers of simulation software programs. We r
 
    - Additional files that need to be copied into the image can be saved to a directory such as `assets/`.
    - In most cases, commercial licenses needed to run the image should be injected at runtime. Please contact the [BioSimulations Team](info@biosimulations.org) to discuss your needs.
-   - Use BioContainers-style labels to capture metadata about the image. See the [BioContainers documentation](https://biocontainers-edu.readthedocs.io/en/latest/what_is_biocontainers.html#create-a-dockerfile-recipe) for more information.
+   - Use Open Containers Initiative and BioContainers-style labels to capture metadata about the image. See the [Open Containers Initiative](https://github.com/opencontainers/image-spec/blob/master/annotations.md) and [BioContainers](https://biocontainers-edu.readthedocs.io/en/latest/what_is_biocontainers.html#create-a-dockerfile-recipe) documentation for more information.
      ```
-     LABEL base_image="ubuntu:18.04"
-     LABEL version="0.0.1"
-     LABEL software="BioNetGen"
-     LABEL software.version="2.5.0"
-     LABEL about.summary="Open-source software package for rule-based modeling of complex biochemical systems"
-     LABEL about.home="https://bionetgen.org/"
-     LABEL about.documentation="https://bionetgen.org/"
-     LABEL about.license_file="https://github.com/RuleWorld/bionetgen/blob/master/LICENSE"
-     LABEL about.license="SPDX:MIT"
-     LABEL about.tags="rule-based modeling,kinetic modeling,dynamical simulation,systems biology,biochemical networks,BNGL,SED-ML,COMBINE,OMEX,BioSimulators"
-     LABEL extra.identifiers.biotools="bionetgen"
-     LABEL maintainer="Jonathan Karr <karr@mssm.edu>"
+     LABEL \
+       org.opencontainers.image.title="BioNetGen" \
+       org.opencontainers.image.version="2.5.1" \
+       org.opencontainers.image.revision="2.5.1"
+       org.opencontainers.image.description="Open-source software package for rule-based modeling of complex biochemical systems" \
+       org.opencontainers.image.url="https://bionetgen.org/" \
+       org.opencontainers.image.documentation="https://bionetgen.org/" \
+       org.opencontainers.image.source="https://github.com/biosimulators/biosimulators_bionetgen" \
+       org.opencontainers.image.authors="BioSimulators Team <info@biosimulators.org>" \
+       org.opencontainers.image.vendor="BioSimulators Team" \
+       org.opencontainers.image.licenses="MIT" \
+       org.opencontainers.image.created="2020-11-11 10:48:55-05:00" \
+       \
+       base_image="ubuntu:18.04" \
+       version="0.0.1" \
+       software="BioNetGen" \
+       software.version="2.5.1" \
+       about.summary="Open-source software package for rule-based modeling of complex biochemical systems" \
+       about.home="https://bionetgen.org/" \
+       about.documentation="https://bionetgen.org/" \
+       about.license_file="https://github.com/RuleWorld/bionetgen/blob/master/LICENSE" \
+       about.license="SPDX:MIT" \
+       about.tags="rule-based modeling,kinetic modeling,dynamical simulation,systems biology,biochemical networks,BNGL,SED-ML,COMBINE,OMEX,BioSimulators" \
+       extra.identifiers.biotools="bionetgen" \
+       maintainer="Jonathan Karr <karr@mssm.edu>"
      ```
 
 6. Build the Docker image for the command-line interface to your simulator. For example, run the following command:
