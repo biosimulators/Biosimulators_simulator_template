@@ -93,8 +93,8 @@
       "id": "rel_tol",
       "name": "Relative tolerance",
       "type": "float",
-      "value": 0.000001,
-      "recommendedRange": [0.001, 0.000000001]
+      "value": "0.000001",
+      "recommendedRange": ["0.001", "0.000000001"]
     }]
   }],
   "biosimulators": {

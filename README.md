@@ -131,7 +131,7 @@ This repository is intended for developers of simulation software programs. We r
       - `kisaoId`: KiSAO term for parameter (e.g., `{"namespace": "KISAO", "id": "KISAO_0000057"}`).
       - `type`: Type fo the parameters (`boolean`, `integer`, `float`, or `string`).
       - `value`: Default value of the parameter (e.g., `1e-6`).
-      - `recommendedRange`: List of the recommended minimum and maximum values of the parameter (e.g., `[1e-3, 1e-9]`).
+      - `recommendedRange`: List of the recommended minimum and maximum values of the parameter (e.g., `["1e-3", "1e-9"]`).
     - `modelFormats`: List of model formats (e.g., CellML, SBML) supported by the implementation of the algorithm in the simulator (e.g., `{"namespace": "EDAM", "id": "format_2585"}`).
     - `simulationFormats`: List of simulation formats (e.g., SED-ML) supported by the implementation of the algorithm in the simulator (e.g., `{"namespace": "EDAM", "id": "format_3685"}`).
     - `archiveFormats`: List of archive formats (e.g., COMBINE) supported by the implementation of the algorithm in the simulator (e.g., `{"namespace": "EDAM", "id": "format_3686"}`).
