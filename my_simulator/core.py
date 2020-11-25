@@ -6,7 +6,7 @@
 :License: <License, e.g., MIT>
 """
 
-from Biosimulations_utils.simulation.data_model import Simulation  # noqa: F401
+from Biosimulations_utils.simulation.data_model import Simulation, SimulationResultsFormat  # noqa: F401
 from Biosimulations_utils.simulator.utils import exec_simulations_in_archive
 import os
 
@@ -21,7 +21,7 @@ def exec_combine_archive(archive_file, out_dir):
         archive_file (:obj:`str`): path to COMBINE archive
         out_dir (:obj:`str`): directory to store the outputs of the tasks
     """
-    exec_simulations_in_archive(archive_file, exec_simulation, out_dir)
+    exec_simulations_in_archive(archive_file, exec_simulation, out_dir, apply_model_changes=True)
 
 
 def exec_simulation(model_filename, model_sed_urn, simulation, working_dir, out_filename, out_format):
@@ -33,13 +33,16 @@ def exec_simulation(model_filename, model_sed_urn, simulation, working_dir, out_
        simulation (:obj:`Simulation`): simulation
        working_dir (:obj:`str`): directory of the SED-ML file
        out_filename (:obj:`str`): path to save the results of the simulation
-       out_format (:obj:`str`): format to save the results of the simulation (e.g., `csv`)
+       out_format (:obj:`SimulationResultsFormat`): format to save the results of the simulation (e.g., `HDF5`)
     '''
+    # Check that model with SED URN :obj:`model_sed_urn` is supported
+
+    # Check that simulation of type :obj:`simulation.__class__` is supported
+
+    # check that the desired output format is supported
 
     # Read the model located at `os.path.join(working_dir, model_filename)` in the format
     # with the SED URN `model_sed_urn`.
-
-    # Apply the model parameter changes specified by `simulation.model_parameter_changes`
 
     # Load the algorithm specified by `simulation.algorithm`
 

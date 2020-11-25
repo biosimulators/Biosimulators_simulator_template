@@ -113,12 +113,17 @@ This repository is intended for developers of simulation software programs. We r
    docker push <owner>/<my_simulator>
    ```
 
-8. Enter metadata about your simulator into [`biosimulators.json`](biosimulators.json). This should include the attributes listed below. Attributes marked with `*` are optional. The schema is available in the `Schemas` >> `Simulator` section at https://api.biosimulators.org.
+8. Enter metadata about your simulator into [`biosimulators.json`](biosimulators.json). This should include attributes such as those listed below. Attributes marked with `*` are optional. The schema is available in the `Schemas` >> `Simulator` section at https://api.biosimulators.org.
   - `id`: A unique id for the simulator (e.g., `tellurium`). The id must begin with a letter or underscore and include only letters, numbers, and underscores.
-  - `image`: URL for the Docker image for the simulator (e.g., `ghcr.io/biosimulators/biosimulators_tellurium/tellurium:2.1.6`). This should include the organization which owns the image, the id of the image, and the version tag of the image.
+  - `image`: Docker image for the simulator 
+    - `url`: URL for the image (e.g., `ghcr.io/biosimulators/biosimulators_tellurium/tellurium:2.1.6`). This should include the organization which owns the image, the id of the image, and the version tag of the image.
+    - `format`
   - `name`\*: Short name of the simulator.  
   - `description`\*: Extended description of the simulator.
-  - `url`\*: URL for a webpage that describes the simulator.
+  - `url`\*: list of URLs relevant to the simulator.
+     - `type`: type (e.g., `Home page`, `Documentation`)
+     - `title`: description of the URL
+     - `url`: URL
   - `version`\*: Version of the simulator (e.g., `1.0.0`).
   - `algorithms`: List of simulation algorithms supported by the simulator. Each algorithm should include the following information.
     - `id`: Internal id for the algorithm within the simulator (e.g., `nleq2`).
@@ -132,21 +137,25 @@ This repository is intended for developers of simulation software programs. We r
       - `type`: Type fo the parameters (`boolean`, `integer`, `float`, or `string`).
       - `value`: Default value of the parameter (e.g., `1e-6`).
       - `recommendedRange`: List of the recommended minimum and maximum values of the parameter (e.g., `["1e-3", "1e-9"]`).
-    - `modelFormats`: List of model formats (e.g., CellML, SBML) supported by the implementation of the algorithm in the simulator (e.g., `{"namespace": "EDAM", "id": "format_2585"}`).
-    - `simulationFormats`: List of simulation formats (e.g., SED-ML) supported by the implementation of the algorithm in the simulator (e.g., `{"namespace": "EDAM", "id": "format_3685"}`).
-    - `archiveFormats`: List of archive formats (e.g., COMBINE) supported by the implementation of the algorithm in the simulator (e.g., `{"namespace": "EDAM", "id": "format_3686"}`).
+    - `modelFormats`: List of model formats (e.g., CellML, SBML) supported by the implementation of the algorithm in the simulator (e.g., `{"namespace": "EDAM", "id": "format_2585", "version": null}`).
+    - `simulationFormats`: List of simulation formats (e.g., SED-ML) supported by the implementation of the algorithm in the simulator (e.g., `{"namespace": "EDAM", "id": "format_3685", "version": null}`).
+    - `archiveFormats`: List of archive formats (e.g., COMBINE) supported by the implementation of the algorithm in the simulator (e.g., `{"namespace": "EDAM", "id": "format_3686", "version": null}`).
     - `citations`\*: Citations for the algorithm.
-  - `authors`\* List of the authors of the simulator (e.g., `[{"firstName": "John", "middleName": "C", "lastName": "Doe"}]`).
+  - `authors`\* List of the authors of the simulator
+    - `firstName`
+    - `middleName`
+    - `lastName`
+    - `identifiers`: list of identifiers (e.g., `[{"namespace": "orcid", "id": "XXXX-XXXX-XXXX-XXXX", "url": "https://orcid.org/XXXX-XXXX-XXXX-XXXX"}]`).
   - `references`\*: References for the simulator.
     - `identifiers`\*: List of identifiers (e.g., bio.tools id, BioContainers id) for the simulator (e.g., `[{"namespace": "bio.tools", "id": "bionetgen", "url": "https://bio.tools/bionetgen"}]`).
     - `citations`\*: List of citations for the simulator. See `biosimulators.json` for examples.
-  - `format`: Format of the image (e.g., `{"namespace": "EDAM", "id": "format_3973"}`).
-  - `license`: One of the licenses supported by SPDX (e.g., `{"namespace": "SPDX", "id": "MIT"}`). The list of supported licenses is available at https://spdx.org.  
-  - `created`\*: Date that the image was created (e.g., `2020-10-26T12:00:00Z`).
-  - `updated`\*:  Date that the image was last updated (e.g., `2020-10-26T12:00:00Z`).
+  - `format`: Format of the image (e.g., `{"namespace": "EDAM", "id": "format_3973", "version": null}`).
+  - `license`: One of the licenses supported by SPDX (e.g., `{"namespace": "SPDX", "id": "MIT"}`). The list of supported licenses is available at https://spdx.org.    
   - `biosimulators`\*: 
-    - `specificationsVersion`\*: Version of BioSimulators supported by the container (e.g., `1.0.0`).
+    - `specificationVersion`\*: Version of BioSimulators supported by the container (e.g., `1.0.0`).
     - `imageVersion`\*: Version of the container (e.g., `1.0.0`).
+    - `created`\*: Date that the image was created (e.g., `2020-10-26T12:00:00Z`).
+    - `updated`\*:  Date that the image was last updated (e.g., `2020-10-26T12:00:00Z`).
 
   As necessary, [request additional SED-ML URNs for model formats](https://github.com/SED-ML/sed-ml/issues), [request additional COMBINE specification URLs for model formats](https://github.com/sbmlteam/libCombine/issues), and [request additional KiSAO terms for algorithm parameters](https://sourceforge.net/p/kisao/feature-requests/new/).
 

@@ -3,21 +3,25 @@
   "name": "Name of simulator",
   "version": "1.0.0",
   "description": "Description of simulator.",
-  "url": "https://url.for.simulator/",
-  "image": "ghcr.io/organization/repository/repository:tag",
-  "format": {
-    "namespace": "EDAM",
-    "id": "format_3973"
+  "urls": [{"type": "Home page", "url": "https://url.for.simulator/"}],
+  "image": {
+    "url": "ghcr.io/organization/repository/repository:tag",
+    "format": {
+      "namespace": "EDAM",
+      "id": "format_3973", "version": null
+    }
   },
   "authors": [{
       "firstName": "John",
       "middleName": "C",
-      "lastName": "Doe"
+      "lastName": "Doe",
+            "identifiers": []
     },
     {
       "firstName": "Jane",
       "middleName": "D",
-      "lastName": "Doe"
+      "lastName": "Doe",
+            "identifiers": []
     }
   ],
   "references": {
@@ -62,15 +66,15 @@
     }],
     "modelFormats": [{
       "namespace": "EDAM",
-      "id": "format_2585"
+      "id": "format_2585", "version": null
     }],
     "simulationFormats": [{
       "namespace": "EDAM",
-      "id": "format_3685"
+      "id": "format_3685", "version": null
     }],
     "archiveFormats": [{
       "namespace": "EDAM",
-      "id": "format_3686"
+      "id": "format_3686", "version": null
     }],
     "citations": [{
       "title": "title",
@@ -94,14 +98,16 @@
       "name": "Relative tolerance",
       "type": "float",
       "value": "0.000001",
-      "recommendedRange": ["0.001", "0.000000001"]
-    }]
+      "recommendedRange": ["0.001", "0.000000001"],
+      "availableSoftwareInterfaceTypes": ["library", "command-line application", "BioSimulators Docker image"]
+    }],
+    "availableSoftwareInterfaceTypes": ["library", "command-line application", "BioSimulators Docker image"]
   }],
+  "interfaceTypes": ["library", "command-line application", "BioSimulators Docker image"],
+  "supportedProgrammingLanguages": ["Python"],
   "biosimulators": {
-    "specificationsVersion": "1.0.0",
+    "specificationVersion": "1.0.0",
     "imageVersion": "1.0.0",
     "validated": false
-  },
-  "created": "2020-01-01T12:00:00Z",
-  "updated": "2020-01-01T12:00:00Z"
+  }
 }
