@@ -8,8 +8,9 @@
     "url": "ghcr.io/organization/repository/repository:tag",
     "format": {
       "namespace": "EDAM",
-      "id": "format_3973", "version": null
-    }
+      "id": "format_3973", "version": null, "supportedFeatures": []
+    },
+    "operatingSystemType": "Linux"
   },
   "authors": [{
       "firstName": "John",
@@ -66,15 +67,15 @@
     }],
     "modelFormats": [{
       "namespace": "EDAM",
-      "id": "format_2585", "version": null
+      "id": "format_2585", "version": null, "supportedFeatures": []
     }],
     "simulationFormats": [{
       "namespace": "EDAM",
-      "id": "format_3685", "version": null
+      "id": "format_3685", "version": null, "supportedFeatures": []
     }],
     "archiveFormats": [{
       "namespace": "EDAM",
-      "id": "format_3686", "version": null
+      "id": "format_3686", "version": null, "supportedFeatures": []
     }],
     "citations": [{
       "title": "title",
@@ -101,10 +102,19 @@
       "recommendedRange": ["0.001", "0.000000001"],
       "availableSoftwareInterfaceTypes": ["library", "command-line application", "BioSimulators Docker image"]
     }],
-    "availableSoftwareInterfaceTypes": ["library", "command-line application", "BioSimulators Docker image"]
+    "availableSoftwareInterfaceTypes": ["library", "command-line application", "BioSimulators Docker image"],
+    "dependencies": [{
+      "name": "SUNDIALS",
+      "version": null,
+      "required": true,
+      "freeNonCommercialLicense": true,
+      "url": "https://computing.llnl.gov/projects/sundials"
+    }]
   }],
   "interfaceTypes": ["library", "command-line application", "BioSimulators Docker image"],
-  "supportedProgrammingLanguages": ["Python"],
+  "supportedOperatingSystemTypes": ["platform-independent"],
+  "supportedProgrammingLanguages": [{"namespace": "Linguist", "id": "Python"}],
+  "funding": [],
   "biosimulators": {
     "specificationVersion": "1.0.0",
     "imageVersion": "1.0.0",

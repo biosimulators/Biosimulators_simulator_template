@@ -137,9 +137,9 @@ This repository is intended for developers of simulation software programs. We r
       - `type`: Type fo the parameters (`boolean`, `integer`, `float`, or `string`).
       - `value`: Default value of the parameter (e.g., `1e-6`).
       - `recommendedRange`: List of the recommended minimum and maximum values of the parameter (e.g., `["1e-3", "1e-9"]`).
-    - `modelFormats`: List of model formats (e.g., CellML, SBML) supported by the implementation of the algorithm in the simulator (e.g., `{"namespace": "EDAM", "id": "format_2585", "version": null}`).
-    - `simulationFormats`: List of simulation formats (e.g., SED-ML) supported by the implementation of the algorithm in the simulator (e.g., `{"namespace": "EDAM", "id": "format_3685", "version": null}`).
-    - `archiveFormats`: List of archive formats (e.g., COMBINE) supported by the implementation of the algorithm in the simulator (e.g., `{"namespace": "EDAM", "id": "format_3686", "version": null}`).
+    - `modelFormats`: List of model formats (e.g., CellML, SBML) supported by the implementation of the algorithm in the simulator (e.g., `{"namespace": "EDAM", "id": "format_2585", "version": null, "supportedFeatures": []}`).
+    - `simulationFormats`: List of simulation formats (e.g., SED-ML) supported by the implementation of the algorithm in the simulator (e.g., `{"namespace": "EDAM", "id": "format_3685", "version": null, "supportedFeatures": []}`).
+    - `archiveFormats`: List of archive formats (e.g., COMBINE) supported by the implementation of the algorithm in the simulator (e.g., `{"namespace": "EDAM", "id": "format_3686", "version": null, "supportedFeatures": []}`).
     - `citations`\*: Citations for the algorithm.
   - `authors`\* List of the authors of the simulator
     - `firstName`
@@ -149,7 +149,7 @@ This repository is intended for developers of simulation software programs. We r
   - `references`\*: References for the simulator.
     - `identifiers`\*: List of identifiers (e.g., bio.tools id, BioContainers id) for the simulator (e.g., `[{"namespace": "bio.tools", "id": "bionetgen", "url": "https://bio.tools/bionetgen"}]`).
     - `citations`\*: List of citations for the simulator. See `biosimulators.json` for examples.
-  - `format`: Format of the image (e.g., `{"namespace": "EDAM", "id": "format_3973", "version": null}`).
+  - `format`: Format of the image (e.g., `{"namespace": "EDAM", "id": "format_3973", "version": null, "supportedFeatures": []}`).
   - `license`: One of the licenses supported by SPDX (e.g., `{"namespace": "SPDX", "id": "MIT"}`). The list of supported licenses is available at https://spdx.org.    
   - `biosimulators`\*: 
     - `specificationVersion`\*: Version of BioSimulators supported by the container (e.g., `1.0.0`).
