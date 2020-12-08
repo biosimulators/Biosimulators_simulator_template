@@ -6,8 +6,8 @@
 :License: <License, e.g., MIT>
 """
 
-from Biosimulations_utils.simulation.data_model import Simulation, SimulationResultsFormat  # noqa: F401
-from Biosimulations_utils.simulator.utils import exec_simulations_in_archive
+from biosimulations_utils.simulation.data_model import Simulation, SimulationResultsFormat  # noqa: F401
+from biosimulations_utils.simulator.utils import exec_simulations_in_archive
 import os
 
 

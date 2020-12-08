@@ -1,8 +1,8 @@
 # Template repository for a command-line program and Dockerfile for a BioSimulators-compliant simulator
 
-This repository provides template Python code for building a BioSimulators-compliant command-line interface for a biosimulation tool and a Dockerfile for building a BioSimulators-compliant container for the tool. More documentation about the interfaces that containerized simulators must implement is available at https://biosimulators.org/help. Several examples of BioSimulators-compliant command-line interaces and Dockerfiles are available in the [BioSimulators GitHub organization](https://github.com/biosimulators/). A registry of compliant simulation tools is available at https://biosimulators.org. Information about submitting containerized simulators to the registry is available at https://biosimulators.org/help.
+This repository provides a template Python code for building a BioSimulators-compliant command-line interface for a biosimulation tool and a Dockerfile for building a BioSimulators-compliant container for the tool. More documentation about the interfaces that containerized simulators must implement is available at https://biosimulators.org/help. Several examples of BioSimulators-compliant command-line interfaces and Dockerfiles are available in the [BioSimulators GitHub organization](https://github.com/biosimulators/). A registry of compliant simulation tools is available at https://biosimulators.org. Information about submitting containerized simulators to the registry is available at https://biosimulators.org/help.
 
-This repository is intended for developers of simulation software programs. We recommend that end users utilize containerized simulators through the web-based graphical interfaces at https://submit.biosimulators.org and https://biosimulators.org. https://submit.biosimulators.org provides a simple web application for executing simulations and retrieving their results. https://biosimulators.org provides a more comprehensive platform for sharing and executing entire modeling studies. Instructions for using containers to execute simulations locally on your own machine are available at https://biosimulators.org/help.
+This repository is intended for developers of simulation software programs. We recommend that end-users utilize containerized simulators through the web-based graphical interfaces at https://submit.biosimulators.org and https://biosimulators.org. https://submit.biosimulators.org provides a simple web application for executing simulations and retrieving their results. https://biosimulators.org provides a more comprehensive platform for sharing and executing entire modeling studies. Instructions for using containers to execute simulations locally on your own machine are available at https://biosimulators.org/help.
 
 ## Contents
 * [Building a Docker image for a simulator using this template](#building-a-docker-image-for-a-simulator-using-this-template)
@@ -24,20 +24,20 @@ This repository is intended for developers of simulation software programs. We r
    The interface should accept two keyword arguments:
 
    - `-i`, `--archive`: A path to a COMBINE archive which contains descriptions of one or more simulation tasks.
-   - `-o`, `--out-dir`: A path to a directory where the outputs of the simulation tasks should be saved. Reports should be saved in Comma-Separated Values (CSV) format and plots should be saved in Portable Document Format (PDF). The simulator should create a directory to contain the output of each SED-ML document. This should have the same path relative to the top-level output directory as the SED-ML file to the root of the archive. The file name of each output should be the id of the output plus the one of the extensions `.csv` or `.pdf`. 
+   - `-o`, `--out-dir`: A path to a directory where the outputs of the simulation tasks should be saved. Reports should be saved in the PyTables dialect of the Hierarchical Data Format 5 (HDF5) format, and plots should be saved in Portable Document Format (PDF) bundled into a zip archive. Reports should be saved to `{ out-dir }/reports.h5` and plots should be saved to `{ out-dir }/plots.zip`. Within each HDF5 file and zip archive, reports and plots should be saved to paths equal to the relative path of the parent SED-ML document within the parent COMBINE/OMEX archive and the id of the report/plot.
 
-     The columns of the reports should correspond to the data generators specified in the corresponding SED-ML document (e.g., time, specific species). The first row of each report should contain column headings that indicate the id of the data generator represented by each column. For steady-state and one-step simulations, each report should contain a second row which contains the predicted value of each data generator. For time course simulations, the subsequent rows of each report should correspond to the time points of the predicted time course; each cell (row, column) should represent the predicted value of the corresponding data generator (column) at the corresponding time point (row).
+     The rows of report tables should correspond to the datasets (`sedml:dataset`) specified in the SED-ML definition of the report. The heading of each row should be the id of the corresponding dataset. Report tables of steady-state simulations should have a single column of the steady-state predictions of each dataset. Report tables of one step simulations should have two columns that represent the predicted start and end states of each dataset. Report tables of time course simulations should have multiple columns that represent the predicted time course of each dataset. Report tables of non-spatial simulations should not have additional dimensions. Report tables of spatial simulations should have additional dimensions that represent the spatial axes of the simulation.
 
    In addition, we recommend providing handlers for reporting help and version information about the command-line interface to your simulator:
 
    - `-h`, `--help`: This argument should instruct the command-line program to print help information about itself.
    - `-v`, `--version`: This argument should instruct the command-line program to report version information about itself.
 
-   This repository contains sample code for using Python and [cement](https://builtoncement.com/) to create a BioSimulators-compliant command-line interface for a simulator. This code is located at `my_simulator/__main__.py`. To follow this example, 
+   This repository contains sample code for using Python and [BioSimulators utils](https://github.com/biosimulators/Biosimulators_utils) to create a BioSimulators-compliant command-line interface for a simulator. This code is located at `my_simulator/__main__.py`. To follow this example,
 
    1. Rename the `my_simulator` directory.
    2. Edit the name, URL of the simulator in `my_simulator/__main__.py`.
-   3. Implement the `exec_combine_archive` method in `my_simulator/core.py`. [`Biosimulations_utils`](https://github.com/biosimulations/Biosimulations_utils) provides several utilities methods and data structures for parsing COMBINE archives and SED-ML documents; representing archives and simulation experiments; and orchestrating the execution of all of the tasks in a simulation experiment. These utility methods make it easy for developers to handle COMBINE-encoded archives and SED-ML-encoded simulation experiments.
+   3. Implement the `exec_combine_archive` method in `my_simulator/core.py`. [`biosimulators_utils`](https://github.com/biosimulators/Biosimulators_utils) provides several utility methods and data structures for parsing COMBINE archives and SED-ML documents; representing archives and simulation experiments; and orchestrating the execution of all of the tasks in a simulation experiment. These utility methods make it easy for developers to handle COMBINE/OMEX-encoded archives and SED-ML-encoded simulation experiments.
 
    This code will produce a command-line interface similar to that below:
    ```
@@ -61,11 +61,11 @@ This repository is intended for developers of simulation software programs. We r
 
    This repository contains sample files for packaging the sample Python-based command-line interface for distribution via [PyPI](https://pypi.python.org/) and installation via [pip](https://pip.pypa.io/en/stable/).
 
-   - `my_simulator/_version.py`: Set the `__version__` attribute to the version of your simulator.
-   - `setup.py`: Edit the installation script for the command-line interface to your simulator.   
+   - `my_simulator/_version.py`: Set the `__version__` variable to the version of your simulator.
+   - `setup.py`: Edit the installation script for the command-line interface to your simulator.
    - `requirements.txt`: Edit the list of the requirements of the command-line interface to your simulator.
    - `MANIFEST.in`: Edit the list of additional files that should be distributed with the command-line interface to your simulator.
-   - `setup.cfg`: Wheel configuration for distributing the command-line interface to your simulator. For most command-line interfaces, this file doesn't need to be edited.
+   - `setup.cfg`: This describes the wheel configuration for distributing the command-line interface to your simulator. For most command-line interfaces, this file doesn't need to be edited.
 
 5. Create a Dockerfile for building a Docker image for the command-line interface to your simulator. [`Dockerfile`](Dockerfile) contains a template Dockerfile for a command-line interface implemented with Python.
 
@@ -107,40 +107,46 @@ This repository is intended for developers of simulation software programs. We r
      --tag <owner>/<my_simulator>:latest \
      .
    ```
-7. Push the Docker image to DockerHub. For example, run the following command:
+7. Push the Docker image to an image registry such as Docker Hub or the GitHub Container Registry. For example, run the following command:
    ```
    docker login
-   docker push <owner>/<my_simulator>
+   docker push ghcr.io/<owner>/<repo>/<my_simulator>:latest
    ```
 
 8. Enter metadata about your simulator into [`biosimulators.json`](biosimulators.json). This should include attributes such as those listed below. Attributes marked with `*` are optional. The schema is available in the `Schemas` >> `Simulator` section at https://api.biosimulators.org.
   - `id`: A unique id for the simulator (e.g., `tellurium`). The id must begin with a letter or underscore and include only letters, numbers, and underscores.
-  - `image`: Docker image for the simulator 
+  - `version`\*: Version of the simulator (e.g., `1.0.0`).
+  - `name`\*: Short name of the simulator.
+  - `description`\*: Extended description of the simulator.
+  - `image`: Docker image for the simulator
     - `url`: URL for the image (e.g., `ghcr.io/biosimulators/biosimulators_tellurium/tellurium:2.1.6`). This should include the organization which owns the image, the id of the image, and the version tag of the image.
     - `format`
-  - `name`\*: Short name of the simulator.  
-  - `description`\*: Extended description of the simulator.
+      - `namespace`: `EDAM`
+      - `id`: `format_3973`
+      - `version`: null
+      - `supportedFeatures`: []
   - `url`\*: list of URLs relevant to the simulator.
      - `type`: type (e.g., `Home page`, `Documentation`)
      - `title`: description of the URL
      - `url`: URL
-  - `version`\*: Version of the simulator (e.g., `1.0.0`).
   - `algorithms`: List of simulation algorithms supported by the simulator. Each algorithm should include the following information.
     - `id`: Internal id for the algorithm within the simulator (e.g., `nleq2`).
-    - `name`: Short name of the implementation of the algorithm in the simulator.
+    - `name`: Optional, short name of the implementation of the algorithm in the simulator.
     - `kisaoId`: KiSAO term for the implementation of the algorithm in the simulator (e.g., `{"namespace": "KISAO", "id": "KISAO_0000057"}`).
-    - `modelingFrameworks`: List of modeling frameworks (e.g., flux balance analysis) supported by the implementation of the algorithm in the simulator (e.g., `{"namespace": "SBO", "id": "SBO_0000624"}`).
+      - `namespace`: `KISAO`
+      - `id`: id of a KiSAO algorithm term (e.g., `KISAO_0000029`)
+    - `modelingFrameworks`: List of modeling frameworks (e.g., flux balance analysis) supported by the implementation of the algorithm in the simulator (e.g., `[{"namespace": "SBO", "id": "SBO_0000624"}]`).
     - `parameters`: List of parameters of the implementation of the algorithm in the simulator. Each parameter should include the following information.
       - `id`: Internal id for the parameter within the algorithm (e.g., `abs_tol`).
-      - `name`\*: Short name of the parameter (e.g., `absolute tolerance`).
-      - `kisaoId`: KiSAO term for parameter (e.g., `{"namespace": "KISAO", "id": "KISAO_0000057"}`).
-      - `type`: Type fo the parameters (`boolean`, `integer`, `float`, or `string`).
+      - `name`\*: Optional, short name of the parameter (e.g., `absolute tolerance`).
+      - `kisaoId`: KiSAO term for parameter (e.g., `[{"namespace": "KISAO", "id": "KISAO_0000057"}]`).
+      - `type`: Type of the parameters (`boolean`, `integer`, `float`, or `string`).
       - `value`: Default value of the parameter (e.g., `1e-6`).
       - `recommendedRange`: List of the recommended minimum and maximum values of the parameter (e.g., `["1e-3", "1e-9"]`).
-    - `modelFormats`: List of model formats (e.g., CellML, SBML) supported by the implementation of the algorithm in the simulator (e.g., `{"namespace": "EDAM", "id": "format_2585", "version": null, "supportedFeatures": []}`).
-    - `simulationFormats`: List of simulation formats (e.g., SED-ML) supported by the implementation of the algorithm in the simulator (e.g., `{"namespace": "EDAM", "id": "format_3685", "version": null, "supportedFeatures": []}`).
-    - `archiveFormats`: List of archive formats (e.g., COMBINE) supported by the implementation of the algorithm in the simulator (e.g., `{"namespace": "EDAM", "id": "format_3686", "version": null, "supportedFeatures": []}`).
-    - `citations`\*: Citations for the algorithm.
+    - `modelFormats`: List of model formats (e.g., CellML, SBML) supported by the implementation of the algorithm in the simulator (e.g., `[{"namespace": "EDAM", "id": "format_2585", "version": null, "supportedFeatures": []}]`).
+    - `simulationFormats`: List of simulation formats (e.g., SED-ML) supported by the implementation of the algorithm in the simulator (e.g., `[{"namespace": "EDAM", "id": "format_3685", "version": null, "supportedFeatures": []}]`).
+    - `archiveFormats`: List of archive formats (e.g., COMBINE) supported by the implementation of the algorithm in the simulator (e.g., `[{"namespace": "EDAM", "id": "format_3686", "version": null, "supportedFeatures": []}]`).
+    - `citations`\*: List of citations for the algorithm. See `biosimulators.json` for examples.
   - `authors`\* List of the authors of the simulator
     - `firstName`
     - `middleName`
@@ -149,9 +155,8 @@ This repository is intended for developers of simulation software programs. We r
   - `references`\*: References for the simulator.
     - `identifiers`\*: List of identifiers (e.g., bio.tools id, BioContainers id) for the simulator (e.g., `[{"namespace": "bio.tools", "id": "bionetgen", "url": "https://bio.tools/bionetgen"}]`).
     - `citations`\*: List of citations for the simulator. See `biosimulators.json` for examples.
-  - `format`: Format of the image (e.g., `{"namespace": "EDAM", "id": "format_3973", "version": null, "supportedFeatures": []}`).
-  - `license`: One of the licenses supported by SPDX (e.g., `{"namespace": "SPDX", "id": "MIT"}`). The list of supported licenses is available at https://spdx.org.    
-  - `biosimulators`\*: 
+  - `license`: One of the licenses supported by SPDX (e.g., `{"namespace": "SPDX", "id": "MIT"}`). The list of supported licenses is available at https://spdx.org.
+  - `biosimulators`\*:
     - `specificationVersion`\*: Version of BioSimulators supported by the container (e.g., `1.0.0`).
     - `imageVersion`\*: Version of the container (e.g., `1.0.0`).
     - `created`\*: Date that the image was created (e.g., `2020-10-26T12:00:00Z`).
@@ -159,7 +164,7 @@ This repository is intended for developers of simulation software programs. We r
 
   As necessary, [request additional SED-ML URNs for model formats](https://github.com/SED-ML/sed-ml/issues), [request additional COMBINE specification URLs for model formats](https://github.com/sbmlteam/libCombine/issues), and [request additional KiSAO terms for algorithm parameters](https://sourceforge.net/p/kisao/feature-requests/new/).
 
-9. Implement tests for the command-line interface to your simulator in the `tests` directory. At a minimum, this should include a test that uses the simulator validator ([`Biosimulations_utils.simulator.testing.SbmlSedmlCombineSimulatorValidator`](https://github.com/biosimulations/Biosimulations_utils/)).
+9. Implement tests for the command-line interface to your simulator in the `tests` directory. At a minimum, this should include a test that uses the simulator validator ([`biosimulators_utils.simulator.testing.SbmlSedmlCombineSimulatorValidator`](https://github.com/biosimulators/biosimulators_utils/)).
 
    `tests/test_all.py` contains an example for testing a command-line interface implemented in Python to a simulator that supports SBML-encoded kinetic models. The `test_validator` method illustrates how to use the simulator validator. Example files needed for the tests can be saved to `tests/fixtures/`. `tests/requirements.txt` contains a list of the dependencies of these tests.
 

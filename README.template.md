@@ -1,9 +1,7 @@
-![Latest version](https://img.shields.io/github/v/tag/<owner>/<repo>)
+[![Latest release](https://img.shields.io/github/v/tag/<owner>/<repo>)](https://github.com/<owner>/<repo>/releases)
 [![PyPI](https://img.shields.io/pypi/v/<my-simulator>)](https://pypi.org/project/<my-simulator>/)
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/<owner>/<repo>/workflow-id)](https://github.com/<owner>/<repo>/actions?query=workflow%3Aworkflow-id)
-[![Documentation](https://img.shields.io/github/license/<owner>/<repo>?badges-awesome-green.svg)](<documentation-url>)
-[![Issues](https://img.shields.io/github/issues/<owner>/<repo>)](https://github.com/<owner>/<repo>/issues)
-[![License](https://img.shields.io/github/license/<owner>/<repo>?badges-awesome-green.svg)](https://github.com/<owner>/<repo>/blob/dev/LICENSE)
+[![CI status](https://img.shields.io/github/workflow/status/<owner>/<repo>/workflow-id)](https://github.com/<owner>/<repo>/actions?query=workflow%3Aworkflow-id)
+[![Test coverage](https://codecov.io/gh/<owner>/<repo>/branch/dev/graph/badge.svg)](https://codecov.io/gh/<owner>/<repo>)
 
 # MySimulator
 BioSimulators-compliant command-line interface to the [MySimulator](https://<url.for.my.simulator>/) simulation program.

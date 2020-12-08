@@ -58,9 +58,9 @@ The template command-line program is documented using [reStructuredText](https:/
 
 Please use GitHub pull requests to submit changes. Each request should include a brief description of the new and/or modified features.
 
-## Releasing and deploying new versions
+## Releasing new versions
 
-Contact the [BioSimulators Team](mailto:info@biosimulators.org) to request release and deployment of new changes. 
+Contact the [BioSimulators Team](mailto:info@biosimulators.org) to request release of new changes. 
 
 ## Reporting issues
 

@@ -6,7 +6,7 @@
 :License: <License, e.g., MIT>
 """
 
-from Biosimulations_utils.simulator.testing import SimulatorValidator
+from biosimulations_utils.simulator.testing import SimulatorValidator
 from my_simulator import __main__
 import my_simulator
 import capturer
