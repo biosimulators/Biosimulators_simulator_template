@@ -7,13 +7,13 @@
 """
 
 from ._version import __version__
-from .core import exec_combine_archive
+from .core import exec_sedml_docs_in_combine_archive
 from biosimulators_utils.simulator.cli import build_cli
 import my_simulator
 
 App = build_cli('my-simulator', __version__,
                 'My Simulator', my_simulator.__version__, 'https://url.for.my.simulator',
-                exec_combine_archive)
+                exec_sedml_docs_in_combine_archive)
 
 
 def main():

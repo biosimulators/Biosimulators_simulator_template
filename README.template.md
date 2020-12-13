@@ -1,6 +1,6 @@
 [![Latest release](https://img.shields.io/github/v/tag/<owner>/<repo>)](https://github.com/<owner>/<repo>/releases)
 [![PyPI](https://img.shields.io/pypi/v/<my-simulator>)](https://pypi.org/project/<my-simulator>/)
-[![CI status](https://img.shields.io/github/workflow/status/<owner>/<repo>/workflow-id)](https://github.com/<owner>/<repo>/actions?query=workflow%3Aworkflow-id)
+[![CI status](https://github.com/<owner>/<repo>/workflows/Continuous%20integration/badge.svg)](https://github.com/<owner>/<repo>/actions?query=workflow%3A%22Continuous+integration%22)
 [![Test coverage](https://codecov.io/gh/<owner>/<repo>/branch/dev/graph/badge.svg)](https://codecov.io/gh/<owner>/<repo>)
 
 # MySimulator
@@ -23,7 +23,7 @@ pip install git+https://github.com/<organization>/<repository>
 
 ### Install Docker image
 ```
-docker pull <organization>/<repository>
+docker pull <registry>/<organization>/<repository>
 ```
 
 ## Usage
@@ -53,7 +53,7 @@ docker run \
   --rm \
   --mount type=bind,source="$(pwd)"/tests/fixtures,target=/root/in,readonly \
   --mount type=bind,source="$(pwd)"/tests/results,target=/root/out \
-  <organization>/<repository>:latest \
+  <registry>/<organization>/<repository>:latest \
     -i /root/in/BIOMD0000000297.omex \
     -o /root/out
 ```

@@ -1,10 +1,13 @@
 # Base OS
 FROM python:3.7.9-slim-buster
 
+ARG VERSION="{version}"
+ARG SIMULATOR_VERSION="{software verson}"
+
 # metadata
 LABEL \
     org.opencontainers.image.title="{software name}" \
-    org.opencontainers.image.version="{software verson}" \
+    org.opencontainers.image.version="${SIMULATOR_VERSION}" \
     org.opencontainers.image.revision="{software revision (e.g., Git hash or tag)}" \
     org.opencontainers.image.description="{software description}" \
     org.opencontainers.image.url="{software URL}" \
@@ -17,9 +20,9 @@ LABEL \
 )}" \
     \
     base_image="python:3.7.9-slim-buster" \
-    version="0.0.1" \
+    version="${VERSION}" \
     software="{software name}" \
-    software.version="{software verson}" \
+    software.version="${SIMULATOR_VERSION}" \
     about.summary="{software description}" \
     about.home="{software URL}" \
     about.documentation="{software documentation URL}" \
@@ -37,8 +40,9 @@ RUN apt-get update -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy code for command-line interface into image and install it
-COPY . /root/{my_simulator}
-RUN pip install /root/{my_simulator}
+COPY . /root/{my_simulator_cli}
+RUN pip install /root/{my_simulator_cli}
+RUN pip install {my_simulator}==${SIMULATOR_VERSION}
 
 # Entrypoint
 ENTRYPOINT ["{my-simulator}"]

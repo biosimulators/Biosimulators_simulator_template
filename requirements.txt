@@ -1,1 +1,1 @@
-biosimulations_utils
+biosimulators_utils

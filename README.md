@@ -37,7 +37,7 @@ This repository is intended for developers of simulation software programs. We r
 
    1. Rename the `my_simulator` directory.
    2. Edit the name, URL of the simulator in `my_simulator/__main__.py`.
-   3. Implement the `exec_combine_archive` method in `my_simulator/core.py`. [`biosimulators_utils`](https://github.com/biosimulators/Biosimulators_utils) provides several utility methods and data structures for parsing COMBINE archives and SED-ML documents; representing archives and simulation experiments; and orchestrating the execution of all of the tasks in a simulation experiment. These utility methods make it easy for developers to handle COMBINE/OMEX-encoded archives and SED-ML-encoded simulation experiments.
+   3. Implement the `exec_sedml_docs_in_combine_archive` method in `my_simulator/core.py`. [`biosimulators_utils`](https://github.com/biosimulators/Biosimulators_utils) provides several utility methods and data structures for parsing COMBINE archives and SED-ML documents; representing archives and simulation experiments; and orchestrating the execution of all of the tasks in a simulation experiment. These utility methods make it easy for developers to handle COMBINE/OMEX-encoded archives and SED-ML-encoded simulation experiments.
 
    This code will produce a command-line interface similar to that below:
    ```
@@ -164,13 +164,41 @@ This repository is intended for developers of simulation software programs. We r
 
   As necessary, [request additional SED-ML URNs for model formats](https://github.com/SED-ML/sed-ml/issues), [request additional COMBINE specification URLs for model formats](https://github.com/sbmlteam/libCombine/issues), and [request additional KiSAO terms for algorithm parameters](https://sourceforge.net/p/kisao/feature-requests/new/).
 
-9. Implement tests for the command-line interface to your simulator in the `tests` directory. At a minimum, this should include a test that uses the simulator validator ([`biosimulators_utils.simulator.testing.SbmlSedmlCombineSimulatorValidator`](https://github.com/biosimulators/biosimulators_utils/)).
+9. Implement tests for the command-line interface to your simulator in the `tests` directory.
 
    `tests/test_all.py` contains an example for testing a command-line interface implemented in Python to a simulator that supports SBML-encoded kinetic models. The `test_validator` method illustrates how to use the simulator validator. Example files needed for the tests can be saved to `tests/fixtures/`. `tests/requirements.txt` contains a list of the dependencies of these tests.
 
 10. Replace this file (`README.md`) with `README.template.md` and fill out the template with information about your simulator.
 
 11. Enter the name of the owner of your simulator and the year into the MIT License template at [`LICENSE.template`](LICENSE) and rename the template to `LICENSE`, or copy your license into `LICENSE`. We recommend using a permissive license such as the [MIT License](https://opensource.org/licenses/MIT).
+
+12. Optionally, setup continuous integration for your simulation tool.
+
+    `.github/workflows/ci.yml.template` contains a sample continuous integration workflow for GitHub Actions. The workflow executes the following tasks each time commits are pushed to your repository:
+    1. Clones your repository
+    2. Installs your package and its dependencies
+    3. Uses [flake8](https://flake8.pycqa.org/) to lint your package.
+    4. Builds the Docker image for your package and tags the image `ghcr.io/<owner>/<repo>/<simulator_id>:<simulator_version>` and `ghcr.io/<owner>/<repo>/<simulator_id>:latest`.
+    5. Uses [pytest](https://docs.pytest.org/) to run the unit tests for your package and save the coverage.
+    6. Uploads the coverage data to [Codecov](https://codecov.io/).
+    7. Uses [Sphinx](https://www.sphinx-doc.org/) to compile the documentation for your package.
+
+    Each time you add a tag to your repository (`git tag ...; git push --tags`), the workflow also runs the above tasks. If the above tasks succeed, the workflow executes these additional tasks:
+    * Creates a GitHub release for the tag.
+    * Pushes the compiled documentation to the repository (e.g., so it can be served by GitHub pages).
+    * Builds your package and submits it to [PyPI](https://pypi.org/).
+    * Pushes your Docker image to the [GitHub Container Registry](https://docs.github.com/en/free-pro-team@latest/packages/guides/about-github-container-registry) with the above tags. Once your image is pushed, it will be visible at `https://github.com/orgs/<org>/packages?repo_name=<repo>`.
+    * Pushes your simulator to the BioSimulators Registry by using the GitHub API to create an issue to add a new version of your simulator to the BioSimulators database. This issue will then automatically use the BioSimulators test suite to validate your simulator and add a new version of your simulator to the database if your simulator passes the test suite.
+
+    Follow the steps below to use this workflow.
+    1. Rename the file to `.github/workflow/ci.yml`
+    2. Add the following secrets to the settings for your repository:
+      * `CODECOV_TOKEN`: Token for submitting coverage data to Codecov. You can generate a token by creating an account, logging in, and adding this repository to CodeCov (eg., by visiting `https://codecov.io/gh/<owner>/<repo>`). If you change the default branch for your repository, tt also may be necessary to explicitly sets this in Codecov.
+      * `PYPI_TOKEN`: Token for submitting your package to PyPI. You can create tokens from your account settings page (https://pypi.org/manage/account/).
+      * `DOCKER_REGISTRY_USERNAME`: User name for the Docker registry (e.g., Docker Hub or GitHub Container Registry) where you want to push your Docker images.
+      * `DOCKER_REGISTRY_TOKEN`: Password for the above user. For GitHub Container Registry, you can create a token from the developers settings (https://github.com/settings/tokens). The token should have scopes `repo` and `write:package`.
+      * `GH_ISSUE_USERNAME`: GitHub user name to post issues to register new versions of your simulator with BioSimulators (e.g., `jonrkarr`)
+      * `GH_ISSUE_TOKEN`: Token for the above GitHub user. For GitHub Container Registry, you can create a token from the developers settings (https://github.com/settings/tokens). The token should have scope `repo`.
 
 12. Optionally, distribute the command-line interface to your simulator. For example, the following commands can be used to distribute a command-line interface implemented with Python via [PyPI](https://pypi.python.org/).
     ```

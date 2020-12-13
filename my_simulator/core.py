@@ -1,4 +1,4 @@
-""" Methods for executing SED tasks in COMBINE archives and saving their outputs
+""" Methods for executing SED tasks and saving their results
 
 :Author: Author name <email@organization>
 :Date: YYYY-MM-DD
@@ -6,52 +6,72 @@
 :License: <License, e.g., MIT>
 """
 
-from biosimulations_utils.simulation.data_model import Simulation, SimulationResultsFormat  # noqa: F401
-from biosimulations_utils.simulator.utils import exec_simulations_in_archive
-import os
+from biosimulators_utils.combine.exec import exec_sedml_docs_in_archive
+from biosimulators_utils.plot.data_model import PlotFormat  # noqa: F401
+from biosimulators_utils.report.data_model import ReportFormat, DataGeneratorVariableResults  # noqa: F401
+from biosimulators_utils.sedml.data_model import Task, DataGeneratorVariable  # noqa: F401
 
 
-__all__ = ['exec_combine_archive', 'exec_simulation']
+__all__ = ['exec_sedml_docs_in_combine_archive', 'exec_sed_task']
 
 
-def exec_combine_archive(archive_file, out_dir):
-    """ Execute the SED tasks defined in a COMBINE archive and save the outputs
+def exec_sedml_docs_in_combine_archive(archive_filename, out_dir,
+                                       report_formats=None, plot_formats=None,
+                                       bundle_outputs=None, keep_individual_outputs=None):
+    """ Execute the SED tasks defined in a COMBINE/OMEX archive and save the outputs
 
     Args:
-        archive_file (:obj:`str`): path to COMBINE archive
-        out_dir (:obj:`str`): directory to store the outputs of the tasks
+        archive_filename (:obj:`str`): path to COMBINE/OMEX archive
+        out_dir (:obj:`str`): path to store the outputs of the archive
+
+            * CSV: directory in which to save outputs to files
+              ``{ out_dir }/{ relative-path-to-SED-ML-file-within-archive }/{ report.id }.csv``
+            * HDF5: directory in which to save a single HDF5 file (``{ out_dir }/reports.h5``),
+              with reports at keys ``{ relative-path-to-SED-ML-file-within-archive }/{ report.id }`` within the HDF5 file
+
+        report_formats (:obj:`list` of :obj:`ReportFormat`, optional): report format (e.g., csv or h5)
+        plot_formats (:obj:`list` of :obj:`PlotFormat`, optional): report format (e.g., pdf)
+        bundle_outputs (:obj:`bool`, optional): if :obj:`True`, bundle outputs into archives for reports and plots
+        keep_individual_outputs (:obj:`bool`, optional): if :obj:`True`, keep individual output files
     """
-    exec_simulations_in_archive(archive_file, exec_simulation, out_dir, apply_model_changes=True)
+    exec_sedml_docs_in_archive(archive_filename, exec_sed_task, out_dir,
+                               apply_xml_model_changes=True,
+                               report_formats=report_formats,
+                               plot_formats=plot_formats,
+                               bundle_outputs=bundle_outputs,
+                               keep_individual_outputs=keep_individual_outputs)
 
 
-def exec_simulation(model_filename, model_sed_urn, simulation, working_dir, out_filename, out_format):
-    ''' Execute a simulation and save its results
+def exec_sed_task(model_filename, model_sed_urn, simulation, working_dir, out_filename, out_format):
+    ''' Execute a task and save its results
 
     Args:
-       model_filename (:obj:`str`): path to the model
-       model_sed_urn (:obj:`str`): SED URN for the format of the model (e.g., `urn:sedml:language:sbml`)
-       simulation (:obj:`Simulation`): simulation
-       working_dir (:obj:`str`): directory of the SED-ML file
-       out_filename (:obj:`str`): path to save the results of the simulation
-       out_format (:obj:`SimulationResultsFormat`): format to save the results of the simulation (e.g., `HDF5`)
+       task (:obj:`Task`): task
+       variables (:obj:`list` of :obj:`DataGeneratorVariable`): variables that should be recorded
+
+    Returns:
+        :obj:`DataGeneratorVariableResults`: results of variables
+
+    Raises:
+        :obj:`ValueError`: if the task or an aspect of the task is not valid, or the requested output variables
+            could not be recorded
+        :obj:`NotImplementedError`: if the task is not of a supported type or involves an unsuported feature
     '''
-    # Check that model with SED URN :obj:`model_sed_urn` is supported
+    # Validate the task. See utilities in :obj:`biosimulators_utils.sedml.validation`.
 
-    # Check that simulation of type :obj:`simulation.__class__` is supported
+    # Read the model located at `task.model.source`
 
-    # check that the desired output format is supported
-
-    # Read the model located at `os.path.join(working_dir, model_filename)` in the format
-    # with the SED URN `model_sed_urn`.
+    # Apply the model changes specified by `task.model.changes`
 
     # Load the algorithm specified by `simulation.algorithm`
 
-    # Apply the algorithm parameter changes specified by `simulation.algorithm_parameter_changes`
+    # Apply the algorithm parameter changes specified by `simulation.algorithm.parameter_changes`
 
-    # Simulate the model from `simulation.start_time` to `simulation.end_time`
+    # Configure the simulation e.g., for time course simulations set the time points to record
 
-    # Save a report of the results of the simulation with `simulation.num_time_points` time points
-    # beginning at `simulation.output_start_time` to `out_filename` in `out_format` format.
-    # This should save all of the variables specified by `simulation.model.variables`.
+    # Execute the simulation and record the results
 
+    # transform the results to an instance of :obj:`DataGeneratorVariableResults`
+
+    # return results
     pass

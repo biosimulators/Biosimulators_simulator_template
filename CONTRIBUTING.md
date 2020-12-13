@@ -35,9 +35,9 @@ The template command-line interface follows standard Python style conventions:
 
 ## Testing and continuous integration
 
-We encourage developers to have complete test coverage of for their command-line interfaces.
+We encourage developers to have complete test coverage of their command-line interfaces.
 
-Templates for tests are located in the `tests`  directory. Once implemented, the tests can be executed by running the following command.
+Templates for tests are located in the `tests`  directory. Once implemented, the tests can be executed by running the following command:
 ```
 pip install pytest
 python -m pytest tests
@@ -52,7 +52,13 @@ coverage html
 
 ## Documentation convention
 
-The template command-line program is documented using [reStructuredText](https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html) and the [napoleon Sphinx plugin](https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html). Once implemented, the documentation can be compiled with [Sphinx](https://www.sphinx-doc.org/) by running `sphinx-build docs docs/_build/html`.
+The template command-line program is documented using [reStructuredText](https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html) and the [napoleon Sphinx plugin](https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html). The documentation can be compiled with [Sphinx](https://www.sphinx-doc.org/) by running the following commands:
+
+```
+python -m pip install -r docs-src/requirements.txt
+sphinx-apidoc . setup.py --output-dir docs-src/source --force --module-first --no-toc
+sphinx-build docs-src docs
+```
 
 ## Submitting changes
 
@@ -60,7 +66,25 @@ Please use GitHub pull requests to submit changes. Each request should include a
 
 ## Releasing new versions
 
-Contact the [BioSimulators Team](mailto:info@biosimulators.org) to request release of new changes. 
+To release changes, contact the [lead developers](mailto:info@biosimulators.org) to request their release.
+
+Below are instructions for releasing a new version:
+
+1. Make the required changes to the repository.
+  * To update the version of the underyling simulator, update its version numbers in the following files:
+    * `requirements.txt`
+    * `Dockerfile`
+    * `biosimulators.json`
+2. Commit the changes to this repository.
+3. Increment the `__version__` variable in `biosimulators_my_simulator/_version.py`.
+4. Commit this change to `biosimulators_my_simulator/_version.py`.
+5. Add a tag for the new version by running `git tag { version }`. `version` should be equal to the value of the
+   `__version__` variable in `biosimulators_my_simulator/_version.py`.
+6. Push these commits and the new tag to GitHub by running `git push && git push --tags`.
+7. This push will trigger a GitHub action which will execute the following tasks:
+   * Create a GitHub release for the version.
+   * Push the release to PyPI.
+   * Compile the documentation and push the compiled documentation to the repository so that the new documentation is viewable at github.io.
 
 ## Reporting issues
 
