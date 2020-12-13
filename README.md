@@ -184,11 +184,11 @@ This repository is intended for developers of simulation software programs. We r
     7. Uses [Sphinx](https://www.sphinx-doc.org/) to compile the documentation for your package.
 
     Each time you add a tag to your repository (`git tag ...; git push --tags`), the workflow also runs the above tasks. If the above tasks succeed, the workflow executes these additional tasks:
-    * Creates a GitHub release for the tag.
-    * Pushes the compiled documentation to the repository (e.g., so it can be served by GitHub pages).
-    * Builds your package and submits it to [PyPI](https://pypi.org/).
-    * Pushes your Docker image to the [GitHub Container Registry](https://docs.github.com/en/free-pro-team@latest/packages/guides/about-github-container-registry) with the above tags. Once your image is pushed, it will be visible at `https://github.com/orgs/<org>/packages?repo_name=<repo>`.
-    * Pushes your simulator to the BioSimulators Registry by using the GitHub API to create an issue to add a new version of your simulator to the BioSimulators database. This issue will then automatically use the BioSimulators test suite to validate your simulator and add a new version of your simulator to the database if your simulator passes the test suite.
+    1. Creates a GitHub release for the tag.
+    2. Pushes the compiled documentation to the repository (e.g., so it can be served by GitHub pages).
+    3. Builds your package and submits it to [PyPI](https://pypi.org/).
+    4. Pushes your Docker image to the [GitHub Container Registry](https://docs.github.com/en/free-pro-team@latest/packages/guides/about-github-container-registry) with the above tags. Once your image is pushed, it will be visible at `https://github.com/orgs/<org>/packages?repo_name=<repo>`.
+    5. Pushes your simulator to the BioSimulators Registry by using the GitHub API to create an issue to add a new version of your simulator to the BioSimulators database. This issue will then automatically use the BioSimulators test suite to validate your simulator and add a new version of your simulator to the database if your simulator passes the test suite.
 
     Follow the steps below to use this workflow.
     1. Rename the file to `.github/workflow/ci.yml`
