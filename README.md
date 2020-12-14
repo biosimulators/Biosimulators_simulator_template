@@ -200,54 +200,54 @@ This repository is intended for developers of simulation software programs. We r
       * `GH_ISSUE_USERNAME`: GitHub user name to post issues to register new versions of your simulator with BioSimulators (e.g., `jonrkarr`)
       * `GH_ISSUE_TOKEN`: Token for the above GitHub user. For GitHub Container Registry, you can create a token from the developers settings (https://github.com/settings/tokens). The token should have scope `repo`.
 
-12. Optionally, set up actions to build and release this package upon release of upstream dependencies. This is particularly useful if your simulation tool is organized into separate repositories for the core simulation capabilities and command-line interface. In this case, the core simulation capabilties is an upstream dependency of the command-line interface.
+13. Optionally, set up actions to build and release this package upon release of upstream dependencies. This is particularly useful if your simulation tool is organized into separate repositories for the core simulation capabilities and command-line interface. In this case, the core simulation capabilties is an upstream dependency of the command-line interface.
 
-  Below is an example GitHub Action to build and release a downstream command-line interface and Docker image upon each release of the core simulation capabilities.
+    Below is an example GitHub Action to build and release a downstream command-line interface and Docker image upon each release of the core simulation capabilities.
 
-  ```yml
-  name: Update command-line interface and Docker image
+    ```yml
+    name: Update command-line interface and Docker image
 
-  on:
-    release:
-      types:
-        - published
+    on:
+      release:
+        types:
+          - published
 
-  jobs:
-    updateCliAndDockerImage:
-      name: Build and release downstream command-line interface and Docker image
-      runs-on: ubuntu-latest
-      env:
-        # Owner/repository-id for the GitHub repository for the downstream command-line interface and Docker image
-        DOWNSTREAM_REPOSITORY: biosimulators/Biosimulators_tellurium
+    jobs:
+      updateCliAndDockerImage:
+        name: Build and release downstream command-line interface and Docker image
+        runs-on: ubuntu-latest
+        env:
+          # Owner/repository-id for the GitHub repository for the downstream command-line interface and Docker image
+          DOWNSTREAM_REPOSITORY: biosimulators/Biosimulators_tellurium
 
-        # Username/token to use the GitHub API to trigger an action on the GitHub repository for the downstream 
-        # command-line interface and Docker image. Tokens can be generated at https://github.com/settings/tokens.
-        # The token should have the scope `repo`
-        GH_ISSUE_USERNAME: ${{ secrets.GH_ISSUE_USERNAME }}
-        GH_ISSUE_TOKEN: ${{ secrets.GH_ISSUE_TOKEN }}
-      steps:
-        - name: Trigger GitHub action that will build and release the downstream command-line interface and Docker image
-          run: |
-            PACKAGE_VERSION="${GITHUB_REF/refs\/tags\/v/}"
+          # Username/token to use the GitHub API to trigger an action on the GitHub repository for the downstream 
+          # command-line interface and Docker image. Tokens can be generated at https://github.com/settings/tokens.
+          # The token should have the scope `repo`
+          GH_ISSUE_USERNAME: ${{ secrets.GH_ISSUE_USERNAME }}
+          GH_ISSUE_TOKEN: ${{ secrets.GH_ISSUE_TOKEN }}
+        steps:
+          - name: Trigger GitHub action that will build and release the downstream command-line interface and Docker image
+            run: |
+              PACKAGE_VERSION="${GITHUB_REF/refs\/tags\/v/}"
 
-            curl \
-              -X POST \
-              -u ${GH_ISSUE_USERNAME}:${GH_ISSUE_TOKEN} \
-              -H "Accept: application/vnd.github.v3+json" \
-              https://api.github.com/repos/${DOWNSTREAM_REPOSITORY}/issues \
-              -d "{\"simulatorVersion\": \"${PACKAGE_VERSION}\"}"
-  ```
+              curl \
+                -X POST \
+                -u ${GH_ISSUE_USERNAME}:${GH_ISSUE_TOKEN} \
+                -H "Accept: application/vnd.github.v3+json" \
+                  https://api.github.com/repos/${DOWNSTREAM_REPOSITORY}/issues \
+                -d "{\"simulatorVersion\": \"${PACKAGE_VERSION}\"}"
+    ```
 
-  The above action could be set up by following these steps:
+    The above action could be set up by following these steps:
 
-  1. Generate a GitHub API token for the action at https://github.com/settings/token. The token should have the scope `repo`.
-  2. Save this token as a secret with the name `GH_ISSUE_TOKEN` for the GitHub Actions of the repository for the core simulation capabilities.
-  3. Save the username associated with this token as another GitHub Action secret with the name `GH_ISSUE_USERNAME`.
-  4. Copy the action definition above to `/path/to/core/simulation/repo/.github/workflows/buildReleaseDownstreamCliAndDockerImage.yml`
-  5. Edit the value of the `DOWNSTREAM_REPOSITORY` environment variable in this new file.
-  6. Edit the calculation of the `PACKAGE_VERSION` environment variable in this new file. This command should convert the reference for the GitHub tag for the release (e.g., `refs/tags/1.2.2` or `refs/tags/v2.1.3`) into the version number (e.g., `1.2.2`, `2.1.3`) of the release of the core simulation capabilities which should be used to build and release the downstream command-line interface and Docker image.
+    1. Generate a GitHub API token for the action at https://github.com/settings/token. The token should have the scope `repo`.
+    2. Save this token as a secret with the name `GH_ISSUE_TOKEN` for the GitHub Actions of the repository for the core simulation capabilities.
+    3. Save the username associated with this token as another GitHub Action secret with the name `GH_ISSUE_USERNAME`.
+    4. Copy the action definition above to `/path/to/core/simulation/repo/.github/workflows/buildReleaseDownstreamCliAndDockerImage.yml`
+    5. Edit the value of the `DOWNSTREAM_REPOSITORY` environment variable in this new file.
+    6. Edit the calculation of the `PACKAGE_VERSION` environment variable in this new file. This command should convert the reference for the GitHub tag for the release (e.g., `refs/tags/1.2.2` or `refs/tags/v2.1.3`) into the version number (e.g., `1.2.2`, `2.1.3`) of the release of the core simulation capabilities which should be used to build and release the downstream command-line interface and Docker image.
 
-13. Optionally, distribute the command-line interface to your simulator. For example, the following commands can be used to distribute a command-line interface implemented with Python via [PyPI](https://pypi.python.org/).
+14. Optionally, distribute the command-line interface to your simulator. For example, the following commands can be used to distribute a command-line interface implemented with Python via [PyPI](https://pypi.python.org/).
     ```
     # Convert README to RST format
     pandoc --to rst --output README.rst README.md
