@@ -47,14 +47,18 @@ optional arguments:
 ```
 
 ### Usage through Docker container
+The entrypoint to the Docker image supports the same command-line interface described above. 
+
+For example, the following command could be used to use the Docker image to execute the COMBINE/OMEX archive `./modeling-study.omex` and save its outputs to `./`.
+
 ```
 docker run \
   --tty \
   --rm \
-  --mount type=bind,source="$(pwd)"/tests/fixtures,target=/root/in,readonly \
-  --mount type=bind,source="$(pwd)"/tests/results,target=/root/out \
+  --mount type=bind,source="$(pwd)",target=/root/in,readonly \
+  --mount type=bind,source="$(pwd)",target=/root/out \
   <registry>/<organization>/<repository>:latest \
-    -i /root/in/BIOMD0000000297.omex \
+    -i /root/in/modeling-study.omex \
     -o /root/out
 ```
 
