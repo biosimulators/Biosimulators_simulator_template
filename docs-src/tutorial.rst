@@ -34,7 +34,7 @@ The command-line program can be used to execute COMBINE/OMEX archives that descr
                             Directory to save outputs
       -v, --version         show program's version number and exit
 
-For example, the following command could be used to execute the simulations described in `./modeling-study.omex` and save their results to `./`:
+For example, the following command could be used to execute the simulations described in ``./modeling-study.omex`` and save their results to ``./``:
 
 .. code-block:: text
 
@@ -46,7 +46,7 @@ Docker image with a command-line entrypoint
 
 The entrypoint to the Docker image supports the same command-line interface described above. 
 
-For example, the following command could be used to use the Docker image to execute the same simulations described in `./modeling-study.omex` and save their results to `./`:
+For example, the following command could be used to use the Docker image to execute the same simulations described in ``./modeling-study.omex`` and save their results to ``./``:
 
 .. code-block:: text
 
