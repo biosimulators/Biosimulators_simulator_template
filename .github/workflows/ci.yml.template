@@ -7,6 +7,9 @@ on:
       simulatorVersion:
         description: New version of the underlying simulation tool (e.g., '1.5.6')
         required: true
+      simulatorVersionLatest:
+        description: Is this version the latest version of the underlying simulation tool ("true" or "false")?
+        required: false
 
 jobs:
   continuousIntegration:
@@ -176,16 +179,16 @@ jobs:
           mkdir -p docs-src/_static
           sphinx-build docs-src docs
 
-
       #############################################
       ## Commit and push new version of simulator
       #############################################
       # If new version of simulator, commit and push the new version
       - name: Commit the revised version of the simulator
-        if: github.event.inputs.simulatorVersion
+        if: github.event.inputs.simulatorVersion && github.event.inputs.simulatorVersionLatest == 'true'
         run: |
           git config --local user.email "biosimulators.daemon@gmail.com"
           git config --local user.name "biosimulatorsdaemon"
+          git config pull.rebase false
           git stash -- biosimulators.json Dockerfile
           git clean -f -d
           git checkout .
@@ -195,7 +198,7 @@ jobs:
           git commit -m "Updating version of simulator"
 
       - name: Push the revised version of the simulator
-        if: github.event.inputs.simulatorVersion
+        if: github.event.inputs.simulatorVersion && github.event.inputs.simulatorVersionLatest == 'true'
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -232,12 +235,13 @@ jobs:
         run: |
           git config --local user.email "biosimulators.daemon@gmail.com"
           git config --local user.name "biosimulatorsdaemon"
+          git config pull.rebase false
           git stash
           git checkout ${{ steps.get-main-branch.outputs.mainBranch }}
           git pull
+          set +e
           git stash pop
           git add docs
-          set +e
           git commit -m "Updating compiled documentation"
           git checkout .
           git clean -f -d
@@ -304,7 +308,10 @@ jobs:
             --username ${{ secrets.DOCKER_REGISTRY_USERNAME }} \
             --password ${{ secrets.DOCKER_REGISTRY_TOKEN }}
           docker push ${{ steps.get-docker-image-tag.outputs.dockerImageBaseUrl }}:${{ steps.get-docker-image-tag.outputs.simulatorVersion }}
-          docker push ${{ steps.get-docker-image-tag.outputs.dockerImageBaseUrl }}:latest
+
+          if [[ "${{ github.ref }}" =~ ^refs/tags/ ]] || [ "${{ github.event.inputs.simulatorVersionLatest }}" == "true" ]; then
+            docker push ${{ steps.get-docker-image-tag.outputs.dockerImageBaseUrl }}:latest
+          fi
 
       # Submit to BioSimulators registry
       - name: Submit to BioSimulators registry
