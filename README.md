@@ -69,8 +69,13 @@ This repository is intended for developers of simulation software programs. We r
 
 5. Create a Dockerfile for building a Docker image for the command-line interface to your simulator. [`Dockerfile`](Dockerfile) contains a template Dockerfile for a command-line interface implemented with Python.
 
-   - Additional files that need to be copied into the image can be saved to a directory such as `assets/`.
-   - In most cases, commercial licenses needed to run the image should be injected at runtime. Please contact the [BioSimulations Team](info@biosimulations.org) to discuss your needs.
+   - Use the `FROM` directive to choose a base operating system such as Ubuntu.   
+   - Use the `RUN` directive to describe how to install your tool and any dependencies. Because Docker images are typically run as root, reserve `/root` for the home directory of the user which executes the image. Similarly, reserve `/tmp` for temporary files that must be created during the execution of the image. Install your simulation tool into a different directory than `/root` and `/tmp` such as `/usr/local/bin`.
+   - Ideally, the simulation tools inside images should be installed from internet sources so that the construction of an image is completely specified by its Dockerfile and, therefore reproducible and portable. Additional files needed during the building of the image, such as licenses to commerical software, can be copied from a local directory such as `assets/`. These files can then be deleted and squashed out of the final image and injected again when the image is executed.
+   - Set the `ENTRYPOINT` directive to the path to your command-line interface.   
+   - Set the `CMD` directive to `[]`.
+   - Use the `ENV` directive to declare all environment variables that your simulation tool supports.
+   - Do not use the `USER` directive to set the user which will execute the image so that the user can be set at execution time.
    - Use Open Containers Initiative and BioContainers-style labels to capture metadata about the image. See the [Open Containers Initiative](https://github.com/opencontainers/image-spec/blob/master/annotations.md) and [BioContainers](https://biocontainers-edu.readthedocs.io/en/latest/what_is_biocontainers.html#create-a-dockerfile-recipe) documentation for more information.
      ```
      LABEL \
