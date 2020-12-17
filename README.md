@@ -241,7 +241,7 @@ This repository is intended for developers of simulation software programs. We r
                 -u ${GH_ISSUE_USERNAME}:${GH_ISSUE_TOKEN} \
                 -H "Accept: application/vnd.github.v3+json" \
                   https://api.github.com/repos/${DOWNSTREAM_REPOSITORY}/actions/workflows/${WORKFLOW_FILE}/dispatches \
-                -d "{\"simulatorVersion\": \"${PACKAGE_VERSION}\"}"
+                -d "{\"inputs\": {\"simulatorVersion\": \"${PACKAGE_VERSION}\"}}"
 
     ```
 
