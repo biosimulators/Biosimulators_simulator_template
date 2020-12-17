@@ -234,13 +234,15 @@ This repository is intended for developers of simulation software programs. We r
           - name: Trigger GitHub action that will build and release the downstream command-line interface and Docker image
             run: |
               PACKAGE_VERSION="${GITHUB_REF/refs\/tags\/v/}"
+              WORKFLOW_FILE=ci.yml
 
               curl \
                 -X POST \
                 -u ${GH_ISSUE_USERNAME}:${GH_ISSUE_TOKEN} \
                 -H "Accept: application/vnd.github.v3+json" \
-                  https://api.github.com/repos/${DOWNSTREAM_REPOSITORY}/issues \
+                  https://api.github.com/repos/${DOWNSTREAM_REPOSITORY}/actions/workflows/${WORKFLOW_FILE}/dispatches \
                 -d "{\"simulatorVersion\": \"${PACKAGE_VERSION}\"}"
+
     ```
 
     The above action could be set up by following these steps:
