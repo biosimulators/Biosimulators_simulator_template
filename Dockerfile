@@ -41,8 +41,10 @@ RUN apt-get update -y \
 
 # Copy code for command-line interface into image and install it
 COPY . /root/{my_simulator_cli}
-RUN pip install /root/{my_simulator_cli}
+RUN pip install /root/{my_simulator_cli} \
+    && rm -rf /root/{my_simulator_cli}
 RUN pip install {my_simulator}==${SIMULATOR_VERSION}
+ENV MPLBACKEND=PDF
 
 # Entrypoint
 ENTRYPOINT ["{my-simulator}"]
