@@ -18,7 +18,7 @@ BioSimulators-compliant command-line interface to the [MySimulator](https://<url
 
 ### Install Python package
 ```
-pip install git+https://github.com/<organization>/<repository>
+pip install <repository>
 ```
 
 ### Install Docker image
