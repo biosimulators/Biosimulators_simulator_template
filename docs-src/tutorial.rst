@@ -44,7 +44,7 @@ For example, the following command could be used to execute the simulations desc
 Docker image with a command-line entrypoint
 -------------------------------------------
 
-The entrypoint to the Docker image supports the same command-line interface described above. 
+The entrypoint to the Docker image supports the same command-line interface described above.
 
 For example, the following command could be used to use the Docker image to execute the same simulations described in ``./modeling-study.omex`` and save their results to ``./``:
 

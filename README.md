@@ -69,10 +69,10 @@ This repository is intended for developers of simulation software programs. We r
 
 5. Create a Dockerfile for building a Docker image for the command-line interface to your simulator. [`Dockerfile`](Dockerfile) contains a template Dockerfile for a command-line interface implemented with Python.
 
-   - Use the `FROM` directive to choose a base operating system such as Ubuntu.   
+   - Use the `FROM` directive to choose a base operating system such as Ubuntu.
    - Use the `RUN` directive to describe how to install your tool and any dependencies. Because Docker images are typically run as root, reserve `/root` for the home directory of the user which executes the image. Similarly, reserve `/tmp` for temporary files that must be created during the execution of the image. Install your simulation tool into a different directory than `/root` and `/tmp` such as `/usr/local/bin`.
    - Ideally, the simulation tools inside images should be installed from internet sources so that the construction of an image is completely specified by its Dockerfile and, therefore reproducible and portable. Additional files needed during the building of the image, such as licenses to commerical software, can be copied from a local directory such as `assets/`. These files can then be deleted and squashed out of the final image and injected again when the image is executed.
-   - Set the `ENTRYPOINT` directive to the path to your command-line interface.   
+   - Set the `ENTRYPOINT` directive to the path to your command-line interface.
    - Set the `CMD` directive to `[]`.
    - Use the `ENV` directive to declare all environment variables that your simulation tool supports.
    - Do not use the `USER` directive to set the user which will execute the image so that the user can be set at execution time.
@@ -225,7 +225,7 @@ This repository is intended for developers of simulation software programs. We r
           # Owner/repository-id for the GitHub repository for the downstream command-line interface and Docker image
           DOWNSTREAM_REPOSITORY: biosimulators/Biosimulators_tellurium
 
-          # Username/token to use the GitHub API to trigger an action on the GitHub repository for the downstream 
+          # Username/token to use the GitHub API to trigger an action on the GitHub repository for the downstream
           # command-line interface and Docker image. Tokens can be generated at https://github.com/settings/tokens.
           # The token should have the scope `repo`
           GH_ISSUE_USERNAME: ${{ secrets.GH_ISSUE_USERNAME }}
