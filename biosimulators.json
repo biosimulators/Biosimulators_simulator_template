@@ -1,52 +1,49 @@
 {
-  "id": "id_of_simulator",
-  "name": "Name of simulator",
+  "id": "mysimulator",
+  "name": "My Simulator",
   "version": "1.0.0",
-  "description": "Description of simulator.",
-  "urls": [{"type": "Home page", "url": "https://url.for.simulator/"}],
+  "description": "Description of My Simulator.",
+  "urls": [{
+    "type": "Home page",
+    "url": "http://mysimulator.org/"
+  }],
   "image": {
-    "url": "ghcr.io/organization/repository/repository:tag",
+    "url": "ghcr.io/org/repo:1.0.0",
     "format": {
       "namespace": "EDAM",
-      "id": "format_3973", "version": null, "supportedFeatures": []
+      "id": "format_3973",
+      "version": "1.2.0",
+      "supportedFeatures": []
     },
     "operatingSystemType": "Linux"
   },
   "authors": [{
-      "firstName": "John",
-      "middleName": "C",
-      "lastName": "Doe",
-            "identifiers": []
-    },
-    {
-      "firstName": "Jane",
-      "middleName": "D",
-      "lastName": "Doe",
-            "identifiers": []
-    }
-  ],
+    "firstName": "John",
+    "lastName": "Doe",
+    "identifiers": [{
+      "namespace": "orcid",
+      "id": "XXXX-XXXX-XXXX-XXXX",
+      "url": "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+    }]
+  }],
   "references": {
     "identifiers": [{
       "namespace": "pypi",
-      "id": "my-simulator",
-      "url": "https://pypi.org/project/my-simulator"
-    },
-    {
-      "namespace": "biotools",
-      "id": "XXX",
-      "url": "https://bio.tools/XXX"
+      "id": "mysimulator",
+      "url": "https://pypi.org/project/mysimulator/"
     }],
     "citations": [{
-      "title": "title",
-      "authors": "John C Doe, Jane D Doe & Jack E Doe",
-      "journal": "journal",
-      "volume": 10,
-      "pages": "1-10",
-      "year": 2020,
+      "title": "My Simulator: a great simulator",
+      "authors": "John Doe",
+      "journal": "Journal",
+      "volume": 1,
+      "issue": 1,
+      "pages": "1-2",
+      "year": 2021,
       "identifiers": [{
         "namespace": "doi",
-        "id": "XX.XXX/XXXXX",
-        "url": "https://doi.org/XX.XXX/XXXXX"
+        "id": "10.XXXX/XXXX",
+        "url": "https://doi.org/10.XXXX/XXXX"
       }]
     }]
   },
@@ -55,11 +52,11 @@
     "id": "MIT"
   },
   "algorithms": [{
-    "id": "lsoda",
-    "name": "LSODA, ordinary differential equation solver for stiff or non-stiff system",
+    "id": "cvode",
+    "name": "C-language Variable-coefficient Ordinary Differential Equation solver",
     "kisaoId": {
       "namespace": "KISAO",
-      "id": "KISAO_0000088"
+      "id": "KISAO_0000019"
     },
     "modelingFrameworks": [{
       "namespace": "SBO",
@@ -67,27 +64,34 @@
     }],
     "modelFormats": [{
       "namespace": "EDAM",
-      "id": "format_2585", "version": null, "supportedFeatures": []
+      "id": "format_2585",
+      "version": "L3V2",
+      "supportedFeatures": []
     }],
     "simulationFormats": [{
       "namespace": "EDAM",
-      "id": "format_3685", "version": null, "supportedFeatures": []
+      "id": "format_3685",
+      "version": "L1V3",
+      "supportedFeatures": []
     }],
     "archiveFormats": [{
       "namespace": "EDAM",
-      "id": "format_3686", "version": null, "supportedFeatures": []
+      "id": "format_3686",
+      "version": "1",
+      "supportedFeatures": []
     }],
     "citations": [{
-      "title": "title",
-      "authors": "John C Doe, Jane D Doe & Jack E Doe",
-      "journal": "journal",
+      "title": "CVODE, a stiff/nonstiff ODE solver in C",
+      "authors": "Scott D. Cohen, Alan C. Hindmarsh & Paul F. Dubois",
+      "journal": "Computers in Physics",
       "volume": 10,
-      "pages": "1-10",
-      "year": 2020,
+      "issue": 2,
+      "pages": "138-143",
+      "year": 1996,
       "identifiers": [{
         "namespace": "doi",
-        "id": "XX.XXX/XXXXX",
-        "url": "https://doi.org/XX.XXX/XXXXX"
+        "id": "10.1063/1.4822377",
+        "url": "https://doi.org/10.1063/1.4822377"
       }]
     }],
     "parameters": [{
@@ -95,14 +99,27 @@
         "namespace": "KISAO",
         "id": "KISAO_0000209"
       },
-      "id": "rel_tol",
+      "id": "relative_tolerance",
       "name": "Relative tolerance",
       "type": "float",
       "value": "0.000001",
-      "recommendedRange": ["0.001", "0.000000001"],
-      "availableSoftwareInterfaceTypes": ["library", "command-line application", "BioSimulators Docker image"]
+      "recommendedRange": null,
+      "availableSoftwareInterfaceTypes": ["library", "command-line application", "desktop application", "BioSimulators Docker image"]
     }],
-    "availableSoftwareInterfaceTypes": ["library", "command-line application", "BioSimulators Docker image"],
+    "dependentDimensions": [{
+      "namespace": "SIO",
+      "id": "SIO_000418"
+    }],
+    "dependentVariableTargetPatterns": [{
+        "variables": "species concentrations",
+        "targetPattern": "/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species"
+      },
+      {
+        "variables": "parameter values",
+        "targetPattern": "/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter/@value"
+      }
+    ],
+    "availableSoftwareInterfaceTypes": ["library", "command-line application", "desktop application", "BioSimulators Docker image"],
     "dependencies": [{
       "name": "SUNDIALS",
       "version": null,
@@ -111,13 +128,24 @@
       "url": "https://computing.llnl.gov/projects/sundials"
     }]
   }],
-  "interfaceTypes": ["library", "command-line application", "BioSimulators Docker image"],
+  "interfaceTypes": ["library", "command-line application", "desktop application", "BioSimulators Docker image"],
   "supportedOperatingSystemTypes": ["platform-independent"],
-  "supportedProgrammingLanguages": [{"namespace": "Linguist", "id": "Python"}],
-  "funding": [],
+  "supportedProgrammingLanguages": [{
+    "namespace": "Linguist",
+    "id": "Python"
+  }],
+  "funding": [{
+    "funder": {
+      "namespace": "FunderRegistry",
+      "id": "100000057"
+    },
+    "grant": "R01-GMXXXXXX",
+    "url": "https://grantome.com/grant/NIH/R01-GMXXXXXX"
+  }],
   "biosimulators": {
     "specificationVersion": "1.0.0",
     "imageVersion": "1.0.0",
-    "validated": false
+    "validated": false,
+    "validationTests": null
   }
 }

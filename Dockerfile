@@ -46,6 +46,8 @@ RUN pip install /root/{my_simulator_cli} \
 RUN pip install {my_simulator}==${SIMULATOR_VERSION}
 ENV MPLBACKEND=PDF
 
+# Declare the environment variables that the simulation tool supports (e.g., ALGORITHM_SUBSTITUTION_POLICY) and their default values
+
 # Entrypoint
 ENTRYPOINT ["{my-simulator}"]
 CMD []

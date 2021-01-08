@@ -20,7 +20,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 # -- Project information -----------------------------------------------------
 source_base_url = '{ url-to-my-simulator-source-code-repo }'
 project = '{ my-simulator }'
-copyright = '{}, { my-simulator } Team'.format(datetime.datetime.now().year)
+copyright = '{}, {}'.format(datetime.datetime.now().year, '{ my-simulator } Team')
 author = '{ my-simulator } Team'
 
 # The short X.Y version

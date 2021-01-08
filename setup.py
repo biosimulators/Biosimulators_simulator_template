@@ -33,7 +33,7 @@ setuptools.setup(
     author='<Authors of MySimulator>',
     author_email="<authors@url.for.my.simulator>",
     license="<License, e.g., MIT>",
-    keywords=['BioSimulators', '<key-word-1>', '<key-word-2>'], # list of key words
+    keywords=['BioSimulators', '<key-word-1>', '<key-word-2>'],  # list of key words
     packages=setuptools.find_packages(exclude=['tests', 'tests.*']),
     install_requires=md.install_requires,
     extras_require=md.extras_require,
