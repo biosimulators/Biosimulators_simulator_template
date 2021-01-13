@@ -44,7 +44,8 @@ COPY . /root/{my_simulator_cli}
 RUN pip install /root/{my_simulator_cli} \
     && rm -rf /root/{my_simulator_cli}
 RUN pip install {my_simulator}==${SIMULATOR_VERSION}
-ENV MPLBACKEND=PDF
+ENV VERBOSE=0 \
+    MPLBACKEND=PDF
 
 # Declare the environment variables that the simulation tool supports (e.g., ALGORITHM_SUBSTITUTION_POLICY) and their default values
 

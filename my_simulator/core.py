@@ -8,6 +8,7 @@
 
 from .data_model import KISAO_METHOD_MAP
 from biosimulators_utils.combine.exec import exec_sedml_docs_in_archive
+from biosimulators_utils.log.data_model import CombineArchiveLog, TaskLog  # noqa: F401
 from biosimulators_utils.plot.data_model import PlotFormat  # noqa: F401
 from biosimulators_utils.report.data_model import ReportFormat, DataGeneratorVariableResults  # noqa: F401
 from biosimulators_utils.sedml import validation
@@ -40,31 +41,39 @@ def exec_sedml_docs_in_combine_archive(archive_filename, out_dir,
         plot_formats (:obj:`list` of :obj:`PlotFormat`, optional): report format (e.g., pdf)
         bundle_outputs (:obj:`bool`, optional): if :obj:`True`, bundle outputs into archives for reports and plots
         keep_individual_outputs (:obj:`bool`, optional): if :obj:`True`, keep individual output files
+
+    Returns:
+        :obj:`CombineArchiveLog`: log
     """
     sed_doc_executer = functools.partial(exec_sed_doc, exec_sed_task)
-    exec_sedml_docs_in_archive(sed_doc_executer, archive_filename, out_dir,
-                               apply_xml_model_changes=True,
-                               report_formats=report_formats,
-                               plot_formats=plot_formats,
-                               bundle_outputs=bundle_outputs,
-                               keep_individual_outputs=keep_individual_outputs)
+    return exec_sedml_docs_in_archive(sed_doc_executer, archive_filename, out_dir,
+                                      apply_xml_model_changes=True,
+                                      report_formats=report_formats,
+                                      plot_formats=plot_formats,
+                                      bundle_outputs=bundle_outputs,
+                                      keep_individual_outputs=keep_individual_outputs)
 
 
-def exec_sed_task(task, variables):
+def exec_sed_task(task, variables, log=None):
     ''' Execute a task and save its results
 
     Args:
        task (:obj:`Task`): task
        variables (:obj:`list` of :obj:`DataGeneratorVariable`): variables that should be recorded
+       log (:obj:`TaskLog`, optional): log for the task
 
     Returns:
-        :obj:`DataGeneratorVariableResults`: results of variables
+        :obj:`tuple`:
+
+            :obj:`DataGeneratorVariableResults`: results of variables
+            :obj:`TaskLog`: log
 
     Raises:
         :obj:`ValueError`: if the task or an aspect of the task is not valid, or the requested output variables
             could not be recorded
         :obj:`NotImplementedError`: if the task is not of a supported type or involves an unsuported feature
     '''
+    log = log or TaskLog()
 
     #############################################################
     # Validate the task. See utilities in :obj:`validation`.
@@ -146,5 +155,13 @@ def exec_sed_task(task, variables):
         variable_results[variable.id] = get_sed_variables_from_results(results, target_x_paths_ids, variable.id)
 
     #############################################################
-    # Return the results of the variables
-    variable_results
+    # log action
+    log.algorithm = task.simulation.algorithm.kisao_id
+    log.simulator_details = {
+        'method': simulation_method.__module__ + '.' + simulation_method.__name__,
+        'arguments': simulation_args,
+    }
+
+    #############################################################
+    # Return the results of the variables and the log
+    return variable_results, log

@@ -1,3 +1,2 @@
-biosimulators_utils
+biosimulators_utils >= 0.1.32
 numpy
-
