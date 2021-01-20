@@ -10,12 +10,11 @@ from .data_model import KISAO_METHOD_MAP
 from biosimulators_utils.combine.exec import exec_sedml_docs_in_archive
 from biosimulators_utils.log.data_model import CombineArchiveLog, TaskLog  # noqa: F401
 from biosimulators_utils.plot.data_model import PlotFormat  # noqa: F401
-from biosimulators_utils.report.data_model import ReportFormat, DataGeneratorVariableResults  # noqa: F401
+from biosimulators_utils.report.data_model import ReportFormat, VariableResults  # noqa: F401
 from biosimulators_utils.sedml import validation
 from biosimulators_utils.sedml.data_model import (Task, ModelLanguage, ModelAttributeChange,  # noqa: F401
-                                                  UniformTimeCourseSimulation, DataGeneratorVariable)
+                                                  UniformTimeCourseSimulation, Variable)
 from biosimulators_utils.sedml.exec import exec_sed_doc
-from biosimulators_utils.sedml.utils import apply_changes_to_xml_model
 from biosimulators_utils.utils.core import parse_value
 from my_simulator import read_model, get_sed_variables_from_results
 import functools
@@ -59,13 +58,13 @@ def exec_sed_task(task, variables, log=None):
 
     Args:
        task (:obj:`Task`): task
-       variables (:obj:`list` of :obj:`DataGeneratorVariable`): variables that should be recorded
+       variables (:obj:`list` of :obj:`Variable`): variables that should be recorded
        log (:obj:`TaskLog`, optional): log for the task
 
     Returns:
         :obj:`tuple`:
 
-            :obj:`DataGeneratorVariableResults`: results of variables
+            :obj:`VariableResults`: results of variables
             :obj:`TaskLog`: log
 
     Raises:
@@ -83,7 +82,10 @@ def exec_sed_task(task, variables, log=None):
     validation.validate_model_language(task.model.language, ModelLanguage.SBML)
 
     # Validate that the model changes are of the supported types
-    validation.validate_model_change_types(task.model.changes, (ModelAttributeChange, ))
+    validation.validate_model_change_types(task.model.changes, ())
+
+    # Validate that the model changes are semantically valid
+    validation.validate_model_changes(task.model.changes)
 
     # Validate that the simulation is a supported type of simulation
     validation.validate_simulation_type(task.simulation, (UniformTimeCourseSimulation, ))
@@ -95,17 +97,14 @@ def exec_sed_task(task, variables, log=None):
     validation.validate_data_generator_variables(variables)
 
     # If the model is encoded in XML, check that the XPATHs for the variables are valid
-    target_x_paths_ids = validation.validate_data_generator_variable_xpaths(variables, task.model.source, attr='id')
+    target_x_paths_ids = validation.validate_variable_xpaths(variables, task.model.source, attr='id')
 
     # Check that the simulation tool can produce each variables -- the simulation tool supports each symbol and target
 
     #############################################################
-    # Read the model located at `task.model.source`
+    # Read the model located at `task.model.source`; `exec_sedml_docs_in_archive` has already resolved the model and
+    # applied any changes
     model = read_model(task.model.source, language=task.model.language)
-
-    #############################################################
-    # Apply the model changes specified by `task.model.changes`
-    apply_changes_to_xml_model(changes=task.model.changes, in_model_filename=task.model.source, out_model_filename=task.model.source)
 
     #############################################################
     # Load the algorithm specified by `simulation.algorithm`
@@ -149,8 +148,8 @@ def exec_sed_task(task, variables, log=None):
     results = simulation_method(model, **simulation_args)
 
     #############################################################
-    # Transform the results to an instance of :obj:`DataGeneratorVariableResults`
-    variable_results = DataGeneratorVariableResults()
+    # Transform the results to an instance of :obj:`VariableResults`
+    variable_results = VariableResults()
     for variable in variables:
         variable_results[variable.id] = get_sed_variables_from_results(results, target_x_paths_ids, variable.id)
 

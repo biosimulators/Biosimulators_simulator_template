@@ -59,10 +59,10 @@ class CoreTestCase(unittest.TestCase):
         )
 
         variables = [
-            sedml_data_model.DataGeneratorVariable(id='time', symbol=sedml_data_model.DataGeneratorVariableSymbol.time),
-            sedml_data_model.DataGeneratorVariable(id='A', target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='A']"),
-            sedml_data_model.DataGeneratorVariable(id='C', target='/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id="C"]'),
-            sedml_data_model.DataGeneratorVariable(id='DA', target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='DA']"),
+            sedml_data_model.Variable(id='time', symbol=sedml_data_model.Symbol.time, task=task),
+            sedml_data_model.Variable(id='A', target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='A']", task=task),
+            sedml_data_model.Variable(id='C', target='/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id="C"]', task=task),
+            sedml_data_model.Variable(id='DA', target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='DA']", task=task),
         ]
 
         variable_results = exec_sed_task(task, variables)
