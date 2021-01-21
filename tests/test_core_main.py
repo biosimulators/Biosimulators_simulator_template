@@ -119,11 +119,13 @@ class CoreTestCase(unittest.TestCase):
 
     def _assert_combine_archive_outputs(self, doc, out_dir):
         # read the report of the results of the execution of the COMBINE archive
-        report = ReportReader().run(out_dir, 'simulation_1.sedml/simulation_1', format=report_data_model.ReportFormat.h5)
+        report = doc.outputs[0]
+        report_results = ReportReader().run(report, out_dir, 'simulation_1.sedml/simulation_1', format=report_data_model.ReportFormat.h5)
 
         # assert that the execution of the archive produced the expected results
-        expected_report = numpy.array([])
-        numpy.testing.assert_almost_equal(report, expected_report)
+        expected_report_results = report_data_model.DataSetResults({})
+        for data_set in report.data_sets:
+            numpy.testing.assert_almost_equal(report_results[data_set.id], expected_report_results[data_set.id])
 
     def test_exec_sedml_docs_in_combine_archive_with_cli(self):
         with __main__.App(argv=['-i', self.EXAMPLE_ARCHIVE_FILENAME, '-o', self.dirname]) as app:
@@ -138,15 +140,22 @@ class CoreTestCase(unittest.TestCase):
     def assert_outputs_created(self, dirname):
         self.assertTrue(os.path.isfile(os.path.join(dirname, 'reports.h5')))
 
-        report = ReportReader().run(dirname, 'simulation_1.sedml/simulation_1', format=report_data_model.ReportFormat.h5)
+        report = sedml_data_model.Report(
+            data_sets=[
+                sedml_data_model.DataSet(id='time', label='time'),
+            ]
+        )
 
-        self.assertEqual(report.shape, (20, 100 + 1))
+        report_results = ReportReader().run(report, dirname, 'simulation_1.sedml/simulation_1', format=report_data_model.ReportFormat.h5)
+
+        self.assertEqual(len(report_results[report.data_sets[0].id]), 100 + 1)
         numpy.testing.assert_almost_equal(
-            report.loc['time', :].to_numpy(),
+            report_results[report.data_sets[0].id],
             numpy.linspace(0., 100., 100 + 1),
         )
 
-        self.assertFalse(numpy.any(numpy.isnan(report)))
+        for data_set_result in report_results.values():
+            self.assertFalse(numpy.any(numpy.isnan(data_set_result)))
 
     def test_raw_cli(self):
         with mock.patch('sys.argv', ['', '--help']):
