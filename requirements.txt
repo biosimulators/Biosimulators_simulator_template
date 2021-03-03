@@ -1,2 +1,2 @@
-biosimulators_utils[logging] >= 0.1.38
+biosimulators_utils[logging] >= 0.1.40
 numpy
