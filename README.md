@@ -4,16 +4,6 @@ This repository provides a template Python code for building a BioSimulators-com
 
 This repository is intended for developers of simulation software programs. We recommend that end-users utilize containerized simulators through the web-based graphical interfaces at https://submit.biosimulators.org and https://biosimulators.org. https://submit.biosimulators.org provides a simple web application for executing simulations and retrieving their results. https://biosimulators.org provides a more comprehensive platform for sharing and executing entire modeling studies. Instructions for using containers to execute simulations locally on your own machine are available at https://biosimulators.org/help.
 
-## Contents
-* [Building a Docker image for a simulator using this template](#building-a-docker-image-for-a-simulator-using-this-template)
-* [Running containerized simulators](#running-containerized-simulators)
-* [Example Docker images for simulators](#example-docker-images-for-simulators)
-* [License](#license)
-* [Development team](#development-team)
-* [Contributing to the template](#contributing-to-the-template)
-* [Acknowledgements](#acknowledgements)
-* [Questions and comments](#questions-and-comments)
-
 ## Building a Docker image for a simulator using this template
 1. Install the [Docker engine](https://www.docker.com/).
 

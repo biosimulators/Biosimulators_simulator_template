@@ -6,14 +6,6 @@
 # MySimulator
 BioSimulators-compliant command-line interface to the [MySimulator](https://<url.for.my.simulator>/) simulation program.
 
-## Contents
-* [Installation](#installation)
-* [Usage](#usage)
-* [Documentation](#documentation)
-* [License](#license)
-* [Development team](#development-team)
-* [Questions and comments](#questions-and-comments)
-
 ## Installation
 
 ### Install Python package
