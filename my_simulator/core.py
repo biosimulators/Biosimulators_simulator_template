@@ -15,7 +15,7 @@ from biosimulators_utils.sedml import validation
 from biosimulators_utils.sedml.data_model import (Task, ModelLanguage, ModelAttributeChange,  # noqa: F401
                                                   UniformTimeCourseSimulation, Variable)
 from biosimulators_utils.sedml.exec import exec_sed_doc
-from biosimulators_utils.utils.core import parse_value
+from biosimulators_utils.utils.core import parse_value, raise_errors_warnings
 from my_simulator import read_model, get_sed_variables_from_results
 import functools
 
@@ -75,28 +75,22 @@ def exec_sed_task(task, variables, log=None):
     log = log or TaskLog()
 
     #############################################################
-    # Validate the task. See utilities in :obj:`validation`.
-    validation.validate_task(task)
+    model = task.model
+    sim = task.simulation
 
     # Validate that the model is encoded in a supported language
-    validation.validate_model_language(task.model.language, ModelLanguage.SBML)
+    raise_errors_warnings(validation.validate_model_language(task.model.language, ModelLanguage.SBML),
+                          error_summary='Task `{}` is invalid.'.format(task.id))
 
     # Validate that the model changes are of the supported types
-    validation.validate_model_change_types(task.model.changes, ())
-
-    # Validate that the model changes are semantically valid
-    validation.validate_model_changes(task.model.changes)
+    raise_errors_warnings(validation.validate_model_change_types(task.model.changes, ()),
+                          error_summary='Changes for model `{}` are not supported.'.format(model.id))
 
     # Validate that the simulation is a supported type of simulation
-    validation.validate_simulation_type(task.simulation, (UniformTimeCourseSimulation, ))
+    raise_errors_warnings(validation.validate_simulation_type(task.simulation, (UniformTimeCourseSimulation, )),
+                          error_summary='{} `{}` is not supported.'.format(sim.__class__.__name__, sim.id))
 
-    # If the simulation is a time course, check that the initial time, output start time, output end time, and number of points are valid
-    validation.validate_uniform_time_course_simulation(task.simulation)
-
-    # Check that the variables of the data generators are valid (have either a symbol or target)
-    validation.validate_data_generator_variables(variables)
-
-    # If the model is encoded in XML, check that the XPATHs for the variables are valid
+    # If the model is encoded in XML, check that the XPaths for the variables are valid
     target_x_paths_ids = validation.validate_variable_xpaths(variables, task.model.source, attr='id')
 
     # Check that the simulation tool can produce each variables -- the simulation tool supports each symbol and target
