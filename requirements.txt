@@ -1,3 +1,3 @@
-biosimulators_utils[logging] >= 0.1.54
+biosimulators_utils[logging] >= 0.1.63
 kisao
 numpy
