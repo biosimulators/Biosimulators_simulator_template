@@ -1,5 +1,5 @@
 # Base OS
-FROM python:3.7.9-slim-buster
+FROM python:3.9-slim-buster
 
 ARG VERSION="{version}"
 ARG SIMULATOR_VERSION="{software verson}"
@@ -19,7 +19,7 @@ LABEL \
     org.opencontainers.image.created="{date/time that the image was created in RFC 3339 format (e.g., 2020-11-11 10:48:55-05:00
 )}" \
     \
-    base_image="python:3.7.9-slim-buster" \
+    base_image="python:3.9-slim-buster" \
     version="${VERSION}" \
     software="{software name}" \
     software.version="${SIMULATOR_VERSION}" \

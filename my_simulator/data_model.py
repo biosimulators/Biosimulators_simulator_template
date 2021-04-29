@@ -7,12 +7,13 @@
 """
 
 from biosimulators_utils.data_model import ValueType
+import collections
 import my_simulator
 
 __all__ = ['KISAO_METHOD_MAP']
 
-KISAO_METHOD_MAP = {
-    'KISAO_XXXXXXXX': {
+KISAO_METHOD_MAP = collections.OrderedDict([
+    ('KISAO_XXXXXXXX', {
         'name': 'simulation method',
         'method': my_simulator.simulation_method,
         'parameters': {
@@ -24,5 +25,5 @@ KISAO_METHOD_MAP = {
                 }
             },
         }
-    }
-}
+    })
+])

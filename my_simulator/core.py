@@ -15,7 +15,9 @@ from biosimulators_utils.sedml import validation
 from biosimulators_utils.sedml.data_model import (Task, ModelLanguage, ModelAttributeChange,  # noqa: F401
                                                   UniformTimeCourseSimulation, Variable)
 from biosimulators_utils.sedml.exec import exec_sed_doc
+from biosimulators_utils.simulator.utils import get_algorithm_substitution_policy
 from biosimulators_utils.utils.core import parse_value, raise_errors_warnings
+from kisao.utils import get_preferred_substitute_algorithm_by_ids
 from my_simulator import read_model, get_sed_variables_from_results
 import functools
 
@@ -102,33 +104,28 @@ def exec_sed_task(task, variables, log=None):
 
     #############################################################
     # Load the algorithm specified by `simulation.algorithm`
-    simulation_method_properties = KISAO_METHOD_MAP.get(task.simulation.algorithm.kisao_id, None)
-
-    if simulation_method_properties is None:
-        raise NotImplementedError("".join([
-            "Algorithm with KiSAO id '{}' is not supported. ".format(task.simulation.algorithm.kisao_id),
-            "Algorithm must have one of the following KiSAO ids:\n  - {}".format('\n  - '.join(
-                '{}: {}'.format(kisao_id, method_properties['name'])
-                for kisao_id, method_properties in KISAO_METHOD_MAP.items())),
-        ]))
-
+    alg_kisao_id = get_preferred_substitute_algorithm_by_ids(
+        simulation.algorithm.kisao_id, KISAO_METHOD_MAP.keys(),
+        substitution_policy=get_algorithm_substitution_policy())
+    simulation_method_properties = KISAO_METHOD_MAP[exec_kisao_id]
     simulation_method = simulation_method_properties['method']
 
     #############################################################
     # Apply the algorithm parameter changes specified by `simulation.algorithm.parameter_changes`
     simulation_args = {}
-    for change in task.simulation.algorithm.changes:
-        parameter_properties = simulation_method_properties['parameters'].get(change.kisao_id, None)
+    if alg_kisao_id == simulation.algorithm.kisao_id:
+        for change in task.simulation.algorithm.changes:
+            parameter_properties = simulation_method_properties['parameters'].get(change.kisao_id, None)
 
-        if parameter_properties is None:
-            raise NotImplementedError("".join([
-                "Algorithm parameter with KiSAO id '{}' is not supported. ".format(change.kisao_id),
-                "Parameter must have one of the following KiSAO ids:\n  - {}".format('\n  - '.join(
-                    '{}: {}'.format(kisao_id, parameter['name'])
-                    for kisao_id, parameter in simulation_method_properties['parameters'].items())),
-            ]))
+            if parameter_properties is None:
+                raise NotImplementedError("".join([
+                    "Algorithm parameter with KiSAO id '{}' is not supported. ".format(change.kisao_id),
+                    "Parameter must have one of the following KiSAO ids:\n  - {}".format('\n  - '.join(
+                        '{}: {}'.format(kisao_id, parameter['name'])
+                        for kisao_id, parameter in simulation_method_properties['parameters'].items())),
+                ]))
 
-        simulation_args[parameter_properties['arg']] = parse_value(change.new_value, parameter_properties['type'])
+            simulation_args[parameter_properties['arg']] = parse_value(change.new_value, parameter_properties['type'])
 
     #############################################################
     # Configure the simulation. For example, for time course simulations set up the time points to record
@@ -149,7 +146,7 @@ def exec_sed_task(task, variables, log=None):
 
     #############################################################
     # log action
-    log.algorithm = task.simulation.algorithm.kisao_id
+    log.algorithm = alg_kisao_id
     log.simulator_details = {
         'method': simulation_method.__module__ + '.' + simulation_method.__name__,
         'arguments': simulation_args,
