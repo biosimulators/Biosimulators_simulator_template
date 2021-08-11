@@ -31,7 +31,7 @@ This repository is intended for developers of simulation software programs. We r
 
    This code will produce a command-line interface similar to that below:
    ```
-   usage: <my-simulator> [-h] [-d] [-q] -i ARCHIVE [-o OUT_DIR] [-v]
+   usage: biosimulators-<my-simulator> [-h] [-d] [-q] -i ARCHIVE [-o OUT_DIR] [-v]
 
    BioSimulators-compliant command-line interface to the <MySimulator> simulation program <http://url.to.my.simulator>.
 

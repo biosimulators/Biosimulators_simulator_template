@@ -47,7 +47,7 @@ setuptools.setup(
     ],
     entry_points={
         'console_scripts': [
-            '<my-simulator> = <my_simulator>.__main__:main',
+            'biosimulators-<my-simulator> = <my_simulator>.__main__:main',
         ],
     },
 )

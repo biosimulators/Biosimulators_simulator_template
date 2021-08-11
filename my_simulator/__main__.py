@@ -11,7 +11,7 @@ from .core import exec_sedml_docs_in_combine_archive
 from biosimulators_utils.simulator.cli import build_cli
 import my_simulator
 
-App = build_cli('my-simulator', __version__,
+App = build_cli('biosimulators-my-simulator', __version__,
                 'My Simulator', my_simulator.__version__, 'https://url.for.my.simulator',
                 exec_sedml_docs_in_combine_archive)
 

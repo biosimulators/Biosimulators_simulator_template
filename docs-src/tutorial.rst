@@ -19,7 +19,7 @@ The command-line program can be used to execute COMBINE/OMEX archives that descr
 
 .. code-block:: text
 
-    usage: { my-simulator } [-h] [-d] [-q] -i ARCHIVE [-o OUT_DIR] [-v]
+    usage: biosimulators-{ my-simulator } [-h] [-d] [-q] -i ARCHIVE [-o OUT_DIR] [-v]
 
     BioSimulators-compliant command-line interface to the { my-simulator } <url-for-my-simulator> simulation program.
 
@@ -38,7 +38,7 @@ For example, the following command could be used to execute the simulations desc
 
 .. code-block:: text
 
-    { my-simulator } -i ./modeling-study.omex -o ./
+    biosimulators-{ my-simulator } -i ./modeling-study.omex -o ./
 
 
 Docker image with a command-line entrypoint

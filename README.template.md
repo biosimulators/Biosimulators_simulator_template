@@ -22,7 +22,7 @@ docker pull <registry>/<organization>/<repository>
 
 ### Local usage
 ```
-usage: <my-simulator> [-h] [-d] [-q] -i ARCHIVE [-o OUT_DIR] [-v]
+usage: biosimulators-<my-simulator> [-h] [-d] [-q] -i ARCHIVE [-o OUT_DIR] [-v]
 
 BioSimulators-compliant command-line interface to the <MySimulator> simulation program <https://url.for.my.simulator>.
 

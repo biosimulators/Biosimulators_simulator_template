@@ -50,5 +50,5 @@ ENV VERBOSE=0 \
 # Declare the environment variables that the simulation tool supports (e.g., ALGORITHM_SUBSTITUTION_POLICY) and their default values
 
 # Entrypoint
-ENTRYPOINT ["{my-simulator}"]
+ENTRYPOINT ["biosimulators-{my-simulator}"]
 CMD []
