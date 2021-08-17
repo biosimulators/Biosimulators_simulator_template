@@ -8,6 +8,7 @@
 
 from .data_model import KISAO_METHOD_MAP
 from biosimulators_utils.combine.exec import exec_sedml_docs_in_archive
+from biosimulators_utils.config import get_config
 from biosimulators_utils.log.data_model import CombineArchiveLog, TaskLog  # noqa: F401
 from biosimulators_utils.viz.data_model import VizFormat  # noqa: F401
 from biosimulators_utils.report.data_model import ReportFormat, VariableResults, SedDocumentResults  # noqa: F401
@@ -83,26 +84,44 @@ def exec_sed_task(task, variables, log=None):
             could not be recorded
         :obj:`NotImplementedError`: if the task is not of a supported type or involves an unsuported feature
     '''
+    config = get_config()
     log = log or TaskLog()
 
     #############################################################
     model = task.model
     sim = task.simulation
 
-    # Validate that the model is encoded in a supported language
-    raise_errors_warnings(validation.validate_model_language(task.model.language, ModelLanguage.SBML),
-                          error_summary='Task `{}` is invalid.'.format(task.id))
+    if config.VALIDATE_SEDML:
+        # Validate task
+        raise_errors_warnings(validation.validate_task(task),
+                              error_summary='Task `{}` is invalid.'.format(task.id))
 
-    # Validate that the model changes are of the supported types
-    raise_errors_warnings(validation.validate_model_change_types(task.model.changes, ()),
-                          error_summary='Changes for model `{}` are not supported.'.format(model.id))
+        # Validate that the model is encoded in a supported language
+        raise_errors_warnings(validation.validate_model_language(model.language, ModelLanguage.SBML),
+                              error_summary='Language for model `{}` is not supported.'.format(model.id))
 
-    # Validate that the simulation is a supported type of simulation
-    raise_errors_warnings(validation.validate_simulation_type(task.simulation, (UniformTimeCourseSimulation, )),
-                          error_summary='{} `{}` is not supported.'.format(sim.__class__.__name__, sim.id))
+        # Validate that the model changes are of the supported types
+        raise_errors_warnings(validation.validate_model_change_types(model.changes, ()),
+                              error_summary='Changes for model `{}` are not supported.'.format(model.id))
+
+        # Validate model changes
+        raise_errors_warnings(*validation.validate_model_changes(task.model),
+                              error_summary='Changes for model `{}` are invalid.'.format(model.id))
+
+        # Validate that the simulation is a supported type of simulation
+        raise_errors_warnings(validation.validate_simulation_type(sim, (UniformTimeCourseSimulation, )),
+                              error_summary='{} `{}` is not supported.'.format(sim.__class__.__name__, sim.id))
+
+        # Validate time course settings
+        raise_errors_warnings(*validation.validate_simulation(sim),
+                              error_summary='Simulation `{}` is invalid.'.format(sim.id))
+
+        # Validate that variables of data generators have valid symbols and targets
+        raise_errors_warnings(*validation.validate_data_generator_variables(variables),
+                              error_summary='Data generator variables for task `{}` are invalid.'.format(task.id))
 
     # If the model is encoded in XML, check that the XPaths for the variables are valid
-    target_x_paths_ids = validation.validate_variable_xpaths(variables, task.model.source, attr='id')
+    target_x_paths_ids = validation.validate_variable_xpaths(variables, model.source, attr='id')
 
     # Check that the simulation tool can produce each variables -- the simulation tool supports each symbol and target
 
