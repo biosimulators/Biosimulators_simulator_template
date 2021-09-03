@@ -39,6 +39,11 @@ RUN apt-get update -y \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 
+# fonts for matplotlib
+RUN apt-get update -y \
+    && apt-get install -y --no-install-recommends libfreetype6 \
+    && rm -rf /var/lib/apt/lists/*
+
 # Copy code for command-line interface into image and install it
 COPY . /root/{my_simulator_cli}
 RUN pip install /root/{my_simulator_cli} \

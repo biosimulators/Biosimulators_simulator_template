@@ -8,28 +8,23 @@
 
 from .data_model import KISAO_METHOD_MAP
 from biosimulators_utils.combine.exec import exec_sedml_docs_in_archive
-from biosimulators_utils.config import get_config
-from biosimulators_utils.log.data_model import CombineArchiveLog, TaskLog  # noqa: F401
+from biosimulators_utils.config import get_config, Config  # noqa: F401
+from biosimulators_utils.log.data_model import CombineArchiveLog, TaskLog, StandardOutputErrorCapturerLevel  # noqa: F401
 from biosimulators_utils.viz.data_model import VizFormat  # noqa: F401
 from biosimulators_utils.report.data_model import ReportFormat, VariableResults, SedDocumentResults  # noqa: F401
 from biosimulators_utils.sedml import validation
 from biosimulators_utils.sedml.data_model import (Task, ModelLanguage, ModelAttributeChange,  # noqa: F401
                                                   UniformTimeCourseSimulation, Variable)
-from biosimulators_utils.sedml.exec import exec_sed_doc
+from biosimulators_utils.sedml.exec import exec_sed_doc as base_exec_sed_doc
 from biosimulators_utils.simulator.utils import get_algorithm_substitution_policy
 from biosimulators_utils.utils.core import parse_value, raise_errors_warnings
 from kisao.utils import get_preferred_substitute_algorithm_by_ids
 from my_simulator import read_model, get_sed_variables_from_results
-import functools
 
-__all__ = ['exec_sedml_docs_in_combine_archive', 'exec_sed_task']
+__all__ = ['exec_sedml_docs_in_combine_archive', 'exec_sed_doc', 'exec_sed_task', 'preprocess_sed_task']
 
 
-def exec_sedml_docs_in_combine_archive(archive_filename, out_dir,
-                                       return_results=False,
-                                       report_formats=None, plot_formats=None,
-                                       bundle_outputs=None, keep_individual_outputs=None,
-                                       raise_exceptions=True):
+def exec_sedml_docs_in_combine_archive(archive_filename, out_dir, config=None):
     """ Execute the SED tasks defined in a COMBINE/OMEX archive and save the outputs
 
     Args:
@@ -41,12 +36,7 @@ def exec_sedml_docs_in_combine_archive(archive_filename, out_dir,
             * HDF5: directory in which to save a single HDF5 file (``{ out_dir }/reports.h5``),
               with reports at keys ``{ relative-path-to-SED-ML-file-within-archive }/{ report.id }`` within the HDF5 file
 
-        return_results (:obj:`bool`, optional): whether to return the result of each output of each SED-ML file
-        report_formats (:obj:`list` of :obj:`ReportFormat`, optional): report format (e.g., csv or h5)
-        plot_formats (:obj:`list` of :obj:`VizFormat`, optional): report format (e.g., pdf)
-        bundle_outputs (:obj:`bool`, optional): if :obj:`True`, bundle outputs into archives for reports and plots
-        keep_individual_outputs (:obj:`bool`, optional): if :obj:`True`, keep individual output files
-        raise_exceptions (:obj:`bool`, optional): whether to raise exceptions
+        config (:obj:`Config`, optional): BioSimulators common configuration
 
     Returns:
         :obj:`tuple`:
@@ -54,24 +44,65 @@ def exec_sedml_docs_in_combine_archive(archive_filename, out_dir,
             * :obj:`SedDocumentResults`: results
             * :obj:`CombineArchiveLog`: log
     """
-    sed_doc_executer = functools.partial(exec_sed_doc, exec_sed_task)
-    return exec_sedml_docs_in_archive(sed_doc_executer, archive_filename, out_dir,
+    return exec_sedml_docs_in_archive(exec_sed_doc, archive_filename, out_dir,
                                       apply_xml_model_changes=True,
-                                      return_results=return_results,
-                                      report_formats=report_formats,
-                                      plot_formats=plot_formats,
-                                      bundle_outputs=bundle_outputs,
-                                      keep_individual_outputs=keep_individual_outputs,
-                                      raise_exceptions=raise_exceptions)
+                                      config=config)
 
 
-def exec_sed_task(task, variables, log=None):
+def exec_sed_doc(doc, working_dir, base_out_path, rel_out_path=None,
+                 apply_xml_model_changes=False,
+                 log=None, indent=0, pretty_print_modified_xml_models=False,
+                 log_level=StandardOutputErrorCapturerLevel.c, config=None):
+    """ Execute the tasks specified in a SED document and generate the specified outputs
+
+    Args:
+        doc (:obj:`SedDocument` or :obj:`str`): SED document or a path to SED-ML file which defines a SED document
+        working_dir (:obj:`str`): working directory of the SED document (path relative to which models are located)
+
+        base_out_path (:obj:`str`): path to store the outputs
+
+            * CSV: directory in which to save outputs to files
+              ``{base_out_path}/{rel_out_path}/{report.id}.csv``
+            * HDF5: directory in which to save a single HDF5 file (``{base_out_path}/reports.h5``),
+              with reports at keys ``{rel_out_path}/{report.id}`` within the HDF5 file
+
+        rel_out_path (:obj:`str`, optional): path relative to :obj:`base_out_path` to store the outputs
+        apply_xml_model_changes (:obj:`bool`, optional): if :obj:`True`, apply any model changes specified in the SED-ML file before
+            calling :obj:`task_executer`.
+        log (:obj:`SedDocumentLog`, optional): log of the document
+        indent (:obj:`int`, optional): degree to indent status messages
+        pretty_print_modified_xml_models (:obj:`bool`, optional): if :obj:`True`, pretty print modified XML models
+        log_level (:obj:`StandardOutputErrorCapturerLevel`, optional): level at which to log output
+        config (:obj:`Config`, optional): BioSimulators common configuration
+        simulator_config (:obj:`SimulatorConfig`, optional): tellurium configuration
+
+    Returns:
+        :obj:`tuple`:
+
+            * :obj:`ReportResults`: results of each report
+            * :obj:`SedDocumentLog`: log of the document
+    """
+    return base_exec_sed_doc(exec_sed_task, doc, working_dir, base_out_path,
+                             rel_out_path=rel_out_path,
+                             apply_xml_model_changes=apply_xml_model_changes,
+                             log=log,
+                             indent=indent,
+                             pretty_print_modified_xml_models=pretty_print_modified_xml_models,
+                             log_level=log_level,
+                             config=config)
+
+
+def exec_sed_task(task, variables, preprocessed_task=None, log=None, config=None):
     ''' Execute a task and save its results
 
     Args:
-       task (:obj:`Task`): task
-       variables (:obj:`list` of :obj:`Variable`): variables that should be recorded
-       log (:obj:`TaskLog`, optional): log for the task
+        task (:obj:`Task`): task
+        variables (:obj:`list` of :obj:`Variable`): variables that should be recorded
+        preprocessed_task (:obj:`object`, optional): preprocessed information about the task, including possible
+            model changes and variables. This can be used to avoid repeatedly executing the same initialization
+            for repeated calls to this method.
+        log (:obj:`TaskLog`, optional): log for the task
+        config (:obj:`Config`, optional): BioSimulators common configuration
 
     Returns:
         :obj:`tuple`:
@@ -84,8 +115,12 @@ def exec_sed_task(task, variables, log=None):
             could not be recorded
         :obj:`NotImplementedError`: if the task is not of a supported type or involves an unsuported feature
     '''
-    config = get_config()
-    log = log or TaskLog()
+    config = config or get_config()
+    if config.LOG and not log:
+        log = TaskLog()
+
+    if preprocessed_task is None:
+        preprocessed_task = preprocess_sed_task(task, variables, config=config)
 
     #############################################################
     model = task.model
@@ -121,7 +156,7 @@ def exec_sed_task(task, variables, log=None):
                               error_summary='Data generator variables for task `{}` are invalid.'.format(task.id))
 
     # If the model is encoded in XML, check that the XPaths for the variables are valid
-    target_x_paths_ids = validation.validate_variable_xpaths(variables, model.source, attr='id')
+    target_x_paths_ids = validation.validate_target_xpaths(variables, model.source, attr='id')
 
     # Check that the simulation tool can produce each variables -- the simulation tool supports each symbol and target
 
@@ -134,7 +169,7 @@ def exec_sed_task(task, variables, log=None):
     # Load the algorithm specified by `simulation.algorithm`
     alg_kisao_id = get_preferred_substitute_algorithm_by_ids(
         simulation.algorithm.kisao_id, KISAO_METHOD_MAP.keys(),
-        substitution_policy=get_algorithm_substitution_policy())
+        substitution_policy=get_algorithm_substitution_policy(config=config))
     simulation_method_properties = KISAO_METHOD_MAP[exec_kisao_id]
     simulation_method = simulation_method_properties['method']
 
@@ -174,12 +209,31 @@ def exec_sed_task(task, variables, log=None):
 
     #############################################################
     # log action
-    log.algorithm = alg_kisao_id
-    log.simulator_details = {
-        'method': simulation_method.__module__ + '.' + simulation_method.__name__,
-        'arguments': simulation_args,
-    }
+    if config.LOG:
+        log.algorithm = alg_kisao_id
+        log.simulator_details = {
+            'method': simulation_method.__module__ + '.' + simulation_method.__name__,
+            'arguments': simulation_args,
+        }
 
     #############################################################
     # Return the results of the variables and the log
     return variable_results, log
+
+
+def preprocess_sed_task(task, variables, config=None):
+    """ Preprocess a SED task, including its possible model changes and variables. This is useful for avoiding
+    repeatedly initializing tasks on repeated calls of :obj:`exec_sed_task`.
+
+    Args:
+        task (:obj:`Task`): task
+        variables (:obj:`list` of :obj:`Variable`): variables that should be recorded
+        preprocessed_task (:obj:`PreprocessedTask`, optional): preprocessed information about the task, including possible
+            model changes and variables. This can be used to avoid repeatedly executing the same initialization for repeated
+            calls to this method.
+        config (:obj:`Config`, optional): BioSimulators common configuration
+
+    Returns:
+        :obj:`object`: preprocessed information about the task
+    """
+    pass

@@ -17,6 +17,10 @@
     },
     "operatingSystemType": "Linux"
   },
+  "pythonApi": {
+    "package": "mysimulator",
+    "module": "mysimulator.biosimulators"
+  },
   "authors": [{
     "firstName": "John",
     "lastName": "Doe",
