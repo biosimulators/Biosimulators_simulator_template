@@ -19,7 +19,8 @@
   },
   "pythonApi": {
     "package": "mysimulator",
-    "module": "mysimulator.biosimulators"
+    "module": "mysimulator.biosimulators",
+    "installationInstructions": "https://mysimulator.org/installation.html"
   },
   "authors": [{
     "firstName": "John",
