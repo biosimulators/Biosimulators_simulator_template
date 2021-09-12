@@ -1,0 +1,38 @@
+# YAML 1.2
+---
+abstract: "Summary of { MySimulator }."
+authors:
+  - affiliation: '{ affiliation }'
+    family-names: '{ last-name }'
+    given-names: '{ first-name}'
+    orcid: 'https://orcid.org/{ orcid }'
+cff-version: '1.2.0'
+keywords:
+  - computational biology
+  - mathematical modeling
+  - numerical simulation  
+  - standards
+  - reproducibility
+  - Simulation Experiment Description Markup Language
+  - SED-ML
+  - Kinetic Simulation Algorithm Ontology
+  - KiSAO
+  - COMBINE
+  - OMEX
+  - biosimulations
+  - biosimulators
+doi: { doi }
+identifiers:
+  - type: other
+    value: biosimulators:{ my_simulator }
+    description: BioSimulators entry for { MySimulator }
+license: { license }
+message: 'If you use this software, please cite it using these metadata.'
+repository-code: https://github.com/{ org }/{ repo }
+title: { MySimulator }
+contact:
+  - email: "{ email }"
+    family-names: '{ last-name }'
+    given-names: '{ first-name}'
+type: software
+url: https://github.com/{ org }/{ repo }
