@@ -191,7 +191,7 @@ This repository is intended for developers of simulation software programs. We r
 
 10. Implement tests for the command-line interface to your simulator in the `tests` directory.
 
-   `tests/test_all.py` contains an example for testing a command-line interface implemented in Python to a simulator that supports SBML-encoded kinetic models. The `test_validator` method illustrates how to use the simulator validator. Example files needed for the tests can be saved to `tests/fixtures/`. `tests/requirements.txt` contains a list of the dependencies of these tests.
+    `tests/test_all.py` contains an example for testing a command-line interface implemented in Python to a simulator that supports SBML-encoded kinetic models. The `test_validator` method illustrates how to use the simulator validator. Example files needed for the tests can be saved to `tests/fixtures/`. `tests/requirements.txt` contains a list of the dependencies of these tests.
 
 11. Replace this file (`README.md`) with `README.template.md` and fill out the template with information about your simulator.
 
@@ -199,25 +199,25 @@ This repository is intended for developers of simulation software programs. We r
 
 13. Optionally, set up continuous integration for your simulation tool.
 
-   `.github/workflows/ci.yml.template` contains a sample continuous integration workflow for GitHub Actions. The workflow executes the following tasks each time commits are pushed to your repository:
-   1. Clones your repository
-   2. Installs your package and its dependencies
-   3. Uses [flake8](https://flake8.pycqa.org/) to lint your package.
-   4. Builds the Docker image for your package and tags the image `ghcr.io/<owner>/<repo>/<simulator_id>:<simulator_version>` and `ghcr.io/<owner>/<repo>/<simulator_id>:latest`.
-   5. Uses [pytest](https://docs.pytest.org/) to run the unit tests for your package and save the coverage.
-   6. Uploads the coverage data to [Codecov](https://codecov.io/).
-   7. Uses [Sphinx](https://www.sphinx-doc.org/) to compile the documentation for your package.
+    `.github/workflows/ci.yml.template` contains a sample continuous integration workflow for GitHub Actions. The workflow executes the following tasks each time commits are pushed to your repository:
+    1. Clones your repository
+    2. Installs your package and its dependencies
+    3. Uses [flake8](https://flake8.pycqa.org/) to lint your package.
+    4. Builds the Docker image for your package and tags the image `ghcr.io/<owner>/<repo>/<simulator_id>:<simulator_version>` and `ghcr.io/<owner>/<repo>/<simulator_id>:latest`.
+    5. Uses [pytest](https://docs.pytest.org/) to run the unit tests for your package and save the coverage.
+    6. Uploads the coverage data to [Codecov](https://codecov.io/).
+    7. Uses [Sphinx](https://www.sphinx-doc.org/) to compile the documentation for your package.
 
-   Each time you add a tag to your repository (`git tag ...; git push --tags`), the workflow also runs the above tasks. If the above tasks succeed, the workflow executes these additional tasks:
-   1. Creates a GitHub release for the tag.
-   2. Pushes the compiled documentation to the repository (e.g., so it can be served by GitHub pages).
-   3. Builds your package and submits it to [PyPI](https://pypi.org/).
-   4. Pushes your Docker image to the [GitHub Container Registry](https://docs.github.com/en/free-pro-team@latest/packages/guides/about-github-container-registry) with the above tags. Once your image is pushed, it will be visible at `https://github.com/orgs/<org>/packages?repo_name=<repo>`.
-   5. Pushes your simulator to the BioSimulators Registry by using the GitHub API to create an issue to add a new version of your simulator to the BioSimulators database. This issue will then automatically use the BioSimulators test suite to validate your simulator and add a new version of your simulator to the database if your simulator passes the test suite.
+    Each time you add a tag to your repository (`git tag ...; git push --tags`), the workflow also runs the above tasks. If the above tasks succeed, the workflow executes these additional tasks:
+    1. Creates a GitHub release for the tag.
+    2. Pushes the compiled documentation to the repository (e.g., so it can be served by GitHub pages).
+    3. Builds your package and submits it to [PyPI](https://pypi.org/).
+    4. Pushes your Docker image to the [GitHub Container Registry](https://docs.github.com/en/free-pro-team@latest/packages/guides/about-github-container-registry) with the above tags. Once your image is pushed, it will be visible at `https://github.com/orgs/<org>/packages?repo_name=<repo>`.
+    5. Pushes your simulator to the BioSimulators Registry by using the GitHub API to create an issue to add a new version of your simulator to the BioSimulators database. This issue will then automatically use the BioSimulators test suite to validate your simulator and add a new version of your simulator to the database if your simulator passes the test suite.
 
-   Follow the steps below to use this workflow.
-   1. Rename the file to `.github/workflow/ci.yml`
-   2. Add the following secrets to the settings for your repository:
+    Follow the steps below to use this workflow.
+    1. Rename the file to `.github/workflow/ci.yml`
+    2. Add the following secrets to the settings for your repository:
       * `CODECOV_TOKEN`: Token for submitting coverage data to Codecov. You can generate a token by creating an account, logging in, and adding this repository to CodeCov (eg., by visiting `https://codecov.io/gh/<owner>/<repo>`). If you change the default branch for your repository, tt also may be necessary to explicitly sets this in Codecov.
       * `PYPI_TOKEN`: Token for submitting your package to PyPI. You can create tokens from your account settings page (https://pypi.org/manage/account/).
       * `DOCKER_REGISTRY_USERNAME`: User name for the Docker registry (e.g., Docker Hub or GitHub Container Registry) where you want to push your Docker images.
@@ -227,67 +227,67 @@ This repository is intended for developers of simulation software programs. We r
 
 14. Optionally, set up actions to build and release this package upon release of upstream dependencies. This is particularly useful if your simulation tool is organized into separate repositories for the core simulation capabilities and command-line interface. In this case, the core simulation capabilties is an upstream dependency of the command-line interface.
 
-   Below is an example GitHub Action to build and release a downstream command-line interface and Docker image upon each release of the core simulation capabilities.
+    Below is an example GitHub Action to build and release a downstream command-line interface and Docker image upon each release of the core simulation capabilities.
 
-   ```yml
-   name: Update command-line interface and Docker image
+    ```yml
+    name: Update command-line interface and Docker image
 
-   on:
-     release:
-       types:
-         - published
+    on:
+      release:
+        types:
+          - published
 
-   jobs:
-     updateCliAndDockerImage:
-       name: Build and release downstream command-line interface and Docker image
-       runs-on: ubuntu-latest
-       env:
-         # Owner/repository-id for the GitHub repository for the downstream command-line interface and Docker image
-         DOWNSTREAM_REPOSITORY: biosimulators/Biosimulators_tellurium
+    jobs:
+      updateCliAndDockerImage:
+        name: Build and release downstream command-line interface and Docker image
+        runs-on: ubuntu-latest
+        env:
+          # Owner/repository-id for the GitHub repository for the downstream command-line interface and Docker image
+          DOWNSTREAM_REPOSITORY: biosimulators/Biosimulators_tellurium
 
-         # Username/token to use the GitHub API to trigger an action on the GitHub repository for the downstream
-         # command-line interface and Docker image. Tokens can be generated at https://github.com/settings/tokens.
-         # The token should have the scope `repo`
-         GH_ISSUE_USERNAME: ${{ secrets.GH_ISSUE_USERNAME }}
-         GH_ISSUE_TOKEN: ${{ secrets.GH_ISSUE_TOKEN }}
-       steps:
-         - name: Trigger GitHub action that will build and release the downstream command-line interface and Docker image
-           run: |
-             PACKAGE_VERSION="${GITHUB_REF/refs\/tags\/v/}"
-             WORKFLOW_FILE=ci.yml
+          # Username/token to use the GitHub API to trigger an action on the GitHub repository for the downstream
+          # command-line interface and Docker image. Tokens can be generated at https://github.com/settings/tokens.
+          # The token should have the scope `repo`
+          GH_ISSUE_USERNAME: ${{ secrets.GH_ISSUE_USERNAME }}
+          GH_ISSUE_TOKEN: ${{ secrets.GH_ISSUE_TOKEN }}
+        steps:
+          - name: Trigger GitHub action that will build and release the downstream command-line interface and Docker image
+            run: |
+              PACKAGE_VERSION="${GITHUB_REF/refs\/tags\/v/}"
+              WORKFLOW_FILE=ci.yml
 
-             curl \
-               -X POST \
-               -u ${GH_ISSUE_USERNAME}:${GH_ISSUE_TOKEN} \
-               -H "Accept: application/vnd.github.v3+json" \
-                 https://api.github.com/repos/${DOWNSTREAM_REPOSITORY}/actions/workflows/${WORKFLOW_FILE}/dispatches \
-               -d "{\"inputs\": {\"simulatorVersion\": \"${PACKAGE_VERSION}\", \"simulatorVersionLatest\": \"true\"}}"
+              curl \
+                -X POST \
+                -u ${GH_ISSUE_USERNAME}:${GH_ISSUE_TOKEN} \
+                -H "Accept: application/vnd.github.v3+json" \
+                  https://api.github.com/repos/${DOWNSTREAM_REPOSITORY}/actions/workflows/${WORKFLOW_FILE}/dispatches \
+                -d "{\"inputs\": {\"simulatorVersion\": \"${PACKAGE_VERSION}\", \"simulatorVersionLatest\": \"true\"}}"
     ```
 
-   The above action could be set up by following these steps:
+    The above action could be set up by following these steps:
 
-   1. Generate a GitHub API token for the action at https://github.com/settings/token. The token should have the scope `repo`.
-   2. Save this token as a secret with the name `GH_ISSUE_TOKEN` for the GitHub Actions of the repository for the core simulation capabilities.
-   3. Save the username associated with this token as another GitHub Action secret with the name `GH_ISSUE_USERNAME`.
-   4. Copy the action definition above to `/path/to/core/simulation/repo/.github/workflows/buildReleaseDownstreamCliAndDockerImage.yml`
-   5. Edit the value of the `DOWNSTREAM_REPOSITORY` environment variable in this new file.
-   6. Edit the calculation of the `PACKAGE_VERSION` environment variable in this new file. This command should convert the reference for the GitHub tag for the release (e.g., `refs/tags/1.2.2` or `refs/tags/v2.1.3`) into the version number (e.g., `1.2.2`, `2.1.3`) of the release of the core simulation capabilities which should be used to build and release the downstream command-line interface and Docker image.
+    1. Generate a GitHub API token for the action at https://github.com/settings/token. The token should have the scope `repo`.
+    2. Save this token as a secret with the name `GH_ISSUE_TOKEN` for the GitHub Actions of the repository for the core simulation capabilities.
+    3. Save the username associated with this token as another GitHub Action secret with the name `GH_ISSUE_USERNAME`.
+    4. Copy the action definition above to `/path/to/core/simulation/repo/.github/workflows/buildReleaseDownstreamCliAndDockerImage.yml`
+    5. Edit the value of the `DOWNSTREAM_REPOSITORY` environment variable in this new file.
+    6. Edit the calculation of the `PACKAGE_VERSION` environment variable in this new file. This command should convert the reference for the GitHub tag for the release (e.g., `refs/tags/1.2.2` or `refs/tags/v2.1.3`) into the version number (e.g., `1.2.2`, `2.1.3`) of the release of the core simulation capabilities which should be used to build and release the downstream command-line interface and Docker image.
 
 15. Optionally, distribute the command-line interface to your simulator. For example, the following commands can be used to distribute a command-line interface implemented with Python via [PyPI](https://pypi.python.org/).
-   ```
-   # Convert README to RST format
-   pandoc --to rst --output README.rst README.md
+    ```
+    # Convert README to RST format
+    pandoc --to rst --output README.rst README.md
 
-   # Package command-line interface
-   python3 setup.py sdist
-   python3 setup.py bdist_wheel
+    # Package command-line interface
+    python3 setup.py sdist
+    python3 setup.py bdist_wheel
 
-   # Install twine to upload packages to PyPI
-   pip3 install twine
+    # Install twine to upload packages to PyPI
+    pip3 install twine
 
-   # Upload packages to PyPI
-   twine dist/*
-   ```
+    # Upload packages to PyPI
+    twine dist/*
+    ```
 
 ## Running containerized simulators
 
