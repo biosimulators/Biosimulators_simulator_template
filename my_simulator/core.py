@@ -21,7 +21,16 @@ from biosimulators_utils.utils.core import parse_value, raise_errors_warnings
 from kisao.utils import get_preferred_substitute_algorithm_by_ids
 from my_simulator import read_model, get_sed_variables_from_results
 
-__all__ = ['exec_sedml_docs_in_combine_archive', 'exec_sed_doc', 'exec_sed_task', 'preprocess_sed_task']
+__all__ = ['get_simulator_version', 'exec_sedml_docs_in_combine_archive', 'exec_sed_doc', 'exec_sed_task', 'preprocess_sed_task']
+
+
+def get_simulator_version():
+    """ Get the version of MySimulator
+
+    Returns:
+        :obj:`str`: version
+    """
+    return my_simulator.__version__
 
 
 def exec_sedml_docs_in_combine_archive(archive_filename, out_dir, config=None):

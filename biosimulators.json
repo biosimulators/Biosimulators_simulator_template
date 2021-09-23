@@ -73,12 +73,47 @@
       "version": "L3V2",
       "supportedFeatures": []
     }],
+    "modelChangePatterns": [
+        {
+          "name": "Change component attributes",
+          "types": ["SedAttributeModelChange", "SedComputeAttributeChangeModelChange", "SedSetValueAttributeModelChange"],
+          "target": {
+            "value": "//*/@*",
+            "grammar": "XPath"
+          }
+        },
+        {
+          "name": "Add components",
+          "types": ["SedAddXmlModelChange"],
+          "target": {
+            "value": "//*",
+            "grammar": "XPath"
+          }
+        },
+        {
+          "name": "Remove components",
+          "types": ["SedRemoveXmlModelChange"],
+          "target": {
+            "value": "//*",
+            "grammar": "XPath"
+          }
+        },
+        {
+          "name": "Change components",
+          "types": ["SedChangeXmlModelChange"],
+          "target": {
+            "value": "//*",
+            "grammar": "XPath"
+          }
+        }
+      ],
     "simulationFormats": [{
       "namespace": "EDAM",
       "id": "format_3685",
       "version": "L1V3",
       "supportedFeatures": []
     }],
+    "simulationTypes": ["SedUniformTimeCourseSimulation"],
     "archiveFormats": [{
       "namespace": "EDAM",
       "id": "format_3686",
@@ -111,17 +146,25 @@
       "recommendedRange": null,
       "availableSoftwareInterfaceTypes": ["library", "command-line application", "desktop application", "BioSimulators Docker image"]
     }],
-    "dependentDimensions": [{
+    "outputDimensions": [{
       "namespace": "SIO",
       "id": "SIO_000418"
     }],
-    "dependentVariableTargetPatterns": [{
-        "variables": "species concentrations",
-        "targetPattern": "/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species"
+    "outputVariablePatterns": [
+      {
+          "name": "time",
+          "target": {
+            "value": "time",
+            "namespace": "urn:sedml:symbol"
+          }
       },
       {
-        "variables": "parameter values",
-        "targetPattern": "/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter/@value"
+        "name": "species concentrations",
+        "target": {"value": "/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species", "grammar": "XPath"}
+      },
+      {
+        "name": "parameter values",
+        "target": {"value": "/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter", "grammar": "XPath"}
       }
     ],
     "availableSoftwareInterfaceTypes": ["library", "command-line application", "desktop application", "BioSimulators Docker image"],

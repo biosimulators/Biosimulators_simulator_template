@@ -6,9 +6,8 @@
 :License: <License, e.g., MIT>
 """
 
-from . import get_simulator_version
 from ._version import __version__
-from .core import exec_sedml_docs_in_combine_archive
+from .core import get_simulator_version, exec_sedml_docs_in_combine_archive
 from biosimulators_utils.simulator.cli import build_cli
 
 App = build_cli('biosimulators-my-simulator', __version__,

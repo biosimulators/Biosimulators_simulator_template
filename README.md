@@ -9,7 +9,38 @@ This repository is intended for developers of simulation software programs. We r
 
 2. Fork this repository.
 
-3. Create a BioSimulators-compliant command-line interface to your simulator.
+3. (Optionally, but recommended) Create a BioSimulators-compliant Python API for your simulator.
+
+  Submission to BioSimulators requires a Docker image with a command-line entypoint that follows BioSimulators' conventions. The easiest way to create such a Docker image is to implement a Python API that follows BioSimulator's conventions and then use methods in [`BioSimulators-utils`](https://github.com/biosimulators/Biosimulators_utils) to use this API to create a command-line entrypoint.
+
+  This API should include the attributes and methods below. `my_simulator/__init__.py` provides a template for this API.
+  * `__version__`
+  * `get_simulator_version()`
+  * `preprocess_sed_task(...)`
+  * `exec_sed_task(...)`
+  * `exec_sed_doc(...)`
+  * `exec_sedml_docs_in_combine_archive(...)`
+
+  Follow the steps to implement an API for your simulator. More information about the required function signatures is available in the `my_simulator/__init__.py` and `my_simulator/core.py`.
+
+  1. Define the following attribute in `my_simulator/__init__.py`:
+
+     * `__version__` (`str`): The version of the API for the simulator.
+
+  2. Implement the following methods in `my_simulator/core.py`:
+
+     * `get_simulator_version() -> str`: Method which returns the version of the simulator that is available.
+     * `exec_sed_task(task: Task, variables: List[Variable], preprocessed_task:Any=None, log:TaskLog=None, config:Configuration=None) -> VariableResults, TaskLog`: Method for executing an individual SED task.
+     * `preprocess_sed_task: Task, variables: List[Variable], config:Configuration=None) -> Any`: Method for preprocessing the information required to execute a SED task. Separating the processing of this information from simulation execution enables simulation tools to quickly execute multiple simulation steps.
+
+  3. Use methods in BioSimulators-utils to create two additional methods in  `my_simulator/core.py`:
+
+     * `exec_sed_doc(...) -> ReportResults, SedDocumentLog`: Method for executing entire SED documents. This method can be created from an `exec_sed_task` method using `biosimulators_utils.sedml.exec.exec_sed_doc`.
+     * `exec_sedml_docs_in_combine_archive(...) -> SedDocumentResults, CombineArchiveLog`: Method for executing an entire COMBINE/OMEX archive. This method can be created from an `exec_sed_doc` method using `biosimulators_utils.combine.exec.exec_sedml_docs_in_archive`.
+
+  4. Import `get_simulator_version`, `exec_sed_task`, `exec_sed_doc`, `exec_sedml_docs_in_combine_archive` and into `my_simulators/__init__.py`.
+
+4. Create a BioSimulators-compliant command-line interface to your simulator.
 
    The interface should accept two keyword arguments:
 
@@ -23,11 +54,10 @@ This repository is intended for developers of simulation software programs. We r
    - `-h`, `--help`: This argument should instruct the command-line program to print help information about itself.
    - `-v`, `--version`: This argument should instruct the command-line program to report version information about itself.
 
-   This repository contains sample code for using Python and [BioSimulators utils](https://github.com/biosimulators/Biosimulators_utils) to create a BioSimulators-compliant command-line interface for a simulator. This code is located at `my_simulator/__main__.py`. To follow this example,
+   This repository contains sample code for using Python and [BioSimulators utils](https://github.com/biosimulators/Biosimulators_utils) to create a BioSimulators-compliant command-line interface for a simulator from a BioSimulators-compliant Python API for a simulator. This code is located at `my_simulator/__main__.py`. To follow this example,
 
    1. Rename the `my_simulator` directory.
    2. Edit the name, URL of the simulator in `my_simulator/__main__.py`.
-   3. Implement the `exec_sedml_docs_in_combine_archive` method in `my_simulator/core.py`. [`biosimulators_utils`](https://github.com/biosimulators/Biosimulators_utils) provides several utility methods and data structures for parsing COMBINE archives and SED-ML documents; representing archives and simulation experiments; and orchestrating the execution of all of the tasks in a simulation experiment. These utility methods make it easy for developers to handle COMBINE/OMEX-encoded archives and SED-ML-encoded simulation experiments.
 
    This code will produce a command-line interface similar to that below:
    ```
@@ -47,7 +77,7 @@ This repository is intended for developers of simulation software programs. We r
      -v, --version         show program's version number and exit
    ```
 
-4. Optionally, package the command-line interface for easy distribution and installation.
+5. Optionally, package the command-line interface for easy distribution and installation.
 
    This repository contains sample files for packaging the sample Python-based command-line interface for distribution via [PyPI](https://pypi.python.org/) and installation via [pip](https://pip.pypa.io/en/stable/).
 
@@ -57,7 +87,7 @@ This repository is intended for developers of simulation software programs. We r
    - `MANIFEST.in`: Edit the list of additional files that should be distributed with the command-line interface to your simulator.
    - `setup.cfg`: This describes the wheel configuration for distributing the command-line interface to your simulator. For most command-line interfaces, this file doesn't need to be edited.
 
-5. Create a Dockerfile for building a Docker image for the command-line interface to your simulator. [`Dockerfile`](Dockerfile) contains a template Dockerfile for a command-line interface implemented with Python.
+6. Create a Dockerfile for building a Docker image for the command-line interface to your simulator. [`Dockerfile`](Dockerfile) contains a template Dockerfile for a command-line interface implemented with Python.
 
    - Use the `FROM` directive to choose a base operating system such as Ubuntu.
    - Use the `RUN` directive to describe how to install your tool and any dependencies. Because Docker images are typically run as root, reserve `/root` for the home directory of the user which executes the image. Similarly, reserve `/tmp` for temporary files that must be created during the execution of the image. Install your simulation tool into a different directory than `/root` and `/tmp` such as `/usr/local/bin`.
@@ -95,20 +125,20 @@ This repository is intended for developers of simulation software programs. We r
        maintainer="Jonathan Karr <karr@mssm.edu>"
      ```
 
-6. Build the Docker image for the command-line interface to your simulator. For example, run the following command:
+7. Build the Docker image for the command-line interface to your simulator. For example, run the following command:
    ```
    docker build \
      --tag <owner>/<my_simulator>:<version> \
      --tag <owner>/<my_simulator>:latest \
      .
    ```
-7. Push the Docker image to an image registry such as Docker Hub or the GitHub Container Registry. For example, run the following command:
+8. Push the Docker image to an image registry such as Docker Hub or the GitHub Container Registry. For example, run the following command:
    ```
    docker login
    docker push ghcr.io/<owner>/<repo>/<my_simulator>:latest
    ```
 
-8. Enter metadata about your simulator into [`biosimulators.json`](biosimulators.json). This should include attributes such as those listed below. Attributes marked with `*` are optional. The schema is available in the `Schemas` >> `Simulator` section at https://api.biosimulators.org.
+9. Enter metadata about your simulator into [`biosimulators.json`](biosimulators.json). This should include attributes such as those listed below. Attributes marked with `*` are optional. The schema is available in the `Schemas` >> `Simulator` section at https://api.biosimulators.org.
   - `id`: A unique id for the simulator (e.g., `tellurium`). The id must begin with a letter or underscore and include only letters, numbers, and underscores.
   - `version`\*: Version of the simulator (e.g., `1.0.0`).
   - `name`\*: Short name of the simulator.
@@ -159,15 +189,15 @@ This repository is intended for developers of simulation software programs. We r
 
   As necessary, [request additional SED-ML URNs for model formats](https://github.com/SED-ML/sed-ml/issues), [request additional COMBINE specification URLs for model formats](https://github.com/sbmlteam/libCombine/issues), and [request additional KiSAO terms for algorithm parameters](https://sourceforge.net/p/kisao/feature-requests/new/).
 
-9. Implement tests for the command-line interface to your simulator in the `tests` directory.
+10. Implement tests for the command-line interface to your simulator in the `tests` directory.
 
    `tests/test_all.py` contains an example for testing a command-line interface implemented in Python to a simulator that supports SBML-encoded kinetic models. The `test_validator` method illustrates how to use the simulator validator. Example files needed for the tests can be saved to `tests/fixtures/`. `tests/requirements.txt` contains a list of the dependencies of these tests.
 
-10. Replace this file (`README.md`) with `README.template.md` and fill out the template with information about your simulator.
+11. Replace this file (`README.md`) with `README.template.md` and fill out the template with information about your simulator.
 
-11. Enter the name of the owner of your simulator and the year into the MIT License template at [`LICENSE.template`](LICENSE) and rename the template to `LICENSE`, or copy your license into `LICENSE`. We recommend using a permissive license such as the [MIT License](https://opensource.org/licenses/MIT).
+12. Enter the name of the owner of your simulator and the year into the MIT License template at [`LICENSE.template`](LICENSE) and rename the template to `LICENSE`, or copy your license into `LICENSE`. We recommend using a permissive license such as the [MIT License](https://opensource.org/licenses/MIT).
 
-12. Optionally, set up continuous integration for your simulation tool.
+13. Optionally, set up continuous integration for your simulation tool.
 
     `.github/workflows/ci.yml.template` contains a sample continuous integration workflow for GitHub Actions. The workflow executes the following tasks each time commits are pushed to your repository:
     1. Clones your repository
@@ -195,7 +225,7 @@ This repository is intended for developers of simulation software programs. We r
       * `GH_ISSUE_USERNAME`: GitHub user name to post issues to register new versions of your simulator with BioSimulators (e.g., `jonrkarr`)
       * `GH_ISSUE_TOKEN`: Token for the above GitHub user. For GitHub Container Registry, you can create a token from the developers settings (https://github.com/settings/tokens). The token should have scope `repo`.
 
-13. Optionally, set up actions to build and release this package upon release of upstream dependencies. This is particularly useful if your simulation tool is organized into separate repositories for the core simulation capabilities and command-line interface. In this case, the core simulation capabilties is an upstream dependency of the command-line interface.
+14. Optionally, set up actions to build and release this package upon release of upstream dependencies. This is particularly useful if your simulation tool is organized into separate repositories for the core simulation capabilities and command-line interface. In this case, the core simulation capabilties is an upstream dependency of the command-line interface.
 
     Below is an example GitHub Action to build and release a downstream command-line interface and Docker image upon each release of the core simulation capabilities.
 
@@ -244,7 +274,7 @@ This repository is intended for developers of simulation software programs. We r
     5. Edit the value of the `DOWNSTREAM_REPOSITORY` environment variable in this new file.
     6. Edit the calculation of the `PACKAGE_VERSION` environment variable in this new file. This command should convert the reference for the GitHub tag for the release (e.g., `refs/tags/1.2.2` or `refs/tags/v2.1.3`) into the version number (e.g., `1.2.2`, `2.1.3`) of the release of the core simulation capabilities which should be used to build and release the downstream command-line interface and Docker image.
 
-14. Optionally, distribute the command-line interface to your simulator. For example, the following commands can be used to distribute a command-line interface implemented with Python via [PyPI](https://pypi.python.org/).
+15. Optionally, distribute the command-line interface to your simulator. For example, the following commands can be used to distribute a command-line interface implemented with Python via [PyPI](https://pypi.python.org/).
     ```
     # Convert README to RST format
     pandoc --to rst --output README.rst README.md
