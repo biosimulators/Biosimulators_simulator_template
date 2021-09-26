@@ -17,6 +17,12 @@
     },
     "operatingSystemType": "Linux"
   },
+  "cli": {
+    "packageRepository": "PyPI",
+    "package": "mysimulator",
+    "command": "mysimulator",
+    "installationInstructions": "https://mysimulator.org/installation.html"
+  },
   "pythonApi": {
     "package": "mysimulator",
     "module": "mysimulator.biosimulators",
