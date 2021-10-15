@@ -2,6 +2,7 @@
 [![PyPI](https://img.shields.io/pypi/v/<my-simulator>)](https://pypi.org/project/<my-simulator>/)
 [![CI status](https://github.com/<owner>/<repo>/workflows/Continuous%20integration/badge.svg)](https://github.com/<owner>/<repo>/actions?query=workflow%3A%22Continuous+integration%22)
 [![Test coverage](https://codecov.io/gh/<owner>/<repo>/branch/dev/graph/badge.svg)](https://codecov.io/gh/<owner>/<repo>)
+[![All Contributors](https://img.shields.io/github/all-contributors/<owner>/<repo>/HEAD)](#contributors-)
 
 # MySimulator
 BioSimulators-compliant command-line interface to the [MySimulator](https://<url.for.my.simulator>/) simulation program.
@@ -61,7 +62,10 @@ Documentation is available at <documentation-url>.
 This package is released under the [<License name (e.g., MIT)> license](LICENSE).
 
 ## Development team
-This package was developed by [<authors>](<https://url.for.authors>).
+This package was developed by [<authors>](<https://url.for.authors>) with assistance from the contributors listed [here](CONTRIBUTORS.md).
+
+## Contributing to B<my-simulator>
+We enthusiastically welcome contributions to <my-simulator>! Please see the [guide to contributing](CONTRIBUTING.md) and the [developer's code of conduct](CODE_OF_CONDUCT.md).
 
 ## Questions and comments
 Please contact the [<authors>](mailto:<authors@url.for.authors>) with any questions or comments.
