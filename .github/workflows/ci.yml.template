@@ -278,20 +278,6 @@ jobs:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
         run: |
-          # Install pandoc
-          sudo apt-get update -y
-          sudo apt-get install -y --no-install-recommends wget
-
-          wget https://github.com/jgm/pandoc/releases -O /tmp/pandocVersions.html
-          urlPart=`grep "\.deb" /tmp/pandocVersions.html | head -n 1 | cut -d'/' -f2-7 | cut -d'"' -f1`
-          wget "https://github.com/$urlPart" -O /tmp/pandoc.deb
-          sudo dpkg -i /tmp/pandoc.deb
-          rm /tmp/pandocVersions.html
-          rm /tmp/pandoc.deb
-
-          # Convert README to .rst format
-          pandoc --from=gfm --output=README.rst --to=rst README.md
-
           # Install twine
           python -m pip install wheel twine
 

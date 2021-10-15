@@ -20,6 +20,8 @@ dirname = os.path.dirname(__file__)
 
 # get package metadata
 md = pkg_utils.get_package_metadata(dirname, name)
+with open(os.path.join(os.path.dirname(__file__), 'README.md'), 'r') as file:
+    long_description = file.read()
 
 # install package
 setuptools.setup(
@@ -27,7 +29,8 @@ setuptools.setup(
     version=md.version,
     description=("BioSimulators-compliant command-line interface to "
                  "the <MySimulator> simulation program <https://url.for.my.simulator>."),
-    long_description=md.long_description,
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     url="https://github.com/<organization>/<repository>",
     download_url="https://github.com/<organization>/<repository>",
     author='<Authors of MySimulator>',
