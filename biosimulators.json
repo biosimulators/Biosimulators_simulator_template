@@ -9,6 +9,7 @@
   }],
   "image": {
     "url": "ghcr.io/org/repo:1.0.0",
+    "digest": "sha256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
     "format": {
       "namespace": "EDAM",
       "id": "format_3973",
