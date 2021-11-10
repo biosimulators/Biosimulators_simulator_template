@@ -9,7 +9,7 @@
   }],
   "image": {
     "url": "ghcr.io/org/repo:1.0.0",
-    "digest": "sha256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
     "format": {
       "namespace": "EDAM",
       "id": "format_3973",
@@ -48,8 +48,8 @@
       "title": "My Simulator: a great simulator",
       "authors": "John Doe",
       "journal": "Journal",
-      "volume": 1,
-      "issue": 1,
+      "volume": "1",
+      "issue": "1",
       "pages": "1-2",
       "year": 2021,
       "identifiers": [{
@@ -131,8 +131,8 @@
       "title": "CVODE, a stiff/nonstiff ODE solver in C",
       "authors": "Scott D. Cohen, Alan C. Hindmarsh & Paul F. Dubois",
       "journal": "Computers in Physics",
-      "volume": 10,
-      "issue": 2,
+      "volume": "10",
+      "issue": "2",
       "pages": "138-143",
       "year": 1996,
       "identifiers": [{
@@ -160,7 +160,7 @@
     "outputVariablePatterns": [
       {
           "name": "time",
-          "target": {
+          "symbol": {
             "value": "time",
             "namespace": "urn:sedml:symbol"
           }
